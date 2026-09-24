@@ -1,0 +1,15 @@
+filters:
+  and:
+    - file.inFolder("Library/Items")
+    - type == "resource"
+views:
+  - type: table
+    name: Library
+    order:
+      - file.name
+      - authors
+      - kind
+      - status
+      - progress
+      - topics
+      - url

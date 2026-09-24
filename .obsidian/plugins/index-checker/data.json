@@ -1,0 +1,27 @@
+{
+  "indexFileFormat": "Scratch Index",
+  "useRootIndexFileFormat": false,
+  "rootIndexFileFormat": "[VAULT]",
+  "outputFileFormat": "[FOLDER] Index",
+  "markIndexes": true,
+  "startupCheck": false,
+  "nestedMode": "",
+  "allFiles": false,
+  "ignorePatterns": "",
+  "outputMode": "INDEX",
+  "prependToIndex": false,
+  "outputLinksFormat": "***\n[LINKS]",
+  "canvasShowOptions": false,
+  "canvasGroup": true,
+  "canvasGroupLabel": "Missing files:",
+  "canvasPosition": "TOP_LEFT",
+  "canvasSize": [
+    50,
+    400
+  ],
+  "canvasMode": null,
+  "persistentMarks": [],
+  "timeStamps": [
+    1790288397761
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "folder": "Daily/Startup",
+  "format": "YYYY-MM-DD",
+  "template": "System/Templates/Startup/Research Morning",
+  "autorun": false
+}

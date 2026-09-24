@@ -1,0 +1,7 @@
+{
+  "alwaysUpdateLinks": true,
+  "attachmentFolderPath": "./Attachments",
+  "livePreview": true,
+  "propertiesInDocument": "visible",
+  "defaultMode": "source"
+}

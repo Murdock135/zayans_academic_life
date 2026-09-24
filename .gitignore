@@ -1,0 +1,21 @@
+# Per-device Obsidian session state
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.trash/
+
+# Generated test reports and disposable fixtures
+System/Tests/Results/
+System/Tests/Fixtures/
+Work/vault-test-*/
+Library/Items/vault-test-*/
+Library/Sessions/vault-test-*/
+Daily/Startup/vault-test-*/
+Daily/Archive/vault-test-*/
+
+# Local runtime and OS artifacts
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+desktop.ini
