@@ -1,6 +1,6 @@
 # How to use this vault
 
-[[Home|Dashboard]] · [[Projects]] · [[Library]] · [[History]] · [[System/Setup/Start Here|Setup]]
+[[Home|Dashboard]] · [[Projects]] · [[Library/Catalog.base|Library]] · [[History]] · [[System/Setup/Start Here|Setup]]
 
 Start from Home, choose a project, resume that project's research, and record reading when useful. You do not need a general-purpose notes collection or summaries of everything you save.
 
@@ -52,7 +52,6 @@ Create and open a new note such as `Library/Items/Analysis I.md`. With that new 
 
 | Field             | Use                                                                  |
 | ----------------- | -------------------------------------------------------------------- |
-| type              | Keep `resource` so the catalog finds it                              |
 | title / authors   | Bibliographic title and author list; use a recognizable filename too |
 | publication_date  | Actual date if known; otherwise blank                                |
 | kind              | book, paper, article, video, or course                               |
@@ -64,7 +63,7 @@ Create and open a new note such as `Library/Items/Analysis I.md`. With that new 
 | finished_on       | Completion date when you mark the item finished                      |
 | source_ids        | Leave empty for manual records; reserved for importers               |
 
-Set the `status` list to one value, `reading`, to show the item on Home. Keep one record per resource and many reading events as needed. Library.md is the view of these records, Library/Items is their storage, and System/Templates/Resource.md is the reusable blank form.
+Set the `status` list to one value, `reading`, to show the item on Home. Keep one record per resource and many reading events as needed. [[Library/Catalog.base|Library]] is the single catalog, with All, Reading, and Finished views. Markdown notes in Library/Items appear automatically; no `type` property is required. System/Templates/Resource.md is the reusable blank form.
 
 ## Record a reading session
 
@@ -90,7 +89,7 @@ Home is the only page at the vault root. Everything else belongs to four folders
 | --- | --- |
 | Home.md | Daily starting point |
 | Work/ | Projects directory and self-contained project folders |
-| Library/ | Library page, catalog definition, resource records in Items, and reading events in Sessions |
+| Library/ | Catalog.base, resource records in Items, and reading events in Sessions |
 | Daily/ | Startup checklists, their Archive, and the History page |
 | System/ | This guide, setup instructions, reusable templates, and reference material |
 

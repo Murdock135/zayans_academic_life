@@ -1,5 +1,4 @@
 ---
-type: resource
 title: ""
 authors: []
 publication_date:

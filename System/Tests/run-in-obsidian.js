@@ -68,17 +68,27 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   await test('Resource creation: core Insert template creates the intended metadata',async()=>{
    resource=await write(`${roots.items}/Reading resource.md`,'');await open(resource);assert(app.workspace.getActiveFile()?.path===resource.path,'Not on fixture');
    await app.internalPlugins.plugins.templates.instance.insertTemplate(get('System/Templates/Resource.md'));
-   await wait(async()=>(await app.vault.read(resource)).includes('type: resource'),'resource template saved');const p=await indexed(resource);
-   assert(p.type==='resource'&&p.progress===0&&p.kind==='paper','Resource defaults incorrect');assert(p.status.includes('saved'),'Saved status missing');assert(p.authors.length===0&&p.projects.length===0,'List properties missing');
+   await wait(async()=>(await app.vault.read(resource)).includes('status:'),'resource template saved');const p=await indexed(resource);
+   assert(p.type===undefined&&p.progress===0&&p.kind==='paper','Resource defaults incorrect or unnecessary type field present');assert(p.status.includes('saved'),'Saved status missing');assert(p.authors.length===0&&p.projects.length===0,'List properties missing');
   });
   assert(resource,'Resource setup failed');await set(resource,{status:['reading'],authors:['Test Author'],progress:25,position:'Page 10'});
   const finished=await write(`${roots.items}/Finished resource.md`,(await app.vault.read(get('System/Templates/Resource.md'))));await indexed(finished);await set(finished,{status:['finished'],finished_on:'2026-09-24',progress:100});
   const stopped=await write(`${roots.items}/Stopped resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(stopped);await set(stopped,{status:['stopped']});
   const legacy=await write(`${roots.items}/Legacy resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(legacy);await set(legacy,{status:'reading'});
   const falseMatch=await write(`${roots.items}/Not reading resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(falseMatch);await set(falseMatch,{status:['notreading']});
-  const home=await scopedPage('Home.md'), library=await scopedPage('Library/Library.md'), history=await scopedPage('Daily/History.md'), projects=await scopedPage('Work/Projects.md');
+  const home=await scopedPage('Home.md'), history=await scopedPage('Daily/History.md'), projects=await scopedPage('Work/Projects.md');
+  const base=await write(`${roots.views}/Catalog.base`,(await app.vault.read(get('Library/Catalog.base'))).replaceAll('"Library/Items"',JSON.stringify(roots.items)));
+  let catalogRenderId=0;
+  async function catalogView(name,expected){
+   const page=await write(`${roots.views}/Catalog view ${++catalogRenderId}.md`,`![[${base.path}#${name}]]\n`);
+   const el=await render(page);await wait(()=>el.querySelector('.bases-view'),'Bases '+name+' view',20000);
+   await wait(()=>el.textContent.includes(expected),'Bases '+name+' rows',20000);noErrors(el);return el;
+  }
+  await set(resource,{type:'Resource'});await set(legacy,{type:'incorrect-type'});
+  const untyped=await write(`${roots.items}/No metadata.md`,'');await indexed(untyped);
+  await write(`${roots.items}/Not a resource.txt`,'Attachment fixture');
   await test('Home: currently-reading query includes list and legacy text statuses only',async()=>{const result=await query(home,2);const paths=result.values.map(row=>row[0].path);assert(paths.length===2&&paths.includes(resource.path)&&paths.includes(legacy.path),'Wrong reading resources: '+JSON.stringify(paths))});
-  await test('Library: finished resources remain in the finished-items view',async()=>{const result=await query(library,0);assert(result.values.length===1&&result.values[0][0].path===finished.path,'Wrong finished resources')});
+  await test('Bases Finished view: only finished resources appear without a type requirement',async()=>{const el=await catalogView('Finished','Finished resource');assert(!el.textContent.includes('Stopped resource')&&!el.textContent.includes('Reading resource'),'Wrong finished resources')});
   await test('Daily startup: core daily-note creation expands the template and is idempotent',async()=>{
    const daily=Object.create(app.internalPlugins.plugins['daily-notes'].instance);daily.options={...daily.options,folder:roots.daily};const first=await daily.getDailyNote(moment());const second=await daily.getDailyNote(moment());assert(first.path===second.path,'Daily creation duplicated');const text=await app.vault.read(first);assert(!text.includes('{{'),'Unexpanded daily tokens');await indexed(first);const result=await query(home,0);assert(result.values.length===3,'Expected three startup prompts');
   });
@@ -95,10 +105,14 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   await test('Home rendering: active tasks and scratch tasks show, paused/completed tasks do not',async()=>{homeEl=await render(home);await wait(()=>tasksIn(homeEl).some(el=>el.textContent.includes('ACTIVE_TASK')),'Active task render');const text=tasksIn(homeEl).map(el=>el.textContent).join('\n');assert(text.includes('SCRATCH_TASK')&&!text.includes('PAUSED_TASK')&&!text.includes('COMPLETED_TASK'),'Incorrect task filtering: '+text);noErrors(homeEl)});
   await test('Home interaction: clicking a task updates only its source checkbox',async()=>{assert(homeEl,'Home render prerequisite failed');const row=tasksIn(homeEl).find(el=>el.textContent.includes('ACTIVE_TASK'));assert(row,'Active checkbox absent');const checkbox=row.querySelector('input[type="checkbox"]');assert(checkbox,'Task checkbox not interactive');checkbox.click();await wait(async()=>/\[x\] ACTIVE_TASK/.test(await app.vault.read(milestones)),'source task completion');assert(/\[ \] PAUSED_TASK/.test(await app.vault.read(get(`${pausedFolder}/Milestones.md`))),'Unrelated task changed')});
   await test('Home interaction: changing project status removes its tasks',async()=>{await set(project,{status:['archived']});const el=await render(home);await wait(()=>el.textContent.includes('No open tasks from active projects.'),'Archived task exclusion');assert(tasksIn(el).length===0,'Archived tasks remain visible');noErrors(el);await set(project,{status:['active']})});
-  await test('Bases catalog: resources render as table rows, including finished and stopped items',async()=>{
-   const baseText=(await app.vault.read(get('Library/Catalog.base'))).replaceAll('"Library/Items"',JSON.stringify(roots.items));const base=await write(`${roots.views}/Catalog.base`,baseText);
-   await app.vault.modify(library,(await app.vault.read(library)).replace('![[Library/Catalog.base]]',`![[${base.path}]]`));
-   const el=await render(library);await wait(()=>el.querySelector('.bases-view'),'Bases catalog view',20000);await wait(()=>el.textContent.includes('Reading resource')&&el.textContent.includes('Stopped resource'),'Catalog resource rows',20000);assert(el.textContent.includes('Finished resource'),'Finished resource missing from catalog');noErrors(el);
+  await test('Bases All view: missing, capitalized, and incorrect type values cannot hide items',async()=>{
+   const el=await catalogView('All','No metadata');
+   for(const name of ['Reading resource','Legacy resource','Finished resource','Stopped resource'])assert(el.textContent.includes(name),'Catalog missing '+name);
+   assert(!el.textContent.includes('Not a resource.txt'),'Catalog includes a non-Markdown attachment');
+  });
+  await test('Bases Reading view: exact list/text status matching and no type dependency',async()=>{
+   const el=await catalogView('Reading','Reading resource');assert(el.textContent.includes('Legacy resource'),'Legacy text status omitted');
+   for(const name of ['Finished resource','Stopped resource','Not reading resource','No metadata'])assert(!el.textContent.includes(name),'Reading view includes '+name);
   });
   await test('Index Checker: detects an unlinked scratchpad, then clears after linking',async()=>{
    const plugin=app.plugins.plugins['index-checker'];assert(plugin,'Index Checker missing');const scan=async()=>{const saved=plugin.indexedFoldersP;try{plugin.indexedFoldersP=[];plugin.processFolder(get(projectFolder));return await Promise.all(plugin.indexedFoldersP)}finally{plugin.indexedFoldersP=saved}};
@@ -107,9 +121,9 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   });
   await test('Resource lifecycle: finishing removes an item from Home, preserves history, and rereading restores it',async()=>{
    await set(resource,{status:['finished']});
-   let reading=await query(home,2),done=await query(library,0),events=await query(history,0);
+   let reading=await query(home,2),done=await catalogView('Finished','Reading resource'),events=await query(history,0);
    assert(!reading.values.some(row=>row[0].path===resource.path),'Finished resource remains on Home');
-   assert(done.values.some(row=>row[0].path===resource.path),'Finished resource disappeared from library');
+   assert(done.textContent.includes('Reading resource'),'Finished resource disappeared from library');
    assert(events.values.length===2,'Reading history was lost');
    await set(resource,{status:['reading']});reading=await query(home,2);
    assert(reading.values.some(row=>row[0].path===resource.path),'Rereading resource did not return to Home');

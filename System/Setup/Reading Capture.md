@@ -1,6 +1,6 @@
 # Reading capture
 
-[[Home]] · [[Library]] · [[History]]
+[[Home]] · [[Library/Catalog.base|Library]] · [[History]]
 
 QuickAdd is included and configured with a **Log reading** Template choice. It creates a file in `Library/Sessions`, gives it a standardized timestamp name, adds the session properties and timestamp, and opens it for editing. No Bash script is needed for naming.
 

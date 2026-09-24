@@ -1,6 +1,6 @@
 # Today
 
-[[Work/Projects|Projects]] · [[Library/Library|Library]] · [[Daily/History|History]] · [[System/How To Use|Guide]]
+[[Work/Projects|Projects]] · [[Library/Catalog.base|Library]] · [[Daily/History|History]] · [[System/How To Use|Guide]]
 
 ## Startup
 
@@ -29,7 +29,7 @@ LIMIT 6
 ```dataview
 TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", progress AS "Progress (%)", position AS "Last position"
 FROM "Library/Items"
-WHERE type = "resource" AND econtains(flat(list(status)), "reading")
+WHERE econtains(flat(list(status)), "reading")
 SORT file.mtime DESC
 LIMIT 5
 ```

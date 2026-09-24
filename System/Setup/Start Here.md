@@ -16,7 +16,7 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 - Copy System/Templates/Project Blueprint to Work/P-ProjectName and customize it. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
 - Run **QuickAdd: New research log** from a project note and enter a name; its date and time are added automatically.
 - Create today's checklist with **Daily notes: Open today's daily note**.
-- Create a resource in Library/Items using the Resource template. Set status to reading for Home, or finished when done; finished records remain in the library.
+- Create a resource in Library/Items using the Resource template; folder placement puts it in the catalog automatically. Set status to reading for Home, or finished when done; finished records remain in the library.
 - Run **QuickAdd: Log reading** to create a consistently named event. Add its resource link and optional reading details. Resource progress updates remain manual.
 - Run **Index Checker: Check indexes** periodically to find scratchpads missing from their index.
 

@@ -39,12 +39,12 @@ The runner exits with a nonzero status on test failure, failed cleanup, or a tim
 | Create research entries | Execute the real QuickAdd macro and submit the name dialog; verify timestamped filename, correct project, project link, metadata, blank body and Live Preview; cancel the actual dialog without creating a note |
 | Research edge cases | Nested projects, folder boundaries, project selection from Home, no projects, empty names, unsafe filename characters, duplicate names/timestamps, failed writes |
 | Create a resource | Open an empty test note and invoke core Templates insertion; validate the resulting resource properties |
-| Resource lifecycle | Saved, reading, finished, stopped and legacy text/list statuses; finishing and rereading; reading history retained |
+| Resource lifecycle | Saved, reading, finished, stopped and legacy text/list statuses; finishing and rereading; reading history retained; resource membership determined by folder rather than editable type |
 | Daily startup | Use the core Daily notes implementation with a temporary destination; expand the real template; verify idempotency, Home prompts, and archival into History |
 | Reading capture | Run a clone of the real QuickAdd Template choice with only its destination and opening behavior changed; verify unique events, expanded date tokens and resource links |
 | Home | Render its actual Dataview/Tasks blocks; exclude paused, archived and completed tasks; include scratchpad tasks; click a checkbox and verify its source changes; check all list limits and ordering |
-| Other dashboards | Evaluate and render Projects, project overviews, research indexes, Library and History; assert actual rows and links |
-| Bases catalog | Render the real catalog definition with a temporary source folder; verify reading, finished and stopped resources remain visible |
+| Other dashboards | Evaluate and render Projects, project overviews, research indexes and History; assert actual rows and links |
+| Bases catalog | Render All, Reading and Finished views with a temporary source folder; test missing, capitalized and incorrect type values, exact status matching, and exclusion of non-Markdown attachments |
 | Index Checker | Detect a missing Scratch link, add it, and verify the warning clears; ensure generated Research Log indexes are excluded |
 | Configuration | Required plugins, paths, property type and JavaScript setting; evaluate every production Dataview query |
 

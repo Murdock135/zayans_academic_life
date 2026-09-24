@@ -1,10 +1,10 @@
 filters:
   and:
     - file.inFolder("Library/Items")
-    - type == "resource"
+    - file.ext == "md"
 views:
   - type: table
-    name: Library
+    name: All
     order:
       - file.name
       - authors
@@ -13,3 +13,43 @@ views:
       - progress
       - topics
       - url
+    sort:
+      - property: status
+        direction: ASC
+      - property: file.name
+        direction: ASC
+      - property: progress
+        direction: DESC
+  - type: table
+    name: Reading
+    filters:
+      and:
+        - list(status).contains("reading")
+    order:
+      - file.name
+      - authors
+      - kind
+      - status
+      - progress
+      - topics
+      - url
+    sort:
+      - property: status
+        direction: DESC
+  - type: table
+    name: Finished
+    filters:
+      and:
+        - list(status).contains("finished")
+    order:
+      - file.name
+      - authors
+      - kind
+      - status
+      - progress
+      - topics
+      - url
+      - finished_on
+    sort:
+      - property: finished_on
+        direction: DESC

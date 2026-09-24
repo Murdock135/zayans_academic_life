@@ -18,8 +18,7 @@ Work/
       Attachments/
     Attachments/
 Library/
-  Library.md                  Browse resources and finished items
-  Catalog.base                Catalog view definition
+  Catalog.base                Library: All, Reading, and Finished views
   Items/                      One metadata record per resource
   Sessions/                   Timestamped reading events
 Daily/
