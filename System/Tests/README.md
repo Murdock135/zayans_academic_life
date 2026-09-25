@@ -42,11 +42,11 @@ The runner exits with a nonzero status on test failure, failed cleanup, or a tim
 | Resource lifecycle | Saved, reading, finished, stopped and legacy text/list statuses; finishing and rereading; reading history retained; resource membership determined by folder rather than editable type |
 | Daily startup | Use the core Daily notes implementation with a temporary destination; expand the real template; verify idempotency, Home prompts, and archival into History |
 | Reading capture | Run a clone of the real QuickAdd Template choice with only its destination and opening behavior changed; verify unique events, expanded date tokens and resource links |
-| Home | Render its actual Dataview/Tasks blocks; exclude paused, archived and completed tasks; include scratchpad tasks; click a checkbox and verify its source changes; check all list limits and ordering |
+| Home | Render standalone and active-project task sections separately; require an exact Tasks Next path; exclude completed, Inbox, similarly named, paused, archived and completed-project tasks; retain active-project Scratch tasks; click each kind of checkbox and verify its exact source; enforce both 12-item limits independently |
 | Other dashboards | Evaluate and render Projects, project overviews, research indexes and History; assert actual rows and links |
 | Bases catalog | Render All, Reading and Finished views with a temporary source folder; test missing, capitalized and incorrect type values, exact status matching, and exclusion of non-Markdown attachments |
 | Index Checker | Detect a missing Scratch link, add it, and verify the warning clears; ensure generated Research Log indexes are excluded |
-| Configuration | Required plugins, paths, property type and JavaScript setting; evaluate every production Dataview query |
+| Configuration | Required plugins, paths, property type and JavaScript setting; resolve workflow links and evaluate every production Dataview query |
 
 ## Isolation and cleanup
 

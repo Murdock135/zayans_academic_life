@@ -20,9 +20,11 @@ Open Home. Use the command palette (`Ctrl+P` on Windows/Linux, `Cmd+P` on macOS)
 
 ### Work
 
-Open the project's Milestones.md and work on tasks beneath a milestone. Check tasks there or in Home's Tasks view; the query updates the source checkbox. Home shows at most twelve open tasks, so the project file is the complete view.
+Send a clear action with no project owner directly to [[Work/Tasks Next|Tasks Next]]. Send an unclear idea, note, or action to [[Work/Inbox|Inbox]] and process it later.
 
-Create named entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Maintain their links in Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
+Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in Home's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. Each Home task section shows at most twelve items, and its source note is the complete view.
+
+Create named entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
 
 ### Read
 
@@ -32,13 +34,13 @@ Home's Currently reading card opens the resource record; follow its URL to read.
 
 Unfinished project tasks stay where they are. No tomorrow-action prompt is required. Move today's startup file into Daily/Archive through Obsidian when done, or archive yesterday's the next morning. It remains in History and leaves Home's startup query.
 
-Unchecked startup items do not carry forward automatically. If a prompt has become an action you still intend to do, place that action under a project milestone. Daily routines reset in tomorrow's file.
+Unchecked startup items do not carry forward automatically. If a prompt has become a clear standalone action, move it to Tasks Next. If it is unclear, move it to Inbox. If a project owns it, move it to the appropriate project milestone. Daily routines reset in tomorrow's file.
 
 ## Create and manage a project
 
 Use [[System/Setup/Project Structure]] and its complete copyable blueprint. Every project has its own Research Log folder and scratch index. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md.
 
-Home shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from Home; the tasks stay in their original notes. Review those tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
+Home's **Active project tasks** section shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from that section; the tasks stay in their original notes. The separate **Next tasks** section is unaffected by project status. Review project tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
 
 ## Create a research log entry
 
@@ -89,14 +91,16 @@ Home is the only page at the vault root. Everything else belongs to four folders
 | --- | --- |
 | Home.md | Daily starting point |
 | Work/ | Projects directory and self-contained project folders |
+| Work/Tasks Next.md | Clear standalone actions with no project owner |
+| Work/Inbox.md | Unprocessed ideas, notes, and ambiguous items |
 | Library/ | Catalog.base, resource records in Items, and reading events in Sessions |
 | Daily/ | Startup checklists, their Archive, and the History page |
 | System/ | This guide, setup instructions, reusable templates, and reference material |
 
-Open [[System/Vault Map]] for the full layout. Project logs, scratchpads, indexes, and attachments stay inside their project. A resource belongs to the shared Library even when several projects use it; each reading session points to that resource.
+Open [[System/Vault Map]] for the full layout. Process Inbox entries manually into Tasks Next, a project milestone, a project Scratch note, or deletion. Project logs, scratchpads, indexes, and attachments stay inside their project. A resource belongs to the shared Library even when several projects use it; each reading session points to that resource.
 
 ## What is still manual
 
-Resource creation and progress edits, project creation from the blueprint, index review, and startup archival are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
+Resource creation and progress edits, project creation from the blueprint, Inbox processing, index review, and startup archival are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
 
 Source synchronization, deduplication, semantic clusters, learning-level recommendations, AI greetings, sliders, and external PDF-window capture remain future work. See [[System/Setup/Plugin Plan]]. If views show raw code, enable their plugins and use Reading view. Empty views are expected before adding records in the correct folders with the required type/status properties.

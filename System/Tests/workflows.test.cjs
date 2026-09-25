@@ -6,6 +6,8 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '../..');
 const capture = require('../Scripts/new-research-log.js');
 const home = fs.readFileSync(path.join(root, 'Home.md'), 'utf8');
+const taskBlocks = [...home.matchAll(/```tasks\n([\s\S]*?)\n```/g)].map(match => match[1]);
+const nextQuery = taskBlocks.find(block => block.includes('Tasks Next'));
 const homeCode = home.match(/```dataviewjs\n([\s\S]*?)\n```/)[1];
 const file = (p, type, status, tasks = []) => ({ path:p, basename:path.posix.basename(p,'.md'), parent:{path:path.posix.dirname(p)}, type,status,file:{path:p,folder:path.posix.dirname(p),tasks} });
 function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[file('Work/A/Project.md','project')], choose, cancel=false }={}) {
@@ -30,6 +32,18 @@ test('research: cancelling name input creates nothing',async()=>{const f=setup({
 test('research: empty input creates nothing',async()=>{const f=setup({name:'   '});await assert.rejects(f.run());assert.equal(f.files.size,0)});
 test('research: missing project fails before prompting or writing',async()=>{const f=setup({projects:[]});await assert.rejects(f.run(),/Create a project/);assert.equal(f.prompts.length,0);assert.equal(f.files.size,0)});
 test('research: unsafe filename characters cannot escape the project folder',async()=>{const f=setup({name:'../Bad: name/with\\paths? [link] #tag'});await f.run();assert.equal(f.writes[0].path.split('/').length,4);assert(!/[<>:"\\|?*\[\]#^]/.test(path.posix.basename(f.writes[0].path)))});
+function nextVisible(tasks){
+ const match=nextQuery.match(/path regex matches \/(.*)\//);
+ const source=new RegExp(match[1]);
+ return tasks.filter(task=>!task.done&&source.test(task.path)).slice(0,12);
+}
+test('Home next tasks: query uses the exact Tasks Next path and its own grouped 12-item limit',()=>{
+ assert.match(nextQuery,/^not done$/m);assert.match(nextQuery,/path regex matches \/\^Work\\\/Tasks Next\\\.md\$\//);assert.match(nextQuery,/^group by heading$/m);assert.match(nextQuery,/^limit 12$/m);
+ assert.deepEqual(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'include'},{path:'Work/Tasks Next Archive.md',done:false,text:'exclude'}]).map(task=>task.text),['include']);
+});
+test('Home next tasks: includes incomplete and excludes completed items',()=>{assert.deepEqual(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'open'},{path:'Work/Tasks Next.md',done:true,text:'done'}]).map(task=>task.text),['open'])});
+test('Home next tasks: Inbox checkboxes do not leak into Home',()=>{assert.equal(nextVisible([{path:'Work/Inbox.md',done:false,text:'capture'}]).length,0)});
+test('Home next tasks: global tasks remain visible with no active project',()=>{assert.equal(homeResult([]),'No open tasks from active projects.');assert.equal(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'standalone'}]).length,1)});
 test('research: duplicate names/timestamps preserve the earlier entry',async()=>{const f=setup();await f.run();const first=f.writes[0];await f.run();assert.equal(f.writes.length,2);assert.equal(f.files.get(first.path),first);assert.match(f.writes[1].path,/ \(2\)\.md$/)});
 test('research: failed writes do not open a nonexistent note',async()=>{const f=setup();f.app.vault.create=async()=>{throw Error('Disk unavailable')};await assert.rejects(f.run(),/Disk unavailable/);assert.equal(f.opens.length,0)});
 function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),paragraph:text=>output=text}});return output;}
@@ -45,4 +59,5 @@ test('configuration: workflow dependencies, templates, and script paths exist',(
  assert.equal(read('.obsidian/types.json').types.status,'multitext');
  const choices=read('.obsidian/plugins/quickadd/data.json').choices;
  for(const name of ['New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
+ assert(fs.existsSync(path.join(root,'Work/Tasks Next.md')));assert(fs.existsSync(path.join(root,'Work/Inbox.md')));
 });

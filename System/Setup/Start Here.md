@@ -13,6 +13,8 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 
 ## First use
 
+- Add a clear standalone action to [[Work/Tasks Next|Tasks Next]] and confirm it appears under **Next tasks** on Home.
+- Add an ambiguous capture to [[Work/Inbox|Inbox]] and confirm it does not appear as a Home task.
 - Copy System/Templates/Project Blueprint to Work/P-ProjectName and customize it. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
 - Run **QuickAdd: New research log** from a project note and enter a name; its date and time are added automatically.
 - Create today's checklist with **Daily notes: Open today's daily note**.
@@ -24,7 +26,7 @@ The attachment setting is **In subfolder under current folder → Attachments**.
 
 ## Current boundaries
 
-Daily startup creation is on demand; archival and carry-forward are manual. Home shows unfinished tasks only from projects whose status includes `active`. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
+Daily startup creation is on demand; archival, Inbox processing, and carry-forward are manual. Home separately shows up to twelve standalone Tasks Next items and twelve unfinished tasks from active projects. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
 
 Queries and link resolution have been checked through the running Obsidian app. Research capture has passed a file-creation smoke test. See [[System/Setup/Vault Review]] for the latest findings and remaining checks.
 

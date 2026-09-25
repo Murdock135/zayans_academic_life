@@ -46,7 +46,18 @@ SORT default(date(logged_at), file.ctime) DESC
 LIMIT 6
 ```
 
-## Open project tasks
+## Next tasks
+
+Clear standalone actions that do not belong to a project appear here. [[Work/Tasks Next|Open the complete list]].
+
+```tasks
+not done
+path regex matches /^Work\/Tasks Next\.md$/
+group by heading
+limit 12
+```
+
+## Active project tasks
 
 ```dataviewjs
 const pages = dv.pages('"Work"').array();

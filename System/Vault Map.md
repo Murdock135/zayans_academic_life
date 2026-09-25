@@ -8,6 +8,8 @@ The root contains one starting page and four folders. Daily work should rarely r
 Home.md
 Work/
   Projects.md                 Project directory
+  Tasks Next.md               Standalone actions with no project owner
+  Inbox.md                    Unprocessed and ambiguous captures
   P-ProjectName/
     Project Name.md           Project overview
     Milestones.md             Milestones and their tasks
@@ -43,6 +45,9 @@ The folder shown as P-ProjectName is a convention, not an extra project created 
 ## Placement rules
 
 - Start at Home. Its navigation links open the project directory, library, history, or guide.
+- Put a clear action with no project owner in Work/Tasks Next.md.
+- Put an unclear or unprocessed capture in Work/Inbox.md, then move it to Tasks Next, a project milestone, a project Scratch note, or deletion.
+- Project Scratch folders are for exploration, not a global inbox. Tasks inside active-project Scratch notes may appear on Home.
 - Keep all project-specific work beneath its project folder. The project overview and Milestones file are distinct from its research log and exploratory scratchpads.
 - Keep shared resources and reading sessions together in Library. Do not copy a resource into every project that uses it.
 - Keep dated startup routines in Daily. History is a view across activity, not another copy of the records.

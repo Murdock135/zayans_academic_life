@@ -2,7 +2,7 @@
 
 [[Home]] · [[System/Setup/Start Here|Setup]]
 
-Reviewed all 31 existing Markdown notes, templates, the catalog definition, local scripts, plugin settings, property types, and internal link resolution. The current structure is coherent: project work lives under Work, shared resources and reading events under Library, daily routines under Daily, and configuration and templates under System.
+Reviewed the Markdown notes, templates, catalog definition, local scripts, plugin settings, property types, and internal link resolution. The current structure is coherent: project work lives under Work, shared resources and reading events under Library, daily routines under Daily, and configuration and templates under System.
 
 ## Fixed
 
@@ -16,15 +16,26 @@ Reviewed all 31 existing Markdown notes, templates, the catalog definition, loca
 | Older research entries lacked a displayed creation value | The initial migrated log had an empty Created cell | Log indexes fall back to file creation time for older entries |
 | Setup instructions described obsolete behavior | They said JavaScript was unnecessary, Homepage needed installation, and project status used a separate dropdown | Updated setup, project guidance, scratch-index instructions, plugin inventory, and version records |
 
+## Global capture workflow
+
+- Added [[Work/Tasks Next|Tasks Next]] for clear standalone actions with no project owner.
+- Added [[Work/Inbox|Inbox]] for unprocessed ideas, notes, and ambiguous items. Processing remains manual.
+- Home now renders **Next tasks** and **Active project tasks** separately, with independent 12-item limits.
+- The Tasks Next query uses the exact path `Work/Tasks Next.md`, so Inbox and similarly named files cannot leak into it.
+- Completing a Home checkbox writes back to its source note. Active-project status controls only the project task section.
+- Project milestones remain the destination for project-owned actions. Project Scratch notes remain exploratory, and tasks in Scratch notes owned by active projects continue to appear on Home.
+- No QuickAdd commands, global Scratch folder, properties, or status values were added for this workflow.
+
 ## Needs your attention
 
-- [[Library/Sessions/2026-09-24 125630-896 Reading|This reading session]] has `resource: test`, which is plain text rather than a link to a catalog record. The Library/Items folder is empty. Link it to a real resource when appropriate, or remove it if it was only a test. The record was left unchanged.
 - The project still has its blueprint title and example milestone tasks. The blank scratchpad and research entries were preserved. Replace these when beginning real work; they are valid files, not broken configuration.
 
 ## Verification
 
-- All 18 Dataview queries evaluated successfully in the running Obsidian app, including template and legacy-reference queries. Empty template results are expected outside Work.
-- Home’s active-project task block rendered two tasks with the original folder/heading grouping and limit of 12.
+- The complete terminal run passed 27 fast tests and 30 live Obsidian tests with zero failures.
+- Home rendered standalone and active-project tasks in separate sections in the running app. The live tests completed both kinds of checkbox, verified exact source updates and removal after completion, and confirmed Inbox exclusion.
+- Tasks Next remained visible with the test project archived. Both task sections enforced their 12-item limits independently.
+- Every production Dataview query evaluated successfully, the workflow links resolved, all disposable fixtures were removed, and production notes remained unchanged.
 - Resource status matching was checked with text, list, empty, missing, and unrelated values.
 - Index Checker now identifies only the two Scratch indexes (project and blueprint); neither has missing links.
 - Research-entry tests passed for project inference, nested projects, project selection, name-only input, timestamped naming, duplicate names, cancellation, and opening the created file. File creation in the running app had already passed a smoke test.

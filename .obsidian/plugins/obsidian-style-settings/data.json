@@ -61,5 +61,7 @@
   "Components@@folder-font-bold": true,
   "Components@@colorful-folder": false,
   "Components@@outline-enhanced": false,
-  "Appearance-dark@@card-layout-open-dark": false
+  "Appearance-dark@@card-layout-open-dark": false,
+  "encore-settings@@theme-dark": "encore-theme-dark-glass-royale",
+  "encore-settings@@theme-light": "encore-theme-light"
 }
