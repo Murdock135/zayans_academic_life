@@ -12,11 +12,3 @@ FROM "Library/Sessions"
 WHERE type = "reading-event"
 SORT default(date(logged_at), file.ctime) DESC
 ```
-
-## Startup history
-
-```dataview
-LIST
-FROM "Daily/Startup" OR "Daily/Archive"
-SORT file.name DESC
-```

@@ -3,7 +3,7 @@ type: research-log-index
 ---
 # Research log
 
-Run **QuickAdd: New research log** from any note in this project. Enter a name; the date and time are added automatically.
+Run **QuickAdd: New research log** from any note in this project. A date-and-time-named entry is created automatically.
 
 ```dataview
 TABLE WITHOUT ID file.link AS "Entry", default(logged_at, file.ctime) AS "Created"

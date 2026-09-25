@@ -4,5 +4,6 @@
   "livePreview": true,
   "propertiesInDocument": "visible",
   "defaultMode": "source",
-  "vimMode": true
+  "vimMode": true,
+  "showLineNumber": false
 }

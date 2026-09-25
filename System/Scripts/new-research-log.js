@@ -13,15 +13,10 @@ module.exports = async ({ app, quickAddApi }) => {
         );
     }
     if (!project) return;
-    const input = await quickAddApi.inputPrompt("Research log name", "e.g. Convergence experiment");
-    if (input == null) return;
-    const name = input.trim().replace(/[<>:"/\\|?*\u0000-\u001f\[\]#^]/g, "-")
-        .replace(/[. ]+$/g, "").slice(0, 100).trim();
-    if (!name) throw new Error("Enter a research log name containing at least one letter or number.");
     const folder = `${project.parent.path}/Research Log`;
     if (!app.vault.getAbstractFileByPath(folder)) await app.vault.createFolder(folder);
     const stamp = quickAddApi.date.now("YYYY-MM-DD HHmmss-SSS");
-    const base = `${folder}/${name} — ${stamp}`;
+    const base = `${folder}/${stamp}`;
     let path = `${base}.md`;
     let suffix = 2;
     while (app.vault.getAbstractFileByPath(path)) path = `${base} (${suffix++}).md`;

@@ -5,9 +5,9 @@ authors:
 publication_date:
 kind: book
 status:
-  - saved
+  - reading
 finished_on:
-progress: 0
+progress: 50
 position: ""
 url: ""
 doi: ""

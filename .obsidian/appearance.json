@@ -1,6 +1,10 @@
 {
-  "cssTheme": "",
+  "cssTheme": "Encore",
   "theme": "obsidian",
-  "interfaceFontFamily": "Arial,Consolas",
-  "textFontFamily": "Helvetica,Consolas"
+  "interfaceFontFamily": "Microsoft JhengHei",
+  "textFontFamily": "Inter",
+  "accentColor": "#04f7fb",
+  "enabledCssSnippets": [
+    "reading-progress"
+  ]
 }

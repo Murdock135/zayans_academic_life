@@ -8,7 +8,7 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 
 1. Open this folder as a vault in Obsidian.
 2. Under Settings → Community plugins, enable **Tasks**, **Dataview**, **Index Checker**, and **QuickAdd**. Their distributions are included. QuickAdd 2.27.0 requires Obsidian 1.13.0 or newer; see Reading Capture if you use an older app.
-3. Open [[Home]]. Empty views are expected until you create projects and reading records. Dataview JavaScript queries must remain enabled for Home’s active-project task filter.
+3. Open [[Home]]. Empty views are expected until you create projects and reading records. Dataview JavaScript queries must remain enabled for the Projects dashboard’s active-project task filter.
 4. Homepage is installed and configured to open Home at startup.
 
 ## First use
@@ -16,8 +16,8 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 - Add a clear standalone action to [[Work/Tasks Next|Tasks Next]] and confirm it appears under **Next tasks** on Home.
 - Add an ambiguous capture to [[Work/Inbox|Inbox]] and confirm it does not appear as a Home task.
 - Copy System/Templates/Project Blueprint to Work/P-ProjectName and customize it. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
-- Run **QuickAdd: New research log** from a project note and enter a name; its date and time are added automatically.
-- Create today's checklist with **Daily notes: Open today's daily note**.
+- Run **QuickAdd: New research log** from a project note; a date-and-time-named entry is created automatically.
+- Tick off the startup checklist on [[Home]] each morning. Edit the items there directly whenever the routine needs updating.
 - Create a resource in Library/Items using the Resource template; folder placement puts it in the catalog automatically. Set status to reading for Home, or finished when done; finished records remain in the library.
 - Run **QuickAdd: Log reading** to create a consistently named event. Add its resource link and optional reading details. Resource progress updates remain manual.
 - Run **Index Checker: Check indexes** periodically to find scratchpads missing from their index.

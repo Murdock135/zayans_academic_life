@@ -23,7 +23,7 @@ Work/
 
 - **Project Name.md:** the entry point, project status/areas, and optional outcome. Its Dataview queries show files belonging to its own folder.
 - **Milestones.md:** milestone headings with tasks underneath. This keeps tasks attached to outcomes, without maintaining a separate Tasks file or duplicating tasks in the project overview.
-- **Research Log/:** separate named, timestamped entries. Research Log Index.md lists the entries newest first. Each entry starts with a blank body; record what helps you resume without a required format.
+- **Research Log/:** separate timestamped entries. Research Log Index.md lists the entries newest first. Each entry starts with a blank body; record what helps you resume without a required format.
 - **Scratch/:** separate explorations, derivations, drafts, prompts, and experiments. Link useful scratchpads from the log rather than pasting their entire contents into it.
 - **Scratch Index.md:** a curated list of those scratchpads, preserving the indexing behavior of the previous vault. Index Checker checks for omitted links. This is a real link index, not only a generated query.
 - **Attachments/:** supporting files attached to root-level project documents. Notes inside Scratch use Scratch/Attachments, which is still inside the project.
@@ -35,7 +35,7 @@ Library resources remain in the shared catalog because the same paper may serve 
 1. In your file manager, copy the complete `System/Templates/Project Blueprint` folder into `Work` and name the copy `P-ProjectName`. This copies a folder structure, not a single template note. Do not move or edit the master copy for one particular project.
 2. Rename the copied `Project.md` to your project's name and change its title. Set one value in the `status` list in Properties. Set optional `areas` in Properties.
 3. Replace the example milestone headings and tasks in Milestones.md. Delete unused example tasks.
-4. From any note in the project, run **QuickAdd: New research log** and enter a name. The command adds the date and time and opens a blank entry in Research Log/. There is no required daily entry.
+4. From any note in the project, run **QuickAdd: New research log**. The command creates a date-and-time-named file and opens the blank entry in Research Log/. There is no required daily entry.
 5. Create scratchpad files inside Scratch. Add their links to Scratch Index.md and periodically run Index Checker.
 
 For existing projects, add these files as needed rather than replacing their contents. Creating a project through an automated command is a possible later improvement.
@@ -62,4 +62,4 @@ Thus attachments stay within the project, but there can be more than one Attachm
 
 Use the `status` list in Properties with exactly one value: `active`, `paused`, `completed`, or `archived`. The list provides suggestions, but does not enforce the documented vocabulary. Home includes tasks only when the list contains `active`.
 
-Resource notes share the same list property but use `saved`, `reading`, `finished`, or `stopped`. Their dashboards accept both list values and older text values. Dataview JavaScript remains enabled for Home's active-project task filter.
+Resource notes share the same list property but use `saved`, `reading`, `finished`, or `stopped`. Their dashboards accept both list values and older text values. Dataview JavaScript remains enabled for the Projects dashboard's active-project task filter.

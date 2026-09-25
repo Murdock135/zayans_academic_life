@@ -20,10 +20,10 @@ Reviewed the Markdown notes, templates, catalog definition, local scripts, plugi
 
 - Added [[Work/Tasks Next|Tasks Next]] for clear standalone actions with no project owner.
 - Added [[Work/Inbox|Inbox]] for unprocessed ideas, notes, and ambiguous items. Processing remains manual.
-- Home now renders **Next tasks** and **Active project tasks** separately, with independent 12-item limits.
+- Home renders **Next tasks**, while the Projects dashboard renders **Active project tasks**; each has its own 12-item limit.
 - The Tasks Next query uses the exact path `Work/Tasks Next.md`, so Inbox and similarly named files cannot leak into it.
-- Completing a Home checkbox writes back to its source note. Active-project status controls only the project task section.
-- Project milestones remain the destination for project-owned actions. Project Scratch notes remain exploratory, and tasks in Scratch notes owned by active projects continue to appear on Home.
+- Completing a dashboard checkbox writes back to its source note. Active-project status controls only the Projects task section.
+- Project milestones remain the destination for project-owned actions. Project Scratch notes remain exploratory, and tasks in Scratch notes owned by active projects continue to appear on Projects.
 - No QuickAdd commands, global Scratch folder, properties, or status values were added for this workflow.
 
 ## Needs your attention
@@ -33,7 +33,7 @@ Reviewed the Markdown notes, templates, catalog definition, local scripts, plugi
 ## Verification
 
 - The complete terminal run passed 27 fast tests and 30 live Obsidian tests with zero failures.
-- Home rendered standalone and active-project tasks in separate sections in the running app. The live tests completed both kinds of checkbox, verified exact source updates and removal after completion, and confirmed Inbox exclusion.
+- Home rendered standalone tasks and Projects rendered active-project tasks in the running app. The live tests completed both kinds of checkbox, verified exact source updates and removal after completion, and confirmed Inbox exclusion.
 - Tasks Next remained visible with the test project archived. Both task sections enforced their 12-item limits independently.
 - Every production Dataview query evaluated successfully, the workflow links resolved, all disposable fixtures were removed, and production notes remained unchanged.
 - Resource status matching was checked with text, list, empty, missing, and unrelated values.

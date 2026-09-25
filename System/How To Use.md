@@ -16,15 +16,15 @@ Start from Home, choose a project, resume that project's research, and record re
 
 ### Begin
 
-Open Home. Use the command palette (`Ctrl+P` on Windows/Linux, `Cmd+P` on macOS) and run **Daily notes: Open today's daily note**. This creates or opens today's startup list. Check off useful prompts, then choose a project-owned log from Continue research.
+Open Home and tick off the startup checklist. Then choose a project-owned log from **Continue research**.
 
 ### Work
 
 Send a clear action with no project owner directly to [[Work/Tasks Next|Tasks Next]]. Send an unclear idea, note, or action to [[Work/Inbox|Inbox]] and process it later.
 
-Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in Home's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. Each Home task section shows at most twelve items, and its source note is the complete view.
+Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in the Projects dashboard's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. The dashboard shows at most twelve items, and its source note is the complete view.
 
-Create named entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
+Create timestamped entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
 
 ### Read
 
@@ -32,19 +32,19 @@ Home's Currently reading card opens the resource record; follow its URL to read.
 
 ### Finish
 
-Unfinished project tasks stay where they are. No tomorrow-action prompt is required. Move today's startup file into Daily/Archive through Obsidian when done, or archive yesterday's the next morning. It remains in History and leaves Home's startup query.
+Unfinished project tasks stay where they are. No tomorrow-action prompt is required. Uncheck any startup items on Home that you want to revisit tomorrow.
 
-Unchecked startup items do not carry forward automatically. If a prompt has become a clear standalone action, move it to Tasks Next. If it is unclear, move it to Inbox. If a project owns it, move it to the appropriate project milestone. Daily routines reset in tomorrow's file.
+Unchecked startup items do not carry forward automatically. If a prompt has become a clear standalone action, move it to Tasks Next. If it is unclear, move it to Inbox. If a project owns it, move it to the appropriate project milestone.
 
 ## Create and manage a project
 
 Use [[System/Setup/Project Structure]] and its complete copyable blueprint. Every project has its own Research Log folder and scratch index. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md.
 
-Home's **Active project tasks** section shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from that section; the tasks stay in their original notes. The separate **Next tasks** section is unaffected by project status. Review project tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
+The Projects dashboard's **Active project tasks** section shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from that section; the tasks stay in their original notes. Home's separate **Next tasks** section is unaffected by project status. Review project tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
 
 ## Create a research log entry
 
-From any note in a project, run **QuickAdd: New research log** and enter only a name. QuickAdd appends local date and time, creates the file in that project's Research Log folder, and opens a blank body for writing. From outside a project, choose the destination project when more than one exists.
+From any note in a project, run **QuickAdd: New research log**. QuickAdd immediately creates a file named with the local date and time in that project's Research Log folder and opens a blank body for writing. From outside a project, choose the destination project when more than one exists.
 
 Research Log Index.md lists that project's entries. Home lists recent entries across projects without combining their contents. Use `related_projects` to link other projects involved in an entry. See [[System/Setup/Research Capture]].
 
@@ -81,7 +81,7 @@ The record stays in the library, disappears from Home's active-reading list, and
 
 ## Customize your startup routine
 
-Edit [[System/Templates/Startup/Research Morning]]. Changes affect subsequently created startup checklists, not old files. The built-in daily-note command uses Daily/Startup and YYYY-MM-DD; Home depends on this naming. Startup creation is on demand, and archival is manual for now.
+Edit the checklist directly in [[Home]] under **Start-up**. Changes take effect immediately.
 
 ## Where things belong
 
