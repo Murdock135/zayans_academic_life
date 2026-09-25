@@ -3,5 +3,6 @@
   "attachmentFolderPath": "./Attachments",
   "livePreview": true,
   "propertiesInDocument": "visible",
-  "defaultMode": "source"
+  "defaultMode": "source",
+  "vimMode": true
 }
