@@ -2,7 +2,7 @@
 
 [[Home]] · [[System/How To Use|Usage guide]]
 
-The root contains one starting page and four folders. Daily work should rarely require opening System.
+The root contains one starting page and three folders. Routine work should rarely require opening System.
 
 ```text
 Home.md
@@ -21,13 +21,12 @@ Work/
     Attachments/
 Library/
   Catalog.base                Library: All, Reading, and Finished views
+  Sessions.md                 View of the 200 most recent reading sessions
+  Reading History.csv         Excel-compatible long-term session archive
   Items/                      One metadata record per resource
-  Sessions/                   Timestamped reading events
-Daily/
-  History.md                  Reading and startup activity history
-  Startup/                    Current startup checklists
-  Archive/                    Archived startup checklists
+  Sessions/                   Latest 200 paper and article reading events
 System/
+  Cheat Sheet.md              One-page daily workflow reference
   How To Use.md               Daily workflow
   Vault Map.md                This page
   Setup/                      Plugin and configuration instructions
@@ -36,7 +35,6 @@ System/
     Project Blueprint/        Copy this whole folder to create a project
     Resource.md               Blank resource record
     Capture/Reading Event.md  QuickAdd capture template
-    Startup/Research Morning.md
   Reference/Legacy Templates/ Previous single-file templates, retained for reference
 ```
 
@@ -44,13 +42,12 @@ The folder shown as P-ProjectName is a convention, not an extra project created 
 
 ## Placement rules
 
-- Start at Home. Its navigation links open the project directory, library, history, or guide.
+- Start at Home. Its navigation links open the project directory, library, cheat sheet, or guide.
 - Put a clear action with no project owner in Work/Tasks Next.md.
 - Put an unclear or unprocessed capture in Work/Inbox.md, then move it to Tasks Next, a project milestone, a project Scratch note, or deletion.
 - Project Scratch folders are for exploration, not a global inbox. Tasks inside active-project Scratch notes may appear on the Projects dashboard.
 - Keep all project-specific work beneath its project folder. The project overview and Milestones file are distinct from its research log and exploratory scratchpads.
-- Keep shared resources and reading sessions together in Library. Do not copy a resource into every project that uses it.
-- Keep dated startup routines in Daily. History is a view across activity, not another copy of the records.
+- Keep shared resources in Library. Track books and textbooks through their resource records; keep the latest 200 paper and online-article reading sessions in Library/Sessions and archive older ones in Reading History.csv. Do not copy a resource into every project that uses it.
 - Use System/Templates for new records and project scaffolding. Legacy single-file templates are outside the active template folder to avoid offering competing creation methods.
 - Use a project-local Attachments subfolder; the relative attachment setting is unchanged.
 

@@ -1,17 +1,19 @@
 # Reading capture
 
-[[Home]] · [[Library/Catalog.base|Library]] · [[History]]
+[[Home]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]]
 
-QuickAdd is included and configured with a **Log reading** Template choice. It creates a file in `Library/Sessions`, gives it a standardized timestamp name, adds the session properties and timestamp, and opens it for editing. No Bash script is needed for naming.
+QuickAdd is included and configured with a **Log reading** Template choice for papers and online articles. It creates a file in `Library/Sessions`, gives it a standardized timestamp name, adds the session properties and timestamp, and opens it for editing. Books and textbooks belong in **Currently Reading** and do not need session files. No Bash script is needed for naming.
 
 ## Enable and use
 
 1. Enable **QuickAdd** in Settings → Community plugins. The included official release is 2.27.0 and requires Obsidian 1.13.0 or newer, according to its manifest. If your app is older, update Obsidian or install a compatible QuickAdd release and recreate the choice using the settings below.
 2. Open the command palette and run **QuickAdd: Log reading**. Alternatively run QuickAdd and select Log reading. You can assign a hotkey in Settings → Hotkeys.
-3. In the new event, set `resource` to a wikilink to the catalog item. Add optional position, project links, progress-after, and takeaway through Properties. You do not enter or rename the filename.
+3. In the new event, set `resource` to a wikilink to the paper or online article's catalog item and write the session's takeaway. Position, project links, and progress-after are optional. You do not enter or rename the filename.
 4. Return to Home to see the event. Update the resource's overall progress separately if appropriate; this command does not change another file's reading progress.
 
-The name has the form `2026-09-24 143052-123 Reading.md` (local date, time, milliseconds). If the target name already exists, QuickAdd is configured to append a duplicate suffix rather than overwrite it. The event's `logged_at` property includes the timezone offset; Home and History sort by it, with file-creation time as a fallback for older entries.
+The name has the form `2026-09-24 143052-123 Reading.md` (local date, time, milliseconds). If the target name already exists, QuickAdd is configured to append a duplicate suffix rather than overwrite it. The event's `logged_at` property includes the timezone offset; Home and [[Library/Sessions|Sessions]] sort by it, with file-creation time as a fallback for older entries.
+
+Keep the latest 200 session notes in `Library/Sessions/`. The **Log reading** macro runs `System/Scripts/log-reading.js` before creating a new event. If the folder already contains 200 sessions, the script appends the oldest session's properties and body to `Library/Reading History.csv`, verifies the saved CSV, and moves the old Markdown file to Obsidian's trash. It then runs the hidden **Create reading event** template choice. The CSV opens directly in Excel and is the long-term archive; the Markdown folder is the useful recent window.
 
 If recording a past session, edit `logged_at` to when you actually read. The filename can keep its creation timestamp. If you accidentally create an empty event, delete that event through Obsidian.
 
@@ -19,7 +21,7 @@ If recording a past session, edit `logged_at` to when you actually read. The fil
 
 | Setting | Value |
 | --- | --- |
-| Name | Log reading |
+| Name | Create reading event (invoked by the Log reading macro) |
 | Type | Template |
 | Template path | System/Templates/Capture/Reading Event.md |
 | Filename format | `{{DATE:YYYY-MM-DD HHmmss-SSS}} Reading` |

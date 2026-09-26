@@ -7,7 +7,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
  const report = {runId:id,started:new Date().toISOString(),running:true,tests:[],cleanup:[],fixtureRoots:[]};
  window[stateKey] = report;
  const originalLeaf=app.workspace.getMostRecentLeaf();
- const roots={work:`Work/${id}`,items:`Library/Items/${id}`,sessions:`Library/Sessions/${id}`,daily:`Daily/Startup/${id}`,archive:`Daily/Archive/${id}`,views:`System/Tests/Fixtures/${id}`};
+ const roots={work:`Work/${id}`,items:`Library/Items/${id}`,sessions:`Library/Sessions/${id}`,views:`System/Tests/Fixtures/${id}`};
  const owned=[]; const renders=[]; const ownedModals=new Set(); const productionBefore=new Map(); let leaf; let readingChoice;
  const dv=app.plugins.plugins.dataview?.api;
  const assert=(condition,message)=>{if(!condition)throw Error(message)};
@@ -22,7 +22,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
  async function set(file,values){await app.fileManager.processFrontMatter(file,fm=>Object.assign(fm,values));await wait(()=>{const fm=app.metadataCache.getFileCache(file)?.frontmatter;return fm&&Object.entries(values).every(([key,value])=>JSON.stringify(fm[key])===JSON.stringify(value))},"saved properties for "+file.path);await indexed(file,p=>!("status" in values)||JSON.stringify(p.status?.array?p.status.array():p.status)===JSON.stringify(values.status))}
  async function copyFolder(source,dest){await folder(dest);for(const child of [...source.children]){if(child.children)await copyFolder(child,`${dest}/${child.name}`);else await write(`${dest}/${child.name}`,await app.vault.read(child))}}
  const regexPath=path=>path.replace(/[.*+?^${}()|[\]\\/]/g,'\\$&');
- function scope(text){return text.replaceAll('^Work\\/Tasks Next\\.md$','^'+regexPath(roots.work+'/Tasks Next.md')+'$').replaceAll('Work/Tasks Next',roots.work+'/Tasks Next').replaceAll('Work/Inbox',roots.work+'/Inbox').replaceAll('"Work"',JSON.stringify(roots.work)).replaceAll('"Library/Items"',JSON.stringify(roots.items)).replaceAll('"Library/Sessions"',JSON.stringify(roots.sessions)).replaceAll('"Daily/Startup"',JSON.stringify(roots.daily)).replaceAll('"Daily/Archive"',JSON.stringify(roots.archive))}
+ function scope(text){return text.replaceAll('^Work\\/Tasks Next\\.md$','^'+regexPath(roots.work+'/Tasks Next.md')+'$').replaceAll('Work/Tasks Next',roots.work+'/Tasks Next').replaceAll('Work/Inbox',roots.work+'/Inbox').replaceAll('"Work"',JSON.stringify(roots.work)).replaceAll('"Library/Items"',JSON.stringify(roots.items)).replaceAll('"Library/Sessions"',JSON.stringify(roots.sessions))}
  async function scopedPage(source){return write(`${roots.views}/${source.split('/').pop()}`,scope(await app.vault.read(get(source))))}
  function blocks(text){return [...text.matchAll(/^```dataview\n([\s\S]*?)^```/gm)].map(m=>m[1])}
  async function query(file,index){const text=await app.vault.read(file);const result=await dv.query(blocks(text)[index],file.path);assert(result.successful,result.error);return result.value}
@@ -77,12 +77,12 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
    await wait(async()=>(await app.vault.read(resource)).includes('status:'),'resource template saved');const p=await indexed(resource);
    assert(p.type===undefined&&p.progress===0&&p.kind==='paper','Resource defaults incorrect or unnecessary type field present');assert(p.status.includes('saved'),'Saved status missing');assert(p.authors.length===0&&p.projects.length===0,'List properties missing');
   });
-  assert(resource,'Resource setup failed');await set(resource,{status:['reading'],authors:['Test Author'],progress:25,position:'Page 10'});
+  assert(resource,'Resource setup failed');await set(resource,{status:['reading'],kind:'book',authors:['Test Author'],progress:25,position:'Page 10'});
   const finished=await write(`${roots.items}/Finished resource.md`,(await app.vault.read(get('System/Templates/Resource.md'))));await indexed(finished);await set(finished,{status:['finished'],finished_on:'2026-09-24',progress:100});
   const stopped=await write(`${roots.items}/Stopped resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(stopped);await set(stopped,{status:['stopped']});
-  const legacy=await write(`${roots.items}/Legacy resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(legacy);await set(legacy,{status:'reading'});
+  const legacy=await write(`${roots.items}/Legacy resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(legacy);await set(legacy,{status:'reading',kind:'book'});
   const falseMatch=await write(`${roots.items}/Not reading resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(falseMatch);await set(falseMatch,{status:['notreading']});
-  const home=await scopedPage('Home.md'), history=await scopedPage('Daily/History.md'), projects=await scopedPage('Work/Projects.md');
+  const home=await scopedPage('Home.md'), projects=await scopedPage('Work/Projects.md');
   const base=await write(`${roots.views}/Catalog.base`,(await app.vault.read(get('Library/Catalog.base'))).replaceAll('"Library/Items"',JSON.stringify(roots.items)));
   let catalogRenderId=0;
   async function catalogView(name,expected){
@@ -93,17 +93,14 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   await set(resource,{type:'Resource'});await set(legacy,{type:'incorrect-type'});
   const untyped=await write(`${roots.items}/No metadata.md`,'');await indexed(untyped);
   await write(`${roots.items}/Not a resource.txt`,'Attachment fixture');
-  await test('Home: currently-reading query includes list and legacy text statuses only',async()=>{const result=await query(home,2);const paths=result.values.map(row=>row[0].path);assert(paths.length===2&&paths.includes(resource.path)&&paths.includes(legacy.path),'Wrong reading resources: '+JSON.stringify(paths))});
+  await test('Home: currently-reading query includes book resources with list and legacy text statuses only',async()=>{const result=await query(home,0);const paths=result.values.map(row=>row[0].path);assert(paths.length===2&&paths.includes(resource.path)&&paths.includes(legacy.path),'Wrong reading resources: '+JSON.stringify(paths))});
   await test('Bases Finished view: only finished resources appear without a type requirement',async()=>{const el=await catalogView('Finished','Finished resource');assert(!el.textContent.includes('Stopped resource')&&!el.textContent.includes('Reading resource'),'Wrong finished resources')});
-  await test('Daily startup: core daily-note creation expands the template and is idempotent',async()=>{
-   const daily=Object.create(app.internalPlugins.plugins['daily-notes'].instance);daily.options={...daily.options,folder:roots.daily};const first=await daily.getDailyNote(moment());const second=await daily.getDailyNote(moment());assert(first.path===second.path,'Daily creation duplicated');const text=await app.vault.read(first);assert(!text.includes('{{'),'Unexpanded daily tokens');await indexed(first);const result=await query(home,0);assert(result.values.length===3,'Expected three startup prompts');
-  });
   await test('Reading capture: real QuickAdd template creates unique timestamped events',async()=>{
-   const plugin=app.plugins.plugins.quickadd;const source=plugin.settings.choices.find(c=>c.name==='Log reading');assert(source,'Log reading command missing');readingChoice=JSON.parse(JSON.stringify(source));readingChoice.id=id;readingChoice.name=id;readingChoice.command=false;readingChoice.folder.folders=[roots.sessions];readingChoice.openFile=false;plugin.settings.choices.push(readingChoice);
+   const plugin=app.plugins.plugins.quickadd;const source=plugin.settings.choices.find(c=>c.name==='Create reading event');assert(source,'Reading-event template choice missing');readingChoice=JSON.parse(JSON.stringify(source));readingChoice.id=id;readingChoice.name=id;readingChoice.command=false;readingChoice.folder.folders=[roots.sessions];readingChoice.openFile=false;plugin.settings.choices.push(readingChoice);
    await quickAddApi.executeChoice(id);await quickAddApi.executeChoice(id);
    const events=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));assert(events.length===2,'Expected two unique events');for(const event of events){const p=await indexed(event);assert(p.type==='reading-event'&&p.logged_at,'Invalid reading event');assert(!/\{\{/.test(await app.vault.read(event)),'Unexpanded reading token');await set(event,{resource:`[[${resource.path.slice(0,-3)}]]`})}
   });
-  await test('History and Home: reading events render with resource links',async()=>{const full=await query(history,0),recent=await query(home,3);assert(full.values.length===2&&recent.values.length===2,'Events missing from dashboards');const el=await render(history);await wait(()=>el.querySelectorAll('.dataview.table-view-table').length>0,'History table');await wait(()=>el.textContent.includes('Reading resource'),'History resource link');noErrors(el)});
+  await test('Home: reading events render with resource links',async()=>{const recent=await query(home,2);assert(recent.values.length===2,'Events missing from Home');const el=await render(home);await wait(()=>el.textContent.includes('Reading resource'),'Home resource link');noErrors(el)});
   await test('Project dashboard: overview links to milestones and both indexes',async()=>{for(const [index,suffix]of [[0,'Milestones.md'],[1,'Scratch/Scratch Index.md'],[2,'Research Log/Research Log Index.md']]){const result=await query(project,index);assert(result.values.some(link=>link.path===`${projectFolder}/${suffix}`),'Missing '+suffix)}const el=await render(project);await wait(()=>el.textContent.includes('Research Log Index'),'Project links rendered');noErrors(el)});
   await test('Research index: new entry appears without manually adding a link',async()=>{assert(entry,'Capture prerequisite failed');const index=get(`${projectFolder}/Research Log/Research Log Index.md`);const result=await query(index,0);assert(result.values.some(row=>row[0].path===entry.path),'Research entry missing');const el=await render(index);await wait(()=>el.textContent.includes(entry.basename),'Research table rendered');noErrors(el)});
   await test('Projects directory: active and paused projects both remain visible',async()=>{const result=await query(projects,0);assert(result.values.length===2,'Projects directory lost a project');const el=await render(projects);await wait(()=>{const table=el.querySelector('.table-view-table');return table&&table.textContent.includes('paused')&&table.textContent.includes('active')},'Project status table');noErrors(el)});
@@ -127,38 +124,30 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
    let results=await scan();assert(results.length===1&&results[0].index.name==='Scratch Index.md','Automatic research index incorrectly checked');assert(results[0].missingChildren.some(f=>f.path===scratch.path),'Missing scratch link not detected');
    const index=get(`${projectFolder}/Scratch/Scratch Index.md`);await app.vault.append(index,`\n[[${scratch.path.slice(0,-3)}]]\n`);await wait(()=>Object.keys(app.metadataCache.resolvedLinks[index.path]||{}).includes(scratch.path),'scratch link indexed');results=await scan();assert(results[0].missingChildren.length===0,'Linked scratchpad still reported missing');
   });
-  await test('Resource lifecycle: finishing removes an item from Home, preserves history, and rereading restores it',async()=>{
+  await test('Resource lifecycle: finishing removes an item from Home, preserves sessions, and rereading restores it',async()=>{
    await set(resource,{status:['finished']});
-   let reading=await query(home,2),done=await catalogView('Finished','Reading resource'),events=await query(history,0);
+   let reading=await query(home,0),done=await catalogView('Finished','Reading resource'),events=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));
    assert(!reading.values.some(row=>row[0].path===resource.path),'Finished resource remains on Home');
    assert(done.textContent.includes('Reading resource'),'Finished resource disappeared from library');
-   assert(events.values.length===2,'Reading history was lost');
-   await set(resource,{status:['reading']});reading=await query(home,2);
+   assert(events.length===2,'Reading sessions were lost');
+   await set(resource,{status:['reading']});reading=await query(home,0);
    assert(reading.values.some(row=>row[0].path===resource.path),'Rereading resource did not return to Home');
-  });
-  await test('Startup archival: moving the checklist clears Home but preserves History',async()=>{
-   const current=get(`${roots.daily}/${moment().format('YYYY-MM-DD')}.md`);assert(current,'Daily fixture missing');
-   const original=current.path;await app.fileManager.renameFile(current,`${roots.archive}/${current.name}`);
-   await wait(()=>!dv.page(original)&&dv.page(current.path),'archived daily index');
-   assert((await query(home,0)).values.length===0,'Archived checklist remains on Home');
-   assert((await query(history,1)).values.some(link=>link.path===current.path),'Archived checklist missing from History');
-   await app.fileManager.renameFile(current,original);await indexed(current);
   });
   await test('Home limit: only five currently-reading resources, newest first',async()=>{
    let newest;const now=Date.now();
-   for(let i=0;i<6;i++){const f=await write(`${roots.items}/Limit reading ${i}.md`,'---\ntype: resource\nstatus: [reading]\n---\n');const content=await app.vault.read(f);await app.vault.modify(f,content,{mtime:now+(i+1)*1000});await indexed(f);newest=f}
-   await wait(async()=>{const r=await query(home,2);return r.values.length===5&&r.values[0][0].path===newest.path},'reading limit and order');
+   for(let i=0;i<6;i++){const f=await write(`${roots.items}/Limit reading ${i}.md`,'---\nkind: book\nstatus: [reading]\n---\n');const content=await app.vault.read(f);await app.vault.modify(f,content,{mtime:now+(i+1)*1000});await indexed(f);newest=f}
+   await wait(async()=>{const r=await query(home,0);return r.values.length===5&&r.values[0][0].path===newest.path},'reading limit and order');
   });
   await test('Home limit: only six recently edited research entries, newest first',async()=>{
    let newest;const now=Date.now();
    for(let i=0;i<7;i++){const f=await write(`${projectFolder}/Research Log/Limit entry ${i}.md`,'---\ntype: research-log\n---\n');const content=await app.vault.read(f);await app.vault.modify(f,content,{mtime:now+(i+1)*1000});await indexed(f);newest=f}
    await wait(async()=>{const r=await query(home,1);return r.values.length===6&&r.values[0][0].path===newest.path},'research limit and order');
   });
-  await test('Home limit: six recent reading events; History keeps all events',async()=>{
+  await test('Home limit: six recent reading events; Sessions keeps all events',async()=>{
    let newest;
    for(let i=0;i<6;i++){const f=await write(`${roots.sessions}/Limit reading event ${i}.md`,`---\ntype: reading-event\nlogged_at: "${moment().add(i+1,'minutes').format('YYYY-MM-DDTHH:mm:ssZ')}"\nresource: "[[${resource.path.slice(0,-3)}]]"\n---\n`);await indexed(f);newest=f}
-   const recent=await query(home,3),all=await query(history,0);
-   assert(recent.values.length===6&&recent.values[0][0].path===newest.path,'Wrong recent event limit/order');assert(all.values.length===8,'History incorrectly truncates events');
+   const recent=await query(home,2),all=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));
+   assert(recent.values.length===6&&recent.values[0][0].path===newest.path,'Wrong recent event limit/order');assert(all.length===8,'Session files were lost');
   });
   await test('Home limits: standalone and active-project sections each enforce twelve independently',async()=>{
    await app.vault.append(milestones,'\n'+Array.from({length:15},(_,i)=>`- [ ] LIMIT_TASK_${i}`).join('\n')+'\n');await indexed(milestones,p=>p.file.tasks.some(t=>t.text==='LIMIT_TASK_14'));

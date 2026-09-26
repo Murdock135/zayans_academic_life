@@ -6,9 +6,10 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '../..');
 const capture = require('../Scripts/new-research-log.js');
 const home = fs.readFileSync(path.join(root, 'Home.md'), 'utf8');
+const projectsPage = fs.readFileSync(path.join(root, 'Work/Projects.md'), 'utf8');
 const taskBlocks = [...home.matchAll(/```tasks\n([\s\S]*?)\n```/g)].map(match => match[1]);
 const nextQuery = taskBlocks.find(block => block.includes('Tasks Next'));
-const homeCode = home.match(/```dataviewjs\n([\s\S]*?)\n```/)[1];
+const homeCode = projectsPage.match(/```dataviewjs\n([\s\S]*?)\n```/)[1];
 const file = (p, type, status, tasks = []) => ({ path:p, basename:path.posix.basename(p,'.md'), parent:{path:path.posix.dirname(p)}, type,status,file:{path:p,folder:path.posix.dirname(p),tasks} });
 function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[file('Work/A/Project.md','project')], choose, cancel=false }={}) {
  const files=new Map(), writes=[], opens=[], prompts=[], picks=[];
@@ -16,9 +17,9 @@ function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[f
  const api={inputPrompt:async(title)=>{prompts.push(title);if(cancel)throw Error('Input cancelled by user');return name;},suggester:async(labels,values)=>{picks.push(labels);return choose===null?null:values[choose??0];},date:{now:format=>format.includes('HHmmss')?'2026-09-24 174500-123':'2026-09-24T17:45:00-05:00'}};
  return {app,api,files,writes,opens,prompts,picks,run:()=>capture({app,quickAddApi:api})};
 }
-test('research: asks only for a name and creates a project-owned timestamped entry',async()=>{
- const f=setup();await f.run();assert.equal(f.prompts.length,1);assert.equal(f.picks.length,0);
- assert.equal(f.writes[0].path,'Work/A/Research Log/Experiment — 2026-09-24 174500-123.md');
+test('research: creates a project-owned timestamped entry without a name prompt',async()=>{
+ const f=setup();await f.run();assert.equal(f.prompts.length,0);assert.equal(f.picks.length,0);
+ assert.equal(f.writes[0].path,'Work/A/Research Log/2026-09-24 174500-123.md');
  assert.match(f.writes[0].content,/type: research-log/);assert.match(f.writes[0].content,/project: "\[\[Work\/A\/Project\]\]"/);
  assert.match(f.writes[0].content,/logged_at: "2026-09-24T17:45:00-05:00"/);
  assert.equal(f.writes[0].content.split('---')[2].trim(),'');assert.equal(f.opens[0].options.state.source,false);
@@ -28,17 +29,14 @@ test('research: neighboring folder prefixes are not treated as the same project'
 test('research: no project context offers a project picker when necessary',async()=>{const f=setup({active:'Home.md',projects:[file('Work/A/P.md','project'),file('Work/B/P.md','project')],choose:1});await f.run();assert.equal(f.picks.length,1);assert.match(f.writes[0].path,/^Work\/B\//)});
 test('research: sole project needs no project picker',async()=>{const f=setup({active:'Home.md'});await f.run();assert.equal(f.picks.length,0)});
 test('research: cancelling project selection creates nothing',async()=>{const f=setup({active:'Home.md',projects:[file('Work/A/P.md','project'),file('Work/B/P.md','project')],choose:null});await f.run();assert.equal(f.files.size,0);assert.equal(f.prompts.length,0)});
-test('research: cancelling name input creates nothing',async()=>{const f=setup({cancel:true});await assert.rejects(f.run(),/cancelled/);assert.equal(f.files.size,0)});
-test('research: empty input creates nothing',async()=>{const f=setup({name:'   '});await assert.rejects(f.run());assert.equal(f.files.size,0)});
 test('research: missing project fails before prompting or writing',async()=>{const f=setup({projects:[]});await assert.rejects(f.run(),/Create a project/);assert.equal(f.prompts.length,0);assert.equal(f.files.size,0)});
-test('research: unsafe filename characters cannot escape the project folder',async()=>{const f=setup({name:'../Bad: name/with\\paths? [link] #tag'});await f.run();assert.equal(f.writes[0].path.split('/').length,4);assert(!/[<>:"\\|?*\[\]#^]/.test(path.posix.basename(f.writes[0].path)))});
 function nextVisible(tasks){
  const match=nextQuery.match(/path regex matches \/(.*)\//);
  const source=new RegExp(match[1]);
  return tasks.filter(task=>!task.done&&source.test(task.path)).slice(0,12);
 }
 test('Home next tasks: query uses the exact Tasks Next path and its own grouped 12-item limit',()=>{
- assert.match(nextQuery,/^not done$/m);assert.match(nextQuery,/path regex matches \/\^Work\\\/Tasks Next\\\.md\$\//);assert.match(nextQuery,/^group by heading$/m);assert.match(nextQuery,/^limit 12$/m);
+ assert.match(nextQuery,/^not done$/m);assert.match(nextQuery,/path regex matches \/\^Work\\\/Tasks Next\\\.md\$\//);assert.match(nextQuery,/^limit 12$/m);
  assert.deepEqual(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'include'},{path:'Work/Tasks Next Archive.md',done:false,text:'exclude'}]).map(task=>task.text),['include']);
 });
 test('Home next tasks: includes incomplete and excludes completed items',()=>{assert.deepEqual(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'open'},{path:'Work/Tasks Next.md',done:true,text:'done'}]).map(task=>task.text),['open'])});

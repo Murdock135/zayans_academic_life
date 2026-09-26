@@ -2,9 +2,9 @@
   "choices": [
     {
       "id": "a7e30d64-2c65-4d53-a2e6-882937407321",
-      "name": "Log reading",
+      "name": "Create reading event",
       "type": "Template",
-      "command": true,
+      "command": false,
       "templatePath": "System/Templates/Capture/Reading Event.md",
       "fileNameFormat": {
         "enabled": true,
@@ -33,6 +33,26 @@
         "mode": "duplicateSuffix"
       },
       "discoverExistingNotesBeforeCreate": false
+    },
+    {
+      "id": "reading-log-with-archive",
+      "name": "Log reading",
+      "type": "Macro",
+      "command": true,
+      "runOnStartup": false,
+      "macro": {
+        "id": "reading-log-with-archive-macro",
+        "name": "Log reading",
+        "commands": [
+          {
+            "id": "reading-log-with-archive-script",
+            "name": "log-reading",
+            "type": "UserScript",
+            "path": "System/Scripts/log-reading.js",
+            "settings": {}
+          }
+        ]
+      }
     },
     {
       "id": "86292b1e-85bb-4c86-bade-6f0d8de0ae6c",

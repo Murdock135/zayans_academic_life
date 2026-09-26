@@ -40,21 +40,20 @@ The runner exits with a nonzero status on test failure, failed cleanup, or a tim
 | Research edge cases | Nested projects, folder boundaries, project selection from Home, no projects, empty names, unsafe filename characters, duplicate names/timestamps, failed writes |
 | Create a resource | Open an empty test note and invoke core Templates insertion; validate the resulting resource properties |
 | Resource lifecycle | Saved, reading, finished, stopped and legacy text/list statuses; finishing and rereading; reading history retained; resource membership determined by folder rather than editable type |
-| Daily startup | Use the core Daily notes implementation with a temporary destination; expand the real template; verify idempotency, Home prompts, and archival into History |
 | Reading capture | Run a clone of the real QuickAdd Template choice with only its destination and opening behavior changed; verify unique events, expanded date tokens and resource links |
 | Home and Projects | Render standalone tasks on Home and active-project tasks on Projects; require an exact Tasks Next path; exclude completed, Inbox, similarly named, paused, archived and completed-project tasks; retain active-project Scratch tasks; click each kind of checkbox and verify its exact source; enforce both 12-item limits |
-| Other dashboards | Evaluate and render Projects, project overviews, research indexes and History; assert actual rows and links |
+| Other dashboards | Evaluate and render Projects, project overviews, and research indexes; assert actual rows and links |
 | Bases catalog | Render All, Reading and Finished views with a temporary source folder; test missing, capitalized and incorrect type values, exact status matching, and exclusion of non-Markdown attachments |
 | Index Checker | Detect a missing Scratch link, add it, and verify the warning clears; ensure generated Research Log indexes are excluded |
 | Configuration | Required plugins, paths, property type and JavaScript setting; resolve workflow links and evaluate every production Dataview query |
 
 ## Isolation and cleanup
 
-Each integration run creates uniquely named `vault-test-...` folders beneath Work, Library/Items, Library/Sessions, Daily/Startup, Daily/Archive and System/Tests/Fixtures. Production notes are not edited; the suite compares their contents before and after the run. Dashboard copies change only their source folders so assertions remain independent of the amount of real data in the vault.
+Each integration run creates uniquely named `vault-test-...` folders beneath Work, Library/Items, Library/Sessions, and System/Tests/Fixtures. Production notes are not edited; the suite compares their contents before and after the run. Dashboard copies change only their source folders so assertions remain independent of the amount of real data in the vault.
 
-The research command is tested unchanged. Resource insertion uses the actual core Templates implementation. Daily-note creation uses the actual core method on an object with a temporary destination, leaving the live daily-note settings unchanged. Reading capture uses a temporary in-memory choice that is removed afterward; the production choice is not changed.
+The research command is tested unchanged. Resource insertion uses the actual core Templates implementation. Reading capture uses a temporary in-memory choice that is removed afterward; the production choice is not changed.
 
-All fixture roots are tracked in the result and removed in `finally`, including when assertions fail. If Obsidian closes or crashes mid-run, cleanup cannot execute. Check the result/run ID and remove only that run’s `vault-test-...` folders after confirming the run has stopped. Do not remove normal project, library or daily folders.
+All fixture roots are tracked in the result and removed in `finally`, including when assertions fail. If Obsidian closes or crashes mid-run, cleanup cannot execute. Check the result/run ID and remove only that run’s `vault-test-...` folders after confirming the run has stopped. Do not remove normal project or library folders.
 
 ## Limits
 

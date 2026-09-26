@@ -6,7 +6,7 @@
   "canvas": true,
   "properties": true,
   "page-preview": true,
-  "daily-notes": true,
+  "daily-notes": false,
   "templates": true,
   "command-palette": true,
   "bookmarks": true,

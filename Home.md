@@ -1,25 +1,40 @@
 # Today
+
 ---
 
-[[Work/Projects|Projects]] · [[Library/Catalog.base|Library]] · [[Daily/History|History]] · [[System/How To Use|Guide]]
+[[Work/Projects|Projects]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]] · [[System/Cheat Sheet|Cheat Sheet]] · [[System/How To Use|Guide]]
+
 ## Start-up
 
 - [ ] Open a recent research log
 - [ ] Review active project milestones
 - [ ] Choose a reading item if useful today
+
 ## Ongoing Projects
-- Academic	
-		1. Agentic System for pathogen analysis
-		2. Combining Evidence
-		3. Code diff analysis
+
+- Academic
+  1. Agentic System for pathogen analysis
+  2. Combining Evidence
+  3. Code diff analysis
 - Athletics
-	- Basic workout (3 d/w)
-	- Football (2 d/w)
+  - Basic workout (3 d/w)
+  - Football (2 d/w)
+
+## Currently Reading and watching (courses/playlists)
+
+Books and textbooks you are working through. These do not require a digital session record or a takeaway.
+
+```dataview
+TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + default(progress, 0) + "'></progress><span>" + default(progress, 0) + "%</span></span>" AS "Progress", position AS "Last position"
+FROM "Library/Items"
+WHERE econtains(flat(list(status)), "reading") AND (kind = "book" OR kind = "textbook")
+SORT file.mtime DESC
+LIMIT 5
+```
 
 ---
-## Continue research
 
-Each project has a Research Log folder. This view links to the six most recently edited entries. Run **QuickAdd: New research log** to create an entry.
+## Continue research
 
 ```dataview
 TABLE WITHOUT ID file.link AS "ID", link(regexreplace(file.folder, "/Research Log(/.*)?$", "") + "/Project.md", regexreplace(regexreplace(file.folder, "/Research Log(/.*)?$", ""), "^.*/", "")) AS "Project", file.mtime AS "Time"
@@ -28,18 +43,10 @@ WHERE type = "research-log"
 SORT file.mtime DESC
 LIMIT 6
 ```
+
 ---
-## Currently reading
 
-```dataview
-TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + default(progress, 0) + "'></progress><span>" + default(progress, 0) + "%</span></span>" AS "Progress", position AS "Last position"
-FROM "Library/Items"
-WHERE econtains(flat(list(status)), "reading")
-SORT file.mtime DESC
-LIMIT 5
-```
-
-## Recent reading
+## Paper & article reading sessions
 
 ```dataview
 TABLE WITHOUT ID resource AS "Resource", logged_at AS "When", takeaway AS "Takeaway"

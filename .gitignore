@@ -10,8 +10,6 @@ System/Tests/Fixtures/
 Work/vault-test-*/
 Library/Items/vault-test-*/
 Library/Sessions/vault-test-*/
-Daily/Startup/vault-test-*/
-Daily/Archive/vault-test-*/
 
 # Local runtime and OS artifacts
 __pycache__/

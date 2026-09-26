@@ -26,7 +26,7 @@ The attachment setting is **In subfolder under current folder → Attachments**.
 
 ## Current boundaries
 
-Daily startup creation is on demand; archival, Inbox processing, and carry-forward are manual. Home separately shows up to twelve standalone Tasks Next items and twelve unfinished tasks from active projects. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
+Inbox processing remains manual. Home separately shows up to twelve standalone Tasks Next items and twelve unfinished tasks from active projects. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
 
 Queries and link resolution have been checked through the running Obsidian app. Research capture has passed a file-creation smoke test. See [[System/Setup/Vault Review]] for the latest findings and remaining checks.
 

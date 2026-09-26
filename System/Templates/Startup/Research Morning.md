@@ -1,7 +1,0 @@
-# Startup — {{date:YYYY-MM-DD}}
-
-- [ ] Open a recent research log
-- [ ] Review active project milestones
-- [ ] Choose a reading item if useful today
-
-These are editable routine prompts. Keep persistent project actions under project milestones so they remain available without being copied into each day.

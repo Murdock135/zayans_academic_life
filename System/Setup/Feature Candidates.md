@@ -8,7 +8,6 @@ Research shortlist, 2026-09-24. These are candidates to evaluate, not newly inst
 
 | Requirement | Try first | Work still needed |
 | --- | --- | --- |
-| Startup archival and unfinished actions | Existing Tasks + QuickAdd macro | Small archive script; persistent tasks remain in their project files |
 | Reading slider and event capture | Meta Bind + existing QuickAdd | Gradient styling and a save macro that coordinates event creation and progress update |
 | Project progress | Trial Task Genius for calculated progress; Meta Bind for a separate estimate | Exact draggable milestone track remains a custom-UI candidate |
 | Multi-source library | Zotero/API and CSV pilot; compare local importer against self-hosted n8n | Source mapping, deduplication, refresh logic, and provenance |
@@ -17,28 +16,6 @@ Research shortlist, 2026-09-24. These are candidates to evaluate, not newly inst
 | PDF capture | PDF++ + QuickAdd if reading inside Obsidian is acceptable | External Acrobat/Okular adapters otherwise |
 
 Effort below refers to integration work, not simply installing the plugin. “Custom” identifies proposed code, not an existing product.
-
-## 1. Startup archival and unfinished actions
-
-### A — Tasks + QuickAdd archive macro — recommended
-
-Keep persistent actions in their original project milestone files and display them with Tasks queries. They remain the same tasks across days without needing copies or new identities. A QuickAdd macro would create/open today's startup list and move older lists from Daily/Startup to Daily/Archive. A separate Finish startup action can archive today's completed list.
-
-**Existing capability:** Tasks query views update source checkboxes; QuickAdd macros can run user scripts. **Custom gap:** date-aware archival, collision handling, and retry-safe behavior. This proposes keeping persistent actions separate from daily routines, rather than duplicating unfinished checkboxes into each new file. If every unchecked routine must carry forward, that needs its own explicit identity/rules.
-
-Effort: small to medium. Automatic execution at startup or day change requires an additional trigger; a macro alone is not a background scheduler. Nothing runs while Obsidian is closed unless an external scheduler is introduced.
-
-Sources: [Tasks](https://publish.obsidian.md/tasks/), [QuickAdd macros](https://quickadd.obsidian.guide/docs/Choices/MacroChoice/).
-
-### B — Rollover Daily Todos + an archive action
-
-[Rollover Daily Todos](https://github.com/lumoe/obsidian-rollover-daily-todos) is directly aimed at moving unfinished daily todos forward. It is a closer fit if you want pending checkboxes to live in daily files themselves.
-
-**Gap:** rollover is not proof of stable cross-day task identity, retry safety, or whole-file archival. Test repeated execution, nested tasks, missed days, and current plugin compatibility before adopting. It may duplicate the role already served by project Tasks queries.
-
-Effort: small to evaluate; medium if archival and reconciliation must be added.
-
-**Trial:** create two dates with recurring prompts and one persistent action; reopen today's list twice. Expect one current action, an intact historical checklist, and no duplicate files.
 
 ## 2. Reading progress and reading events
 

@@ -1,6 +1,6 @@
 # How to use this vault
 
-[[Home|Dashboard]] · [[Projects]] · [[Library/Catalog.base|Library]] · [[History]] · [[System/Setup/Start Here|Setup]]
+[[Home|Dashboard]] · [[Projects]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]] · [[System/Cheat Sheet|Cheat Sheet]] · [[System/Setup/Start Here|Setup]]
 
 Start from Home, choose a project, resume that project's research, and record reading when useful. You do not need a general-purpose notes collection or summaries of everything you save.
 
@@ -9,7 +9,7 @@ Start from Home, choose a project, resume that project's research, and record re
 1. Follow [[System/Setup/Start Here]] to enable the plugins.
 2. Copy the project blueprint into Work as described in [[System/Setup/Project Structure]]. Give the project one real milestone and task.
 3. Run **QuickAdd: New research log** from a project note, or create a scratchpad under its Scratch folder.
-4. Add one current reading resource using the instructions below, then use [[System/Setup/Reading Capture|QuickAdd reading capture]] to record a session.
+4. Add one current book or textbook using the instructions below. When you read a paper or online article, use [[System/Setup/Reading Capture|QuickAdd reading capture]] if you want to record that session.
 5. Open Home to see the separate files represented in its views.
 
 ## A normal day
@@ -28,7 +28,9 @@ Create timestamped entries in that project's Research Log folder using **QuickAd
 
 ### Read
 
-Home's Currently reading card opens the resource record; follow its URL to read. It does not yet automatically resume an external reader at the saved position. After reading, run **QuickAdd: Log reading**, fill the resource link and any optional takeaway/position, and update the resource's overall progress if it changed.
+Home's **Currently Reading** card is for books and textbooks. Open the resource record, then follow its URL or use its saved position to resume. Update the resource's overall progress or position when useful. You do not need to create a digital session record or write a takeaway each time you read a book or textbook.
+
+For papers and online articles, run **QuickAdd: Log reading** to record the reading session and its takeaway. Add a position, project, or progress-after value when useful.
 
 ### Finish
 
@@ -56,7 +58,7 @@ Create and open a new note such as `Library/Items/Analysis I.md`. With that new 
 | ----------------- | -------------------------------------------------------------------- |
 | title / authors   | Bibliographic title and author list; use a recognizable filename too |
 | publication_date  | Actual date if known; otherwise blank                                |
-| kind              | book, paper, article, video, or course                               |
+| kind              | book, textbook, paper, article, video, or course                     |
 | status            | saved, reading, finished, or stopped                                 |
 | progress          | Numeric coverage estimate from 0 to 100, without a percent sign      |
 | position          | Page, section, or video timestamp where you stopped                  |
@@ -65,17 +67,17 @@ Create and open a new note such as `Library/Items/Analysis I.md`. With that new 
 | finished_on       | Completion date when you mark the item finished                      |
 | source_ids        | Leave empty for manual records; reserved for importers               |
 
-Set the `status` list to one value, `reading`, to show the item on Home. Keep one record per resource and many reading events as needed. [[Library/Catalog.base|Library]] is the single catalog, with All, Reading, and Finished views. Markdown notes in Library/Items appear automatically; no `type` property is required. System/Templates/Resource.md is the reusable blank form.
+Set a book or textbook's `status` list to one value, `reading`, to show it under **Currently Reading** on Home. Papers and articles remain available through the Library catalog but do not appear in that Home list. Keep one record per resource. Create reading events only for papers and online articles, as needed. [[Library/Catalog.base|Library]] is the single catalog, with All, Reading, and Finished views. Markdown notes in Library/Items appear automatically; no `type` property is required. System/Templates/Resource.md is the reusable blank form.
 
-## Record a reading session
+## Record a paper or article reading session
 
-Run **QuickAdd: Log reading**; it assigns the name and destination automatically. Set resource to the catalog item's wikilink, then add optional project links, position, progress_after, and takeaway. Full instructions and exact settings are in [[System/Setup/Reading Capture]].
+Use this for papers and online articles, not routine book or textbook reading. Run **QuickAdd: Log reading**; it assigns the name and destination automatically. Set resource to the catalog item's wikilink and record the session's takeaway. Project links, position, and progress_after are optional. Full instructions and exact settings are in [[System/Setup/Reading Capture]].
 
-Reading events and overall progress are distinct. An excerpt can produce a takeaway without changing overall progress. The capture command does not yet update the resource's progress for you. Home shows six recent events; History shows the full list ordered by logged_at, falling back to file creation time for older entries.
+Reading events and overall progress are distinct. A paper or article excerpt can produce a takeaway without changing overall progress. The capture command does not yet update the resource's progress for you. Home shows six recent events, and [[Library/Sessions|Sessions]] shows the latest 200 ordered by logged_at, falling back to file creation time for older entries. When a new capture would exceed 200 files, **Log reading** appends the oldest session to the Excel-compatible `Library/Reading History.csv`, verifies the write, and moves that Markdown file to Obsidian's trash before creating the new session.
 
 ## Finish a library item
 
-Set status to `finished` and set finished_on. If you finished all of it, set progress to 100; if you finished only what you needed, retain the honest coverage estimate. Optionally create a final reading event.
+Set status to `finished` and set finished_on. If you finished all of it, set progress to 100; if you finished only what you needed, retain the honest coverage estimate. A final reading event is optional for a paper or article and unnecessary for a book or textbook.
 
 The record stays in the library, disappears from Home's active-reading list, and retains all links and history. To reread it, set status back to reading and keep the previous events. Use stopped for something you set aside. Finishing does not move or delete files.
 
@@ -85,7 +87,7 @@ Edit the checklist directly in [[Home]] under **Start-up**. Changes take effect 
 
 ## Where things belong
 
-Home is the only page at the vault root. Everything else belongs to four folders:
+Home is the only page at the vault root. Everything else belongs to three folders:
 
 | Location | Purpose |
 | --- | --- |
@@ -94,13 +96,12 @@ Home is the only page at the vault root. Everything else belongs to four folders
 | Work/Tasks Next.md | Clear standalone actions with no project owner |
 | Work/Inbox.md | Unprocessed ideas, notes, and ambiguous items |
 | Library/ | Catalog.base, resource records in Items, and reading events in Sessions |
-| Daily/ | Startup checklists, their Archive, and the History page |
 | System/ | This guide, setup instructions, reusable templates, and reference material |
 
 Open [[System/Vault Map]] for the full layout. Process Inbox entries manually into Tasks Next, a project milestone, a project Scratch note, or deletion. Project logs, scratchpads, indexes, and attachments stay inside their project. A resource belongs to the shared Library even when several projects use it; each reading session points to that resource.
 
 ## What is still manual
 
-Resource creation and progress edits, project creation from the blueprint, Inbox processing, index review, and startup archival are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
+Resource creation and progress edits, project creation from the blueprint, Inbox processing, and index review are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
 
 Source synchronization, deduplication, semantic clusters, learning-level recommendations, AI greetings, sliders, and external PDF-window capture remain future work. See [[System/Setup/Plugin Plan]]. If views show raw code, enable their plugins and use Reading view. Empty views are expected before adding records in the correct folders with the required type/status properties.

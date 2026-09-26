@@ -9,7 +9,6 @@ Prefer built-in features and a small set of existing plugins. Add custom code on
 | Project tasks under milestone headings | [Tasks](https://publish.obsidian.md/tasks/) | Installed and enabled |
 | Recent research and reading history | [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) | Installed and enabled |
 | Catalog table | [Bases](https://obsidian.md/help/bases/syntax) | Built-in feature configured |
-| Daily startup file | Daily notes + Templates | Built-in features configured; creation on demand |
 | Standardized reading events | [QuickAdd](https://quickadd.obsidian.guide/) | Included; Log reading choice configured; requires Obsidian 1.13.0+ |
 | Timestamped research entries | Existing QuickAdd user-script macro | New research log command configured and tested |
 | Curated scratch indexes | [Index Checker](https://github.com/pavloDeshko/obsidian-index-checker) | Included; `Scratch Index` naming configured; automatic research indexes excluded |
@@ -31,7 +30,6 @@ Prefer built-in features and a small set of existing plugins. Add custom code on
 
 See [[System/Setup/Feature Candidates]] for researched options, recommendations, limitations, and trial criteria for each feature.
 
-- Automatic startup archival with stable carry-forward identities.
 - Gradient progress controls that create reading events as well as updating current progress.
 - Draggable milestone markers with separate automatic and manual-estimate modes.
 - Drive, YouTube, Excel, Zotero, and Mendeley ingestion with deduplication and provenance.
