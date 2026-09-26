@@ -4,7 +4,7 @@ status:
   - active
 areas: []
 ---
-# Project
+# Combination of Evidence in MASs
 
 Describe the intended outcome here if useful.
 

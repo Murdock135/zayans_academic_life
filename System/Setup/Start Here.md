@@ -15,7 +15,7 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 
 - Add a clear standalone action to [[Work/Tasks Next|Tasks Next]] and confirm it appears under **Next tasks** on Home.
 - Add an ambiguous capture to [[Work/Inbox|Inbox]] and confirm it does not appear as a Home task.
-- Copy System/Templates/Project Blueprint to Work/P-ProjectName and customize it. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
+- Run **QuickAdd: New project**, enter a name, and customize the project it creates. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
 - Run **QuickAdd: New research log** from a project note; a date-and-time-named entry is created automatically.
 - Tick off the startup checklist on [[Home]] each morning. Edit the items there directly whenever the routine needs updating.
 - Create a resource in Library/Items using the Resource template; folder placement puts it in the catalog automatically. Set status to reading for Home, or finished when done; finished records remain in the library.

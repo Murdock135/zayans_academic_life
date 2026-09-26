@@ -46,7 +46,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
 
   const projectFolder=`${roots.work}/Active (test)+`;
   await copyFolder(get('System/Templates/Project Blueprint'),projectFolder);
-  const project=get(`${projectFolder}/Project.md`);await indexed(project);
+  const project=get(`${projectFolder}/Home.md`);await indexed(project);
   await test('Project creation: complete blueprint and default properties',async()=>{
    const p=await indexed(project);assert(p.type==='project','Project type missing');assert(JSON.stringify(p.status.array?p.status.array():p.status)==='["active"]','Default status must be an active list');assert(p.areas.length===0,'Areas must start empty');
    for(const suffix of ['Milestones.md','Scratch/Scratch Index.md','Research Log/Research Log Index.md'])assert(get(`${projectFolder}/${suffix}`),'Missing '+suffix);
@@ -59,7 +59,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   await app.vault.modify(milestones,'# Milestones\n\n## Test outcome\n\n- [ ] ACTIVE_TASK\n- [x] COMPLETED_TASK\n');await indexed(milestones,p=>p.file.tasks.some(t=>t.text==='ACTIVE_TASK'));
   const scratch=await write(`${projectFolder}/Scratch/Test scratch.md`,'- [ ] SCRATCH_TASK\n');await indexed(scratch);
   const pausedFolder=`${roots.work}/Paused`;
-  await copyFolder(get('System/Templates/Project Blueprint'),pausedFolder);await indexed(get(`${pausedFolder}/Project.md`));await set(get(`${pausedFolder}/Project.md`),{status:['paused']});
+  await copyFolder(get('System/Templates/Project Blueprint'),pausedFolder);await indexed(get(`${pausedFolder}/Home.md`));await set(get(`${pausedFolder}/Home.md`),{status:['paused']});
   await app.vault.modify(get(`${pausedFolder}/Milestones.md`),'# Milestones\n- [ ] PAUSED_TASK\n');await indexed(get(`${pausedFolder}/Milestones.md`),p=>p.file.tasks.some(t=>t.text==='PAUSED_TASK'));
   let entry;
   await test('Research capture: actual QuickAdd macro immediately opens a timestamp-named entry',async()=>{

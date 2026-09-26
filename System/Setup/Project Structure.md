@@ -6,8 +6,8 @@ Each project owns its research log, working scratchpads, milestone tasks, and at
 
 ```text
 Work/
-  P-ProjectName/
-    Project Name.md
+  Project Name/
+    Home.md
     Milestones.md
     Research Log/
       Research Log Index.md
@@ -21,7 +21,7 @@ Work/
 
 ## What each part means
 
-- **Project Name.md:** the entry point, project status/areas, and optional outcome. Its Dataview queries show files belonging to its own folder.
+- **Home.md:** the project's entry point, status/areas, and optional outcome. Its Dataview queries show files belonging to its own folder.
 - **Milestones.md:** milestone headings with tasks underneath. This keeps tasks attached to outcomes, without maintaining a separate Tasks file or duplicating tasks in the project overview.
 - **Research Log/:** separate timestamped entries. Research Log Index.md lists the entries newest first. Each entry starts with a blank body; record what helps you resume without a required format.
 - **Scratch/:** separate explorations, derivations, drafts, prompts, and experiments. Link useful scratchpads from the log rather than pasting their entire contents into it.
@@ -32,13 +32,14 @@ Library resources remain in the shared catalog because the same paper may serve 
 
 ## Create a project
 
-1. In your file manager, copy the complete `System/Templates/Project Blueprint` folder into `Work` and name the copy `P-ProjectName`. This copies a folder structure, not a single template note. Do not move or edit the master copy for one particular project.
-2. Rename the copied `Project.md` to your project's name and change its title. Set one value in the `status` list in Properties. Set optional `areas` in Properties.
-3. Replace the example milestone headings and tasks in Milestones.md. Delete unused example tasks.
-4. From any note in the project, run **QuickAdd: New research log**. The command creates a date-and-time-named file and opens the blank entry in Research Log/. There is no required daily entry.
-5. Create scratchpad files inside Scratch. Add their links to Scratch Index.md and periodically run Index Checker.
+1. Run **QuickAdd: New project** from the command palette.
+2. Enter the project name. The command creates `Work/Project Name/`, copies the complete blueprint, changes the heading in `Home.md`, and opens it.
+3. Set optional `areas` in Properties. New projects start with `status: active`.
+4. Replace the example milestone headings and tasks in Milestones.md. Delete unused example tasks.
+5. From any note in the project, run **QuickAdd: New research log**. The command creates a date-and-time-named file and opens the blank entry in Research Log/. There is no required daily entry.
+6. Create scratchpad files inside Scratch. Add their links to Scratch Index.md and periodically run Index Checker.
 
-For existing projects, add these files as needed rather than replacing their contents. Creating a project through an automated command is a possible later improvement.
+The command refuses to overwrite an existing project folder. Characters that are unsafe in filenames are replaced with hyphens. For existing projects, add missing files as needed rather than replacing their contents.
 
 ## Index Checker
 
@@ -54,7 +55,7 @@ Every project starts with a Research Log folder. Create a new entry for a new se
 
 ## Attachment placement
 
-The vault uses Obsidian's **In subfolder under current folder** setting with `Attachments` as the subfolder. An image pasted into `Work/P-Example/Research Log/An Entry.md` goes into `Work/P-Example/Research Log/Attachments`. An image pasted into `Work/P-Example/Scratch/An Idea.md` goes into `Work/P-Example/Scratch/Attachments`.
+The vault uses Obsidian's **In subfolder under current folder** setting with `Attachments` as the subfolder. An image pasted into `Work/Example/Research Log/An Entry.md` goes into `Work/Example/Research Log/Attachments`. An image pasted into `Work/Example/Scratch/An Idea.md` goes into `Work/Example/Scratch/Attachments`.
 
 Thus attachments stay within the project, but there can be more than one Attachments subfolder. A single shared project-root attachment folder for every depth would need additional routing. Existing linked files are not relocated by this setting. Shared library files may remain outside the vault or alongside their catalog records. See [Obsidian attachment settings](https://obsidian.md/help/attachments).
 

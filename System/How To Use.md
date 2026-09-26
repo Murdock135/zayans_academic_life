@@ -7,7 +7,7 @@ Start from Home, choose a project, resume that project's research, and record re
 ## Your first ten minutes
 
 1. Follow [[System/Setup/Start Here]] to enable the plugins.
-2. Copy the project blueprint into Work as described in [[System/Setup/Project Structure]]. Give the project one real milestone and task.
+2. Run **QuickAdd: New project**, then give the project one real milestone and task.
 3. Run **QuickAdd: New research log** from a project note, or create a scratchpad under its Scratch folder.
 4. Add one current book or textbook using the instructions below. When you read a paper or online article, use [[System/Setup/Reading Capture|QuickAdd reading capture]] if you want to record that session.
 5. Open Home to see the separate files represented in its views.
@@ -40,7 +40,7 @@ Unchecked startup items do not carry forward automatically. If a prompt has beco
 
 ## Create and manage a project
 
-Use [[System/Setup/Project Structure]] and its complete copyable blueprint. Every project has its own Research Log folder and scratch index. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md.
+Run **QuickAdd: New project**, enter a name, and let the command copy the complete blueprint into Work and open the new `Home.md`. Every project has its own Research Log folder and scratch index. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md. See [[System/Setup/Project Structure]].
 
 The Projects dashboard's **Active project tasks** section shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from that section; the tasks stay in their original notes. Home's separate **Next tasks** section is unaffected by project status. Review project tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
 

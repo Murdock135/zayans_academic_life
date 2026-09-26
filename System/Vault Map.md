@@ -10,8 +10,8 @@ Work/
   Projects.md                 Project directory
   Tasks Next.md               Standalone actions with no project owner
   Inbox.md                    Unprocessed and ambiguous captures
-  P-ProjectName/
-    Project Name.md           Project overview
+  Project Name/
+    Home.md                   Project home, status, areas, and overview
     Milestones.md             Milestones and their tasks
     Research Log/             Timestamped research entries
       Research Log Index.md    Project entry index
@@ -38,7 +38,7 @@ System/
   Reference/Legacy Templates/ Previous single-file templates, retained for reference
 ```
 
-The folder shown as P-ProjectName is a convention, not an extra project created during reorganization. Existing project names and contents have been preserved.
+Each project folder is named from the value entered in **QuickAdd: New project**. Existing project names and contents have been preserved.
 
 ## Placement rules
 

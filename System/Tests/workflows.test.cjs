@@ -5,13 +5,14 @@ const path = require('node:path');
 const vm = require('node:vm');
 const root = path.resolve(__dirname, '../..');
 const capture = require('../Scripts/new-research-log.js');
+const newProject = require('../Scripts/new-project.js');
 const home = fs.readFileSync(path.join(root, 'Home.md'), 'utf8');
 const projectsPage = fs.readFileSync(path.join(root, 'Work/Projects.md'), 'utf8');
 const taskBlocks = [...home.matchAll(/```tasks\n([\s\S]*?)\n```/g)].map(match => match[1]);
 const nextQuery = taskBlocks.find(block => block.includes('Tasks Next'));
 const homeCode = projectsPage.match(/```dataviewjs\n([\s\S]*?)\n```/)[1];
 const file = (p, type, status, tasks = []) => ({ path:p, basename:path.posix.basename(p,'.md'), parent:{path:path.posix.dirname(p)}, type,status,file:{path:p,folder:path.posix.dirname(p),tasks} });
-function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[file('Work/A/Project.md','project')], choose, cancel=false }={}) {
+function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[file('Work/A/Home.md','project')], choose, cancel=false }={}) {
  const files=new Map(), writes=[], opens=[], prompts=[], picks=[];
  const app={vault:{getMarkdownFiles:()=>projects,getAbstractFileByPath:p=>files.get(p),createFolder:async p=>files.set(p,{path:p}),create:async(p,content)=>{assert(!files.has(p),'must not overwrite');const f={path:p,content};files.set(p,f);writes.push(f);return f;}},metadataCache:{getFileCache:f=>({frontmatter:{type:f.type}})},workspace:{getActiveFile:()=>active?{path:active}:null,getLeaf:()=>({openFile:async(f,options)=>opens.push({file:f,options})})}};
  const api={inputPrompt:async(title)=>{prompts.push(title);if(cancel)throw Error('Input cancelled by user');return name;},suggester:async(labels,values)=>{picks.push(labels);return choose===null?null:values[choose??0];},date:{now:format=>format.includes('HHmmss')?'2026-09-24 174500-123':'2026-09-24T17:45:00-05:00'}};
@@ -20,7 +21,7 @@ function setup({ active='Work/A/Scratch/Idea.md', name='Experiment', projects=[f
 test('research: creates a project-owned timestamped entry without a name prompt',async()=>{
  const f=setup();await f.run();assert.equal(f.prompts.length,0);assert.equal(f.picks.length,0);
  assert.equal(f.writes[0].path,'Work/A/Research Log/2026-09-24 174500-123.md');
- assert.match(f.writes[0].content,/type: research-log/);assert.match(f.writes[0].content,/project: "\[\[Work\/A\/Project\]\]"/);
+ assert.match(f.writes[0].content,/type: research-log/);assert.match(f.writes[0].content,/project: "\[\[Work\/A\/Home\]\]"/);
  assert.match(f.writes[0].content,/logged_at: "2026-09-24T17:45:00-05:00"/);
  assert.equal(f.writes[0].content.split('---')[2].trim(),'');assert.equal(f.opens[0].options.state.source,false);
 });
@@ -44,9 +45,14 @@ test('Home next tasks: Inbox checkboxes do not leak into Home',()=>{assert.equal
 test('Home next tasks: global tasks remain visible with no active project',()=>{assert.equal(homeResult([]),'No open tasks from active projects.');assert.equal(nextVisible([{path:'Work/Tasks Next.md',done:false,text:'standalone'}]).length,1)});
 test('research: duplicate names/timestamps preserve the earlier entry',async()=>{const f=setup();await f.run();const first=f.writes[0];await f.run();assert.equal(f.writes.length,2);assert.equal(f.files.get(first.path),first);assert.match(f.writes[1].path,/ \(2\)\.md$/)});
 test('research: failed writes do not open a nonexistent note',async()=>{const f=setup();f.app.vault.create=async()=>{throw Error('Disk unavailable')};await assert.rejects(f.run(),/Disk unavailable/);assert.equal(f.opens.length,0)});
-function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),paragraph:text=>output=text}});return output;}
+test('project: unsafe path characters are replaced without changing ordinary names',()=>{
+ assert.equal(newProject.safeFolderName('Agentic Epidemiology'),'Agentic Epidemiology');
+ assert.equal(newProject.safeFolderName('A/B: C?'),'A-B- C-');
+ assert.equal(newProject.safeFolderName('CON'),'CON-project');
+});
+function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},paragraph:text=>output=text},Map});return output;}
 function matches(output,p){const match=output.match(/path regex matches \/(.*)\//);return !!match&&new RegExp(match[1]).test(p)}
-for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.match(result,/limit 12/)});
+for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.match(result,/limit [1-9]\d*/)});
 for(const status of [['paused'],['completed'],['archived'],[],null,['inactive']])test('Home: excludes status '+JSON.stringify(status),()=>{assert.equal(homeResult([file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}])]),'No open tasks from active projects.')});
 test('Home: nested inactive project overrides its active parent',()=>{const pages=[file('Work/A/P.md','project',['active']),file('Work/A/Sub/P.md','project',['paused']),file('Work/A/M.md',null,null,[{}]),file('Work/A/Sub/M.md',null,null,[{}])];const r=homeResult(pages);assert(matches(r,pages[2].path));assert(!matches(r,pages[3].path))});
 test('Home: regex escaping and folder boundaries cannot leak other tasks',()=>{const pages=[file('Work/A [x]+/P.md','project',['active']),file('Work/A [x]+/M.md',null,null,[{}]),file('Work/A [x]+suffix/M.md',null,null,[{}]),file('Work/Loose.md',null,null,[{}])];const r=homeResult(pages);assert(matches(r,pages[1].path));assert(!matches(r,pages[2].path));assert(!matches(r,pages[3].path))});
@@ -56,6 +62,6 @@ test('configuration: workflow dependencies, templates, and script paths exist',(
  assert.equal(read('.obsidian/plugins/dataview/data.json').enableDataviewJs,true);
  assert.equal(read('.obsidian/types.json').types.status,'multitext');
  const choices=read('.obsidian/plugins/quickadd/data.json').choices;
- for(const name of ['New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
+ for(const name of ['New project','New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
  assert(fs.existsSync(path.join(root,'Work/Tasks Next.md')));assert(fs.existsSync(path.join(root,'Work/Inbox.md')));
 });

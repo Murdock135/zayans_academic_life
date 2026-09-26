@@ -37,7 +37,7 @@ LIMIT 5
 ## Continue research
 
 ```dataview
-TABLE WITHOUT ID file.link AS "ID", link(regexreplace(file.folder, "/Research Log(/.*)?$", "") + "/Project.md", regexreplace(regexreplace(file.folder, "/Research Log(/.*)?$", ""), "^.*/", "")) AS "Project", file.mtime AS "Time"
+TABLE WITHOUT ID file.link AS "ID", link(regexreplace(file.folder, "/Research Log(/.*)?$", "") + "/Home.md", regexreplace(regexreplace(file.folder, "/Research Log(/.*)?$", ""), "^.*/", "")) AS "Project", file.mtime AS "Time"
 FROM "Work"
 WHERE type = "research-log"
 SORT file.mtime DESC

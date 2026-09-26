@@ -25,6 +25,7 @@
 
 | Command | Use |
 | --- | --- |
+| **QuickAdd: New project** | Ask for a name, create the complete project structure, and open its Home |
 | **QuickAdd: New research log** | Create a timestamped research entry in the current project |
 | **QuickAdd: Log reading** | Record a paper/article session and its takeaway |
 | **Templates: Insert template → Resource** | Set up a new note in `Library/Items/` |

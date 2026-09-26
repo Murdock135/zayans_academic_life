@@ -55,6 +55,46 @@
       }
     },
     {
+      "id": "new-project",
+      "name": "New project",
+      "type": "Macro",
+      "command": true,
+      "runOnStartup": false,
+      "macro": {
+        "id": "new-project-macro",
+        "name": "New project",
+        "commands": [
+          {
+            "id": "new-project-script",
+            "name": "new-project",
+            "type": "UserScript",
+            "path": "System/Scripts/new-project.js",
+            "settings": {}
+          }
+        ]
+      }
+    },
+    {
+      "id": "new-project",
+      "name": "New project",
+      "type": "Macro",
+      "command": true,
+      "runOnStartup": false,
+      "macro": {
+        "id": "new-project-macro",
+        "name": "New project",
+        "commands": [
+          {
+            "id": "new-project-script",
+            "name": "new-project",
+            "type": "UserScript",
+            "path": "System/Scripts/new-project.js",
+            "settings": {}
+          }
+        ]
+      }
+    },
+    {
       "id": "86292b1e-85bb-4c86-bade-6f0d8de0ae6c",
       "name": "New research log",
       "type": "Macro",

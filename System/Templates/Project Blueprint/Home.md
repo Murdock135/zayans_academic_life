@@ -4,7 +4,7 @@ status:
   - active
 areas: []
 ---
-# Project
+# Project home
 
 Describe the intended outcome here if useful.
 
