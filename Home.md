@@ -9,6 +9,7 @@
 	- medium
 	- high
 - [ ] Check Calendar and Emails. Reply urgent or quick ones.
+- [ ] Sync mentally with your [goal-calendar](https://docs.google.com/spreadsheets/d/1Q2_pZfxfxRwTP0ZcygrcS9VHABFGuA0vQcgA8maIX40/edit?usp=drive_link).
 - [ ] Choose one work priority. Today I will: 
 - [ ] Begin before you feel ready. Begin by writing your thoughts freely about the project you're about to work on for a **max of 10m**.
 
