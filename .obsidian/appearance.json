@@ -6,5 +6,6 @@
   "accentColor": "#04f7fb",
   "enabledCssSnippets": [
     "reading-progress"
-  ]
+  ],
+  "showRibbon": false
 }
