@@ -1,14 +1,22 @@
-# Today
-
----
 
 [[Work/Projects|Projects]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]] · [[System/Cheat Sheet|Cheat Sheet]] · [[System/How To Use|Guide]]
 
-## Start-up
+## Start
 
-- [ ] Open a recent research log
-- [ ] Review active project milestones
-- [ ] Choose a reading item if useful today
+- [ ] Get settled. Get Water. Put phone out of sight 
+- [ ] your capacity
+	- low
+	- medium
+	- high
+- [ ] Check Calendar and Emails. Reply urgent or quick ones.
+- [ ] Choose one work priority. Today I will: 
+- [ ] Begin before you feel ready. Begin by writing your thoughts freely about the project you're about to work on for a **max of 10m**.
+
+> [!tip] Rules of Thumb
+> Capture distractions. Keep a scratchpad for questions, errands and ideas to revisit.
+
+> [!quote] Remember
+> He who has a *why* to live for can bear with any *how* - Nietzsche
 
 ## Ongoing Projects
 
