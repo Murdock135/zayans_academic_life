@@ -6,7 +6,7 @@ areas: []
 ---
 # Agentic System For epidemiology
 
-Describe the intended outcome here if useful.
+Paper live doc: https://www.overleaf.com/project/6aa437fad91a9fc91b51c29a
 
 ## Project files
 

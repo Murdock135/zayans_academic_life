@@ -6,3 +6,5 @@ Run **Index Checker: Check indexes** to check for missing scratchpad links. It i
 
 [[Ideas]]
 [[Eval]]
+[[Journals]]
+[[Reference JAMIA papers]]
