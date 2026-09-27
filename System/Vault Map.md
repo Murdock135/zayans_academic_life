@@ -16,7 +16,7 @@ Work/
     Research Log/             Timestamped research entries
       Research Log Index.md    Project entry index
     Scratch/
-      Scratch Index.md        Curated scratchpad links
+      00 Scratch Index.md        Curated scratchpad links
       Attachments/
     Attachments/
 Library/

@@ -1,9 +1,24 @@
 # Milestones
 
-## Milestone 1 — Define an outcome
+## Milestone 1- Batch eval 
+- [ ] #task Merge `feat/loop_batch_eval` with `main`
+- [ ] #task Extract token-in/token-out info
+- [ ] #task Use the EC2 instance provided by Jason to SPARQ
 
-- [ ] Add the first task
+## Milestone 2- Results web dashboard
 
-## Milestone 2 — Define the next outcome
+## Milestone 3-  Paper
+- [ ] #task List evaluations for paper
 
-- [ ] Add the next task
+## Optional Housekeeping
+- [ ] #task Fix DevOps stuff
+	- [ ] #task fix dockerfile
+	- [ ] #task fix run scripts
+- [ ] #task Implement lazy-updating bedrock model list and cross-checking with config files.
+- [ ] #task Add a web search node (tavily + pubmed)
+
+## Future work
+- [ ] #task Planner supervisor
+	- [ ] #task Basic plan review loop
+- [ ] #task Executor supervisor
+- [ ] #task Weather calling tool

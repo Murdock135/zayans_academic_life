@@ -22,7 +22,7 @@ SORT file.name ASC
 ```dataview
 LIST
 FROM "Work"
-WHERE file.path = this.file.folder + "/Scratch/Scratch Index.md"
+WHERE file.path = this.file.folder + "/Scratch/00 Scratch Index.md"
 ```
 
 ## Research log

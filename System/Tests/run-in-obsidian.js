@@ -49,7 +49,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   const project=get(`${projectFolder}/Home.md`);await indexed(project);
   await test('Project creation: complete blueprint and default properties',async()=>{
    const p=await indexed(project);assert(p.type==='project','Project type missing');assert(JSON.stringify(p.status.array?p.status.array():p.status)==='["active"]','Default status must be an active list');assert(p.areas.length===0,'Areas must start empty');
-   for(const suffix of ['Milestones.md','Scratch/Scratch Index.md','Research Log/Research Log Index.md'])assert(get(`${projectFolder}/${suffix}`),'Missing '+suffix);
+   for(const suffix of ['Milestones.md','Scratch/00 Scratch Index.md','Research Log/Research Log Index.md'])assert(get(`${projectFolder}/${suffix}`),'Missing '+suffix);
   });
   await test('Project properties: status and areas persist and render as editable properties',async()=>{
    await set(project,{status:['paused'],areas:['test-area']});await set(project,{status:['active']});await open(project);
@@ -101,7 +101,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
    const events=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));assert(events.length===2,'Expected two unique events');for(const event of events){const p=await indexed(event);assert(p.type==='reading-event'&&p.logged_at,'Invalid reading event');assert(!/\{\{/.test(await app.vault.read(event)),'Unexpanded reading token');await set(event,{resource:`[[${resource.path.slice(0,-3)}]]`})}
   });
   await test('Home: reading events render with resource links',async()=>{const recent=await query(home,2);assert(recent.values.length===2,'Events missing from Home');const el=await render(home);await wait(()=>el.textContent.includes('Reading resource'),'Home resource link');noErrors(el)});
-  await test('Project dashboard: overview links to milestones and both indexes',async()=>{for(const [index,suffix]of [[0,'Milestones.md'],[1,'Scratch/Scratch Index.md'],[2,'Research Log/Research Log Index.md']]){const result=await query(project,index);assert(result.values.some(link=>link.path===`${projectFolder}/${suffix}`),'Missing '+suffix)}const el=await render(project);await wait(()=>el.textContent.includes('Research Log Index'),'Project links rendered');noErrors(el)});
+  await test('Project dashboard: overview links to milestones and both indexes',async()=>{for(const [index,suffix]of [[0,'Milestones.md'],[1,'Scratch/00 Scratch Index.md'],[2,'Research Log/Research Log Index.md']]){const result=await query(project,index);assert(result.values.some(link=>link.path===`${projectFolder}/${suffix}`),'Missing '+suffix)}const el=await render(project);await wait(()=>el.textContent.includes('Research Log Index'),'Project links rendered');noErrors(el)});
   await test('Research index: new entry appears without manually adding a link',async()=>{assert(entry,'Capture prerequisite failed');const index=get(`${projectFolder}/Research Log/Research Log Index.md`);const result=await query(index,0);assert(result.values.some(row=>row[0].path===entry.path),'Research entry missing');const el=await render(index);await wait(()=>el.textContent.includes(entry.basename),'Research table rendered');noErrors(el)});
   await test('Projects directory: active and paused projects both remain visible',async()=>{const result=await query(projects,0);assert(result.values.length===2,'Projects directory lost a project');const el=await render(projects);await wait(()=>{const table=el.querySelector('.table-view-table');return table&&table.textContent.includes('paused')&&table.textContent.includes('active')},'Project status table');noErrors(el)});
   let homeEl,projectsEl;
@@ -121,8 +121,8 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   });
   await test('Index Checker: detects an unlinked scratchpad, then clears after linking',async()=>{
    const plugin=app.plugins.plugins['index-checker'];assert(plugin,'Index Checker missing');const scan=async()=>{const saved=plugin.indexedFoldersP;try{plugin.indexedFoldersP=[];plugin.processFolder(get(projectFolder));return await Promise.all(plugin.indexedFoldersP)}finally{plugin.indexedFoldersP=saved}};
-   let results=await scan();assert(results.length===1&&results[0].index.name==='Scratch Index.md','Automatic research index incorrectly checked');assert(results[0].missingChildren.some(f=>f.path===scratch.path),'Missing scratch link not detected');
-   const index=get(`${projectFolder}/Scratch/Scratch Index.md`);await app.vault.append(index,`\n[[${scratch.path.slice(0,-3)}]]\n`);await wait(()=>Object.keys(app.metadataCache.resolvedLinks[index.path]||{}).includes(scratch.path),'scratch link indexed');results=await scan();assert(results[0].missingChildren.length===0,'Linked scratchpad still reported missing');
+   let results=await scan();assert(results.length===1&&results[0].index.name==='00 Scratch Index.md','Automatic research index incorrectly checked');assert(results[0].missingChildren.some(f=>f.path===scratch.path),'Missing scratch link not detected');
+   const index=get(`${projectFolder}/Scratch/00 Scratch Index.md`);await app.vault.append(index,`\n[[${scratch.path.slice(0,-3)}]]\n`);await wait(()=>Object.keys(app.metadataCache.resolvedLinks[index.path]||{}).includes(scratch.path),'scratch link indexed');results=await scan();assert(results[0].missingChildren.length===0,'Linked scratchpad still reported missing');
   });
   await test('Resource lifecycle: finishing removes an item from Home, preserves sessions, and rereading restores it',async()=>{
    await set(resource,{status:['finished']});

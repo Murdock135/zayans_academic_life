@@ -11,7 +11,7 @@ Prefer built-in features and a small set of existing plugins. Add custom code on
 | Catalog table | [Bases](https://obsidian.md/help/bases/syntax) | Built-in feature configured |
 | Standardized reading events | [QuickAdd](https://quickadd.obsidian.guide/) | Included; Log reading choice configured; requires Obsidian 1.13.0+ |
 | Timestamped research entries | Existing QuickAdd user-script macro | New research log command configured and tested |
-| Curated scratch indexes | [Index Checker](https://github.com/pavloDeshko/obsidian-index-checker) | Included; `Scratch Index` naming configured; automatic research indexes excluded |
+| Curated scratch indexes | [Index Checker](https://github.com/pavloDeshko/obsidian-index-checker) | Included; `00 Scratch Index` naming configured; automatic research indexes excluded |
 | Project-local attachments | Built-in attachment setting | Configured to `./Attachments` relative to the current file |
 | Open dashboard on launch | [Homepage](https://github.com/mirnovov/obsidian-homepage) | Installed and configured to open Home |
 

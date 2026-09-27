@@ -10,7 +10,7 @@ Reviewed the Markdown notes, templates, catalog definition, local scripts, plugi
 | --- | --- | --- |
 | The old project-status dropdown remained after adopting a List property | It wrote a scalar value back to YAML and did not recognize an existing status list | Removed the separate control and its unused script; project and resource templates now use one-element status lists |
 | Reading and finished-resource queries compared status directly to text | Resource lists could disappear from those views after editing status as a List | Both queries now match exact status membership and also support older text values |
-| Index Checker matched Research Log Index.md | It incorrectly reported dynamically listed research entries as missing manual links | Scoped Index Checker to Scratch Index; the research index remains automatic |
+| Index Checker matched Research Log Index.md | It incorrectly reported dynamically listed research entries as missing manual links | Scoped Index Checker to 00 Scratch Index; the research index remains automatic |
 | The usage guide contained an inserted resource template | The guide was incorrectly classified as a resource | Removed the empty resource metadata and clarified that a new resource note must be active before inserting its template |
 | Home’s “Project folder” column showed the Research Log subfolder | The displayed label was inaccurate | It now shows the project folder |
 | Older research entries lacked a displayed creation value | The initial migrated log had an empty Created cell | Log indexes fall back to file creation time for older entries |

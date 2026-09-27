@@ -13,7 +13,7 @@ Work/
       Research Log Index.md
       Entry name — YYYY-MM-DD HHmmss-SSS.md
     Scratch/
-      Scratch Index.md
+      00 Scratch Index.md
       A Working Idea.md
       Attachments/
     Attachments/
@@ -25,7 +25,7 @@ Work/
 - **Milestones.md:** milestone headings with tasks underneath. This keeps tasks attached to outcomes, without maintaining a separate Tasks file or duplicating tasks in the project overview.
 - **Research Log/:** separate timestamped entries. Research Log Index.md lists the entries newest first. Each entry starts with a blank body; record what helps you resume without a required format.
 - **Scratch/:** separate explorations, derivations, drafts, prompts, and experiments. Link useful scratchpads from the log rather than pasting their entire contents into it.
-- **Scratch Index.md:** a curated list of those scratchpads, preserving the indexing behavior of the previous vault. Index Checker checks for omitted links. This is a real link index, not only a generated query.
+- **00 Scratch Index.md:** a curated list of those scratchpads, preserving the indexing behavior of the previous vault. Index Checker checks for omitted links. This is a real link index, not only a generated query.
 - **Attachments/:** supporting files attached to root-level project documents. Notes inside Scratch use Scratch/Attachments, which is still inside the project.
 
 Library resources remain in the shared catalog because the same paper may serve several projects. Project documents link to those records. Reading events remain in Library/Sessions and can link to several projects.
@@ -37,13 +37,13 @@ Library resources remain in the shared catalog because the same paper may serve 
 3. Set optional `areas` in Properties. New projects start with `status: active`.
 4. Replace the example milestone headings and tasks in Milestones.md. Delete unused example tasks.
 5. From any note in the project, run **QuickAdd: New research log**. The command creates a date-and-time-named file and opens the blank entry in Research Log/. There is no required daily entry.
-6. Create scratchpad files inside Scratch. Add their links to Scratch Index.md and periodically run Index Checker.
+6. Create scratchpad files inside Scratch. Add their links to 00 Scratch Index.md and periodically run Index Checker.
 
 The command refuses to overwrite an existing project folder. Characters that are unsafe in filenames are replaced with hyphens. For existing projects, add missing files as needed rather than replacing their contents.
 
 ## Index Checker
 
-The new vault includes the same Index Checker version as the previous vault, with fresh settings. Enable it in Community plugins. The checker is scoped to files named `Scratch Index`: `Scratch/Scratch Index.md` plays the same role as the previous `_Scratch.md`. Your original vault is unchanged.
+The new vault includes the same Index Checker version as the previous vault, with fresh settings. Enable it in Community plugins. The checker is scoped to files named `00 Scratch Index`: `Scratch/00 Scratch Index.md` plays the same role as the previous `_Scratch.md`. Your original vault is unchanged.
 
 Automatic Research Log indexes are excluded; Dataview already lists their entries. The checker is configured for direct Markdown children, with nested mode off, so attachments and deeper folders are not treated as scratchpads in the parent index. Run **Index Checker: Check indexes**, review its indicators, and add missing links using its file/index actions. Curated order and annotations remain yours. See the [plugin documentation](https://github.com/pavloDeshko/obsidian-index-checker).
 

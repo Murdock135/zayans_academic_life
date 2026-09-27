@@ -1,5 +1,5 @@
 {
-  "indexFileFormat": "Scratch Index",
+  "indexFileFormat": "00 Scratch Index",
   "useRootIndexFileFormat": false,
   "rootIndexFileFormat": "[VAULT]",
   "outputFileFormat": "[FOLDER] Index",
@@ -22,6 +22,7 @@
   "canvasMode": null,
   "persistentMarks": [],
   "timeStamps": [
-    1790288397761
+    1790288397761,
+    1790536049556
   ]
 }

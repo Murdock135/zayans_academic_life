@@ -2,7 +2,6 @@
 
 [[Home]] · [[Work/Tasks Next|Tasks Next]] · [[Work/Inbox|Inbox]] · [[System/Setup/Project Structure|Project structure]]
 
-This is the directory of your projects: use it to find, open, or review a project. The actual work stays in each project's folder under `Work`; this page does not store another copy of its tasks or logs.
 
 ```dataview
 TABLE WITHOUT ID link(file.path, regexreplace(file.folder, "^.*/", "")) AS "Project", status AS "Status", areas AS "Areas"
@@ -11,11 +10,6 @@ WHERE type = "project"
 SORT status ASC, file.name ASC
 ```
 
-To create a project, follow [[System/Setup/Project Structure]]. Set one value in the `status` list in Properties. Areas are optional labels, and status can be `active`, `paused`, `completed`, or `archived`. All statuses are shown here.
-
-Put clear actions with no project owner in [[Work/Tasks Next|Tasks Next]], and put ambiguous captures in [[Work/Inbox|Inbox]].
-
-Keep project-owned tasks in project milestones. Tasks in Scratch notes under active projects also appear below while the work is being explored.
 
 ## Active project tasks
 
@@ -39,6 +33,7 @@ if (taskPages.length === 0) {
         grouped.set(key, [...(grouped.get(key) ?? []), entry]);
     }
     let remaining = 12;
+    let projectNumber = 1;
     for (const entries of grouped.values()) {
         if (remaining === 0) break;
         const project = entries[0].project;
@@ -46,7 +41,7 @@ if (taskPages.length === 0) {
             count + page.file.tasks.filter(task => !task.completed).length, 0);
         const limit = Math.min(remaining, openCount);
         const projectName = project.file.folder.split("/").pop();
-        dv.header(3, dv.fileLink(project.file.path, false, projectName));
+        dv.header(3, dv.fileLink(project.file.path, false, `${projectNumber}. ${projectName}`));
         const query = [
             "not done",
             "path regex matches /^(?:" + entries.map(({ page }) => escapeRegex(page.file.path)).join("|") + ")$/",
@@ -54,7 +49,9 @@ if (taskPages.length === 0) {
             "limit " + limit
         ].join("\n");
         dv.paragraph("```tasks\n" + query + "\n```");
+        dv.el("hr", "");
         remaining -= limit;
+        projectNumber += 1;
     }
 }
 ```
