@@ -3,7 +3,7 @@
 
 ## Start
 
-- [ ] Get settled. Get Water. Put phone out of sight 
+- [ ] Get settled. Get Water. Put phone out of sight
 - [ ] your capacity
 	- low
 	- medium
