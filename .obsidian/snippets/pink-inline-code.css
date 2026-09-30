@@ -1,0 +1,12 @@
+/* Border-inspired inline code: pink monospace text on a subtle dotted olive fill. */
+.markdown-rendered :not(pre) > code,
+.markdown-source-view.mod-cm6 .cm-inline-code {
+  color: #d79abc !important;
+  background-color: transparent !important;
+  background-image: radial-gradient(circle, rgba(151, 170, 153, 0.22) 0.55px, transparent 0.7px) !important;
+  background-size: 4px 4px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 0.12em !important;
+  font-weight: 600;
+}

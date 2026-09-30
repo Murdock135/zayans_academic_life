@@ -2,6 +2,7 @@
 
 ## Milestone 1- Batch eval 
 - [ ] #task Merge `feat/loop_batch_eval` with `main`
+	- [ ] #task Review code
 - [ ] #task Extract token-in/token-out info
 - [ ] #task Use the EC2 instance provided by Jason to SPARQ
 

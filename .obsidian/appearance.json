@@ -5,7 +5,8 @@
   "textFontFamily": "Inter",
   "accentColor": "#04f7fb",
   "enabledCssSnippets": [
-    "reading-progress"
+    "reading-progress",
+    "pink-inline-code"
   ],
   "showRibbon": true
 }
