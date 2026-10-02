@@ -1,3 +1,19 @@
+---
+title: ""
+authors: []
+publication_date:
+kind: paper
+status:
+  - saved
+finished_on:
+progress: 0
+position: ""
+url: ""
+doi: ""
+topics: []
+projects: []
+source_ids: []
+---
 # How to use this vault
 
 [[Home|Dashboard]] · [[Projects]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]] · [[System/Cheat Sheet|Cheat Sheet]] · [[System/Setup/Start Here|Setup]]
