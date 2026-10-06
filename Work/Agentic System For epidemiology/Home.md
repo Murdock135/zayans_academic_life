@@ -6,7 +6,7 @@ areas: []
 ---
 # Agentic System For epidemiology
 
-Paper live doc: https://www.overleaf.com/project/6aa437fad91a9fc91b51c29a
+Paper live doc: https://mailmissouri-my.sharepoint.com/:w:/r/personal/qzic2d_umsystem_edu/Documents/Academics/Postgrad/Mizzou/300_research/socioecono_salmonella/paper/sparq_jamia_2026/paper.docx?d=w6e7ca434a3cc43ac980bc3126471ace9&csf=1&web=1&e=vaUHOb
 
 ## Project files
 
