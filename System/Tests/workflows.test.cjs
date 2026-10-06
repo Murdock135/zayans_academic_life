@@ -50,7 +50,7 @@ test('project: unsafe path characters are replaced without changing ordinary nam
  assert.equal(newProject.safeFolderName('A/B: C?'),'A-B- C-');
  assert.equal(newProject.safeFolderName('CON'),'CON-project');
 });
-function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},paragraph:text=>output=text},Map});return output;}
+function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},el:()=>{},paragraph:text=>output=text},Map});return output;}
 function matches(output,p){const match=output.match(/path regex matches \/(.*)\//);return !!match&&new RegExp(match[1]).test(p)}
 for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.match(result,/limit [1-9]\d*/)});
 for(const status of [['paused'],['completed'],['archived'],[],null,['inactive']])test('Home: excludes status '+JSON.stringify(status),()=>{assert.equal(homeResult([file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}])]),'No open tasks from active projects.')});
@@ -64,4 +64,14 @@ test('configuration: workflow dependencies, templates, and script paths exist',(
  const choices=read('.obsidian/plugins/quickadd/data.json').choices;
  for(const name of ['New project','New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
  assert(fs.existsSync(path.join(root,'Work/Tasks Next.md')));assert(fs.existsSync(path.join(root,'Work/Inbox.md')));
+});
+
+test('Projects next tasks: includes tagged task beyond the ordinary limit, excludes completed and untagged tasks',()=>{
+ const code=[...projectsPage.matchAll(/```dataviewjs\n([\s\S]*?)\n```/g)][1][1];
+ const outputs=[];
+ const pages=[file('Work/A/Home.md','project',['active']),file('Work/A/Milestones.md',null,null,[...Array.from({length:12},()=>({completed:false,tags:[]})),{completed:false,tags:['#next']}]),file('Work/A/Done.md',null,null,[{completed:true,tags:['#next']}]),file('Work/A/Other.md',null,null,[{completed:false,tags:['#next/later']}])];
+ vm.runInNewContext(code,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v??[]}),fileLink:()=>'',header:()=>{},el:()=>{},paragraph:s=>outputs.push(s)},Map});
+ const result=outputs.join('\n');
+ assert(matches(result,'Work/A/Milestones.md'));assert(!matches(result,'Work/A/Done.md'));assert(!matches(result,'Work/A/Other.md'));
+ assert.match(result,/tags regex matches \/\^#next\$\//);assert.doesNotMatch(result,/limit /);
 });

@@ -26,7 +26,8 @@ TBD
 
 ## Milestone 4- Paper
 
-
+## Misc
+- [ ] #task Brainstorm the ANFIS-CREDAL set informed architecture you were thinking about with ChatGPT #next
 
 
 # Archived

@@ -38,7 +38,7 @@ Open Home and tick off the startup checklist. Then choose a project-owned log fr
 
 Send a clear action with no project owner directly to [[Work/Tasks Next|Tasks Next]]. Send an unclear idea, note, or action to [[Work/Inbox|Inbox]] and process it later.
 
-Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in the Projects dashboard's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. The dashboard shows at most twelve items, and its source note is the complete view.
+Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in the Projects dashboard's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. The Active project tasks section shows at most twelve items. Tag an unfinished task `#next` to show it in the unlimited Next project tasks section and in Tasks Next’s Tagged next tasks view. The Projects view requires an active project; Tasks Next includes tagged tasks anywhere else in Work. Checkboxes in both views update the original task.
 
 Create timestamped entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in 00 Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
 
