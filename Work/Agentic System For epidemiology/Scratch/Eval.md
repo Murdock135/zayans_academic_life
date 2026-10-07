@@ -1,3 +1,10 @@
+# Architecture paper
+1. Hallucination verification via
+	1. Tool call checks
+	2. Claim checks
+2. Methodological rigor (How?)
+3. SPARQ vs single agent
+	1. Likert scale evaluation
 # The LLM vs Humans paper
 Per question
 	1. Steps to complete vs Final score 
