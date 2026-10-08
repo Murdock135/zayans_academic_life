@@ -3,7 +3,7 @@
 
 ## Start
 
-- [ ] Get settled. Get Water. Put phone out of sight
+- [x] Get settled. Get Water. Put phone out of sight  [completion:: 2026-10-08]
 - [ ] your capacity
 	- low
 	- medium

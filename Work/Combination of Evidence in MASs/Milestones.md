@@ -18,7 +18,7 @@ Reference image:
 - [ ] #task Outline components
 
 ### Milestone 1.4 — Implement combination logic
-- [ ] #task Create component base class #next
+- [x] #task Create component base class #next  [completion:: 2026-10-08]
 - [ ] #task Create an implementation class
 - [ ] #task Create a `combiners.py` to store all combination functions
 
@@ -29,7 +29,7 @@ TBD
 
 ## Misc
 - [x] #task Brainstorm the ANFIS-CREDAL set informed architecture you were thinking about with ChatGPT #next  [completion:: 2026-10-07]
-- [ ] #task Ask Data generator to create the Zadeh example as well as one of the samples #next
+- [x] #task Ask Data generator to create the Zadeh example as well as one of the samples #next  [completion:: 2026-10-08]
 
 # Archived
 
