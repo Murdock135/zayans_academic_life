@@ -1,0 +1,5 @@
+/* Project names in the Projects table and generated task-section headings. */
+.projects-dashboard .table-view-table tbody td:first-child a.internal-link,
+.projects-dashboard h3 a.internal-link {
+  color: #FF7F11 !important;
+}

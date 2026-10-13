@@ -53,7 +53,7 @@ test('project: unsafe path characters are replaced without changing ordinary nam
 });
 function homeResult(pages){const output=[];vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},el:()=>{},paragraph:text=>output.push(text)},Map});return output.join('\n');}
 function matches(output,p){return [...output.matchAll(/path regex matches \/(.*)\//g)].some(match=>new RegExp(match[1]).test(p))}
-for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.match(result,/limit [1-9]\d*/)});
+for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.doesNotMatch(result,/limit /)});
 for(const status of [['paused'],['completed'],['archived'],[],null,['inactive']])test('Home: excludes status '+JSON.stringify(status),()=>{assert.equal(homeResult([file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}])]),'No open tasks from active projects.')});
 test('Home: nested inactive project overrides its active parent',()=>{const pages=[file('Work/A/P.md','project',['active']),file('Work/A/Sub/P.md','project',['paused']),file('Work/A/M.md',null,null,[{}]),file('Work/A/Sub/M.md',null,null,[{}])];const r=homeResult(pages);assert(matches(r,pages[2].path));assert(!matches(r,pages[3].path))});
 test('Home: regex escaping and folder boundaries cannot leak other tasks',()=>{const pages=[file('Work/A [x]+/P.md','project',['active']),file('Work/A [x]+/M.md',null,null,[{}]),file('Work/A [x]+suffix/M.md',null,null,[{}]),file('Work/Loose.md',null,null,[{}])];const r=homeResult(pages);assert(matches(r,pages[1].path));assert(!matches(r,pages[2].path));assert(!matches(r,pages[3].path))});
@@ -106,10 +106,19 @@ for(const index of [0,1])test(`paper tasks: dashboard ${index} requires active p
  const r=dashboard(pages,index);assert(matches(r.text,pages[3].path));assert(!matches(r.text,pages[4].path));assert(matches(r.text,pages[5].path));assert(r.headers.some(([level,text])=>level===4&&text==='P1'));
  pages[0].status=['paused'];const paused=dashboard(pages,index);assert(!matches(paused.text,pages[3].path));assert(!matches(paused.text,pages[5].path));
 });
-test('paper tasks: ordinary limit is shared across papers while #next remains unlimited',()=>{
+test('paper tasks: ordinary and next dashboards include all papers without a shared limit',()=>{
  const pages=[...paperPages(),file('Work/A/Papers/P2/Home.md','paper',['active']),file('Work/A/Papers/P1/Milestones.md',null,null,Array.from({length:8},()=>({tags:['#next']}))),file('Work/A/Papers/P2/Milestones.md',null,null,Array.from({length:8},()=>({tags:['#next']})))];
- const ordinary=dashboard(pages).text;assert.deepEqual([...ordinary.matchAll(/limit (\d+)/g)].map(m=>Number(m[1])),[8,4]);
+ const ordinary=dashboard(pages).text;assert(matches(ordinary,pages[3].path));assert(matches(ordinary,pages[4].path));assert.doesNotMatch(ordinary,/limit /);
  const next=dashboard(pages,1).text;assert(matches(next,pages[3].path));assert(matches(next,pages[4].path));assert.doesNotMatch(next,/limit /);
+});
+test('Projects: a first project with more than 12 tasks cannot hide the second project',()=>{
+ const pages=[file('Work/A/Home.md','project',['active']),file('Work/A/Milestones.md',null,null,Array.from({length:14},()=>({}))),file('Work/B/Home.md','project',['active']),file('Work/B/Milestones.md',null,null,[{}])];
+ const result=dashboard(pages);assert(matches(result.text,pages[1].path));assert(matches(result.text,pages[3].path));assert.deepEqual(result.headers.filter(([level])=>level===3).map(([,text])=>text),['1. A','2. B']);
+});
+for(const index of [0,1])test(`Projects: dashboard ${index} renders each project once with shared and paper sections`,()=>{
+ const pages=[file('Work/A/Home.md','project',['active']),file('Work/A/Papers/P1/Home.md','paper',['active']),file('Work/A/Papers/P1/Milestones.md',null,null,[{tags:['#next']}]),file('Work/B/Home.md','project',['active']),file('Work/B/Milestones.md',null,null,[{tags:['#next']}]),file('Work/A/Milestones.md',null,null,[{tags:['#next']}])];
+ const result=dashboard(pages,index);assert.deepEqual(result.headers.filter(([level])=>level===3),[[3,'1. A'],[3,'2. B']]);assert.deepEqual(result.headers,[[3,'1. A'],[4,'P1'],[3,'2. B']]);
+ for(const page of [pages[2],pages[4],pages[5]])assert(matches(result.text,page.path));
 });
 function paperSetup(options={}){
  const f=setup(options);

@@ -1,0 +1,16 @@
+/* Edit these colors to customize links in Reading view and Live Preview. */
+body.theme-light {
+  --link-color: #2457c5;
+  --link-color-hover: #173d95;
+  --link-external-color: #087f8c;
+  --link-external-color-hover: #065b65;
+  --link-unresolved-color: #756493;
+}
+
+body.theme-dark {
+  --link-color: #82aaff;
+  --link-color-hover: #b3caff;
+  --link-external-color: #65d6ce;
+  --link-external-color-hover: #a1eee8;
+  --link-unresolved-color: #b6a3d1;
+}

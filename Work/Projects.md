@@ -1,3 +1,8 @@
+---
+cssclasses:
+  - projects-dashboard
+---
+
 # Projects
 
 [[Home]] · [[Work/Tasks Next|Tasks Next]] · [[Work/Inbox|Inbox]] · [[System/Setup/Project Structure|Project structure]]
@@ -35,32 +40,29 @@ if (taskPages.length === 0) {
     const escapeRegex = path => path.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
     const grouped = new Map();
     for (const entry of taskPages) {
-        const key = entry.paper?.file.path ?? entry.project.file.path;
-        grouped.set(key, [...(grouped.get(key) ?? []), entry]);
+        const key = entry.project.file.path;
+        if (!grouped.has(key)) grouped.set(key, new Map());
+        const sections = grouped.get(key);
+        const sectionKey = entry.paper?.file.path ?? key;
+        sections.set(sectionKey, [...(sections.get(sectionKey) ?? []), entry]);
     }
-    let remaining = 12;
     let projectNumber = 1;
-    for (const entries of grouped.values()) {
-        if (remaining === 0) break;
-        const project = entries[0].project;
-        const openCount = entries.reduce((count, { page }) =>
-            count + page.file.tasks.filter(task => !task.completed).length, 0);
-        const limit = Math.min(remaining, openCount);
+    for (const sections of grouped.values()) {
+        const project = sections.values().next().value[0].project;
         const projectName = project.file.folder.split("/").pop();
-        const paper = entries[0].paper;
         dv.header(3, dv.fileLink(project.file.path, false, `${projectNumber}. ${projectName}`));
-        if (paper) dv.header(4, dv.fileLink(paper.file.path, false, paper.file.folder.split("/").pop()));
-        else dv.header(4, "Shared project work");
-        const query = [
-            "not done",
-            "path regex matches /^(?:" + entries.map(({ page }) => escapeRegex(page.file.path)).join("|") + ")$/",
-            "group by folder",
-            "group by heading",
-            "limit " + limit
-        ].join("\n");
-        dv.paragraph("```tasks\n" + query + "\n```");
+        for (const entries of sections.values()) {
+            const paper = entries[0].paper;
+            if (paper) dv.header(4, dv.fileLink(paper.file.path, false, paper.file.folder.split("/").pop()));
+            const query = [
+                "not done",
+                "path regex matches /^(?:" + entries.map(({ page }) => escapeRegex(page.file.path)).join("|") + ")$/",
+                "group by heading",
+                "hide backlink"
+            ].join("\n");
+            dv.paragraph("```tasks\n" + query + "\n```");
+        }
         dv.el("hr", "");
-        remaining -= limit;
         projectNumber += 1;
     }
 }
@@ -92,32 +94,30 @@ if (taskPages.length === 0) {
     const escapeRegex = path => path.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
     const grouped = new Map();
     for (const entry of taskPages) {
-        const key = entry.paper?.file.path ?? entry.project.file.path;
-        grouped.set(key, [...(grouped.get(key) ?? []), entry]);
+        const key = entry.project.file.path;
+        if (!grouped.has(key)) grouped.set(key, new Map());
+        const sections = grouped.get(key);
+        const sectionKey = entry.paper?.file.path ?? key;
+        sections.set(sectionKey, [...(sections.get(sectionKey) ?? []), entry]);
     }
-    let remaining = Infinity;
     let projectNumber = 1;
-    for (const entries of grouped.values()) {
-        if (remaining === 0) break;
-        const project = entries[0].project;
-        const openCount = entries.reduce((count, { page }) =>
-            count + page.file.tasks.filter(task => !task.completed && Array.from(task.tags ?? []).includes("#next")).length, 0);
-        const limit = Math.min(remaining, openCount);
+    for (const sections of grouped.values()) {
+        const project = sections.values().next().value[0].project;
         const projectName = project.file.folder.split("/").pop();
-        const paper = entries[0].paper;
         dv.header(3, dv.fileLink(project.file.path, false, `${projectNumber}. ${projectName}`));
-        if (paper) dv.header(4, dv.fileLink(paper.file.path, false, paper.file.folder.split("/").pop()));
-        else dv.header(4, "Shared project work");
-        const query = [
-            "not done",
-            "path regex matches /^(?:" + entries.map(({ page }) => escapeRegex(page.file.path)).join("|") + ")$/",
-            "tags regex matches /^#next$/",
-            "group by folder",
-            "group by heading"
-        ].join("\n");
-        dv.paragraph("```tasks\n" + query + "\n```");
+        for (const entries of sections.values()) {
+            const paper = entries[0].paper;
+            if (paper) dv.header(4, dv.fileLink(paper.file.path, false, paper.file.folder.split("/").pop()));
+            const query = [
+                "not done",
+                "path regex matches /^(?:" + entries.map(({ page }) => escapeRegex(page.file.path)).join("|") + ")$/",
+                "tags regex matches /^#next$/",
+                "group by heading",
+                "hide backlink"
+            ].join("\n");
+            dv.paragraph("```tasks\n" + query + "\n```");
+        }
         dv.el("hr", "");
-        remaining -= limit;
         projectNumber += 1;
     }
 }

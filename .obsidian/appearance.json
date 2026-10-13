@@ -6,7 +6,9 @@
   "accentColor": "#04f7fb",
   "enabledCssSnippets": [
     "reading-progress",
-    "pink-inline-code"
+    "pink-inline-code",
+    "link-colors",
+    "project-name-colors"
   ],
   "showRibbon": true
 }
