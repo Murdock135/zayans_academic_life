@@ -9,12 +9,9 @@
 
 ## Milestone 2- Results web dashboard
 
-## Milestone 3-  Paper
-- [ ] #task List evaluations for paper
+## Paper milestones
 
-### Milestone 3.1 - Materials and Methods
-
-### Milestone 3.2- Discussion
+See [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Milestones|SPARQ JAMIA milestones]].
 
 ## Optional Housekeeping
 - [ ] #task Fix DevOps stuff
@@ -30,10 +27,8 @@
 ## Misc
 - [ ] #task Implement lazy-updating bedrock model list and cross-checking with config files.
 - [ ] #task Add a web search node (tavily + pubmed)
-- [ ] #task Ask AI to convert results into pdfs for reviewers and send them out
 
 # Archived
 
 - [x] #task Review code  [completion:: 2026-09-30] 🔒 [[2026-09-30]] 🕸️ Milestones > Milestone 1- Batch eval
-- [x] #task Make a basic paper outline  [completion:: 2026-09-28] 🔒 [[2026-09-30]] 🕸️ Milestones > Milestone 3-  Paper
 - [x] #task Merge `feat/loop_batch_eval` with `main`  [completion:: 2026-09-30] 🔒 [[2026-10-07]] 🕸️ Milestones > Milestone 1- Batch eval

@@ -7,4 +7,5 @@ Run **Index Checker: Check indexes** to check for missing scratchpad links. It i
 [[Ideas]]
 [[Eval]]
 [[Journals]]
-[[Reference JAMIA papers]]
+
+Paper-specific notes: [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Scratch/00 Scratch Index|SPARQ JAMIA scratchpads]].

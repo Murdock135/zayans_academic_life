@@ -1,8 +1,8 @@
-# Project structure
+# Project and paper structure
 
-[[Projects]] · [[How To Use]]
+[[Work/Projects|Projects]] · [[System/How To Use|Usage guide]]
 
-Each project owns its research log, working scratchpads, milestone tasks, and attachments. The recommended starting structure is:
+A project owns a research direction. Each paper owns one manuscript effort within that direction. Projects can also be hobbies or other work without papers.
 
 ```text
 Work/
@@ -11,56 +11,99 @@ Work/
     Milestones.md
     Research Log/
       Research Log Index.md
-      Entry name — YYYY-MM-DD HHmmss-SSS.md
     Scratch/
       00 Scratch Index.md
-      A Working Idea.md
       Attachments/
     Attachments/
+    Papers/
+      Paper Name/
+        Home.md
+        Milestones.md
+        Research Log/
+          Research Log Index.md
+        Scratch/
+          00 Scratch Index.md
+          Attachments/
+        Attachments/
 ```
 
-## What each part means
+## Where work belongs
 
-- **Home.md:** the project's entry point, status/areas, and optional outcome. Its Dataview queries show files belonging to its own folder.
-- **Milestones.md:** milestone headings with tasks underneath. This keeps tasks attached to outcomes, without maintaining a separate Tasks file or duplicating tasks in the project overview.
-- **Research Log/:** separate timestamped entries. Research Log Index.md lists the entries newest first. Each entry starts with a blank body; record what helps you resume without a required format.
-- **Scratch/:** separate explorations, derivations, drafts, prompts, and experiments. Link useful scratchpads from the log rather than pasting their entire contents into it.
-- **00 Scratch Index.md:** a curated list of those scratchpads, preserving the indexing behavior of the previous vault. Index Checker checks for omitted links. This is a real link index, not only a generated query.
-- **Attachments/:** supporting files attached to root-level project documents. Notes inside Scratch use Scratch/Attachments, which is still inside the project.
+Keep shared methods, infrastructure, datasets, broad questions, and early paper ideas at project level. Put manuscript-specific experiments, analysis, drafts, submission tasks, and reviewer responses inside the paper. Give each task or note one owning location and link to it wherever else it is useful.
 
-Library resources remain in the shared catalog because the same paper may serve several projects. Project documents link to those records. Reading events remain in Library/Sessions and can link to several projects.
+- **Home.md:** entry point and properties. Project Homes list their papers. Paper Homes link back to the project and hold the research question, contribution, venue, deadline, and live manuscript link.
+- **Milestones.md:** outcome headings with tasks beneath them. Project milestones cover shared work; paper milestones cover that manuscript. Checkboxes in dashboard views update these source notes.
+- **Research Log/:** separate timestamped session or topic entries, with a blank body and an automatic index. A paper log links to both project and paper.
+- **Scratch/:** experiments, derivations, drafts, prompts, and exploratory notes. Link useful notes from the log instead of duplicating their contents.
+- **00 Scratch Index.md:** curated wikilinks to that folder’s working notes. Index Checker checks direct Markdown children independently at project and paper level.
+- **Attachments/:** the relative attachment setting keeps supporting files beside their owning notes.
+
+Shared reading resources remain in Library/Items, even when several projects or papers use them. Reading events remain in Library/Sessions; their existing `projects` links and archive workflow are unchanged. Link a paper from the event body when useful.
 
 ## Create a project
 
-1. Run **QuickAdd: New project** from the command palette.
-2. Enter the project name. The command creates `Work/Project Name/`, copies the complete blueprint, changes the heading in `Home.md`, and opens it.
-3. Set optional `areas` in Properties. New projects start with `status: active`.
-4. Replace the example milestone headings and tasks in Milestones.md. Delete unused example tasks.
-5. From any note in the project, run **QuickAdd: New research log**. The command creates a date-and-time-named file and opens the blank entry in Research Log/. There is no required daily entry.
-6. Create scratchpad files inside Scratch. Add their links to 00 Scratch Index.md and periodically run Index Checker.
+1. Run **QuickAdd: New project** and enter its name.
+2. The command copies the Project Blueprint into `Work/Project Name/`, including an empty Papers folder, and opens Home.
+3. Set optional `areas` and customize Milestones.md. New projects start with `status: [active]`.
 
-The command refuses to overwrite an existing project folder. Characters that are unsafe in filenames are replaced with hyphens. For existing projects, add missing files as needed rather than replacing their contents.
+## Create a paper
 
-## Index Checker
+1. Open any note in the owning project, including an existing paper note.
+2. Run **QuickAdd: New paper** and enter a stable short name, such as `SPARQ JAMIA`.
+3. The command copies the Paper Blueprint into `Work/Project Name/Papers/Paper Name/`, fills in its parent-project link, and opens Home in Live Preview.
+4. Set the question, contribution, publication stage, target venue, optional deadline and manuscript URL. Add milestones as needed.
 
-The new vault includes the same Index Checker version as the previous vault, with fresh settings. Enable it in Community plugins. The checker is scoped to files named `00 Scratch Index`: `Scratch/00 Scratch Index.md` plays the same role as the previous `_Scratch.md`. Your original vault is unchanged.
+From outside a project, New paper uses the sole project or asks which project. New projects and papers never overwrite an existing destination folder. Unsafe filename characters are replaced with hyphens. Canceling selection or supplying a blank name creates nothing.
 
-Automatic Research Log indexes are excluded; Dataview already lists their entries. The checker is configured for direct Markdown children, with nested mode off, so attachments and deeper folders are not treated as scratchpads in the parent index. Run **Index Checker: Check indexes**, review its indicators, and add missing links using its file/index actions. Curated order and annotations remain yours. See the [plugin documentation](https://github.com/pavloDeshko/obsidian-index-checker).
+Use the command to create the complete structure; core Templates insertion is for resource notes rather than project or paper blueprints. A paper idea can remain in project Scratch until it becomes a concrete manuscript effort.
 
-## Research spanning projects
+## Properties and status
 
-Create an entry in the project that owns the work and link to it from an entry in the other project. `related_projects` is an optional list of links, not a reason to merge all project logs. Home queries the separate logs and shows recent ones by project folder.
+Project Homes use `type: project`, a `status` list, and optional `areas`.
 
-Every project starts with a Research Log folder. Create a new entry for a new session or topic rather than growing one file indefinitely. Each entry has `type: research-log`; Home finds these entries across all projects. Existing logs are preserved as Research Log/Initial Notes.md. See [[System/Setup/Research Capture]] for the creation command.
+Paper Homes use:
 
-## Attachment placement
+| Property | Meaning |
+| --- | --- |
+| `type: paper` | Identifies an authored paper workspace |
+| `project` | Wikilink to the parent project’s Home; required for the project’s Papers listing |
+| `status` | One value: active, paused, completed, or archived |
+| `stage` | One value: idea, experiments, drafting, submitted, revision, or published |
+| `target_venue` | Intended journal or conference |
+| `deadline` | Optional date |
+| `manuscript` | URL or wikilink to the editable manuscript |
 
-The vault uses Obsidian's **In subfolder under current folder** setting with `Attachments` as the subfolder. An image pasted into `Work/Example/Research Log/An Entry.md` goes into `Work/Example/Research Log/Attachments`. An image pasted into `Work/Example/Scratch/An Idea.md` goes into `Work/Example/Scratch/Attachments`.
+Status controls work visibility; stage records publication progress. A paper can be paused while drafting or active while submitted. Properties provide suggestions rather than enforcing this vocabulary.
 
-Thus attachments stay within the project, but there can be more than one Attachments subfolder. A single shared project-root attachment folder for every depth would need additional routing. Existing linked files are not relocated by this setting. Shared library files may remain outside the vault or alongside their catalog records. See [Obsidian attachment settings](https://obsidian.md/help/attachments).
+The Projects dashboard shows paper tasks only when both the nearest parent project and the paper are active. Shared project tasks require an active project. Its ordinary task view has a total limit of twelve; its `#next` view is unlimited. Each task group identifies the project and paper, or shared project work.
 
-## Project status
+Tasks Next’s Tagged next tasks view intentionally includes `#next` tasks anywhere else in Work, regardless of project or paper status. Home’s standalone Next tasks section is independent of both statuses.
 
-Use the `status` list in Properties with exactly one value: `active`, `paused`, `completed`, or `archived`. The list provides suggestions, but does not enforce the documented vocabulary. Home includes tasks only when the list contains `active`.
+## Research capture
 
-Resource notes share the same list property but use `saved`, `reading`, `finished`, or `stopped`. Their dashboards accept both list values and older text values. Dataview JavaScript remains enabled for the Projects dashboard's active-project task filter.
+Run **QuickAdd: New research log** from a paper note to save in that paper’s Research Log, or from a project-level note to save in the project’s Research Log. From outside these folders, select a project or paper destination. Paused work remains available for recording research.
+
+The nearest enclosing project/paper determines the capture destination. The physical folder determines ownership, so keep the paper’s `project` link consistent with its containing project. Every entry has `type: research-log`, a timezone-bearing timestamp, a project link, and optional `related_projects`; paper entries also have a paper link. Home shows recent entries with project and paper identity. See [[System/Setup/Research Capture]].
+
+For work spanning projects or papers, create a note where the work belongs and link to it from the other workspace. Do not maintain duplicate logs or tasks.
+
+## Scratch indexes and fallback
+
+Index Checker is scoped to files named `00 Scratch Index`, with nested mode off. Run **Index Checker: Check indexes**, review missing links, and add them to the relevant Scratch index. Automatic Research Log indexes are excluded. Each paper Scratch folder is checked separately; notes in another paper are not children of this index.
+
+If Index Checker is unavailable, a Scratch index can use this Dataview block to list its direct Markdown children automatically:
+
+```dataview
+LIST
+FROM "Work"
+WHERE file.folder = this.file.folder AND file.path != this.file.path
+SORT file.name ASC
+```
+
+Copy the block into the Scratch index. This example renders against this documentation folder; its query is relative to whichever note contains it. For a permanent automatic index, rename it to `Scratch Index.md` and update its Home link/query, so Index Checker does not treat the generated list as missing manual links. Curated annotations can remain above the listing.
+
+## Attachments and archiving
+
+The attachment setting is **In subfolder under current folder → Attachments**. Pasting into a paper Scratch note creates an attachment inside that paper’s Scratch/Attachments; a log entry uses its own Research Log/Attachments. Existing attachments are not relocated by this setting.
+
+Task Archiver archives completed tasks under Archived in their current source note. Paper Milestones therefore archive locally with the same settings as project Milestones. Marking a project or paper archived changes its status; it does not move or delete the folder.

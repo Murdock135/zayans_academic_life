@@ -32,3 +32,14 @@ LIST
 FROM "Work"
 WHERE file.path = this.file.folder + "/Research Log/Research Log Index.md"
 ```
+
+## Papers
+
+Run **QuickAdd: New paper** from a note in this project to create a manuscript workspace.
+
+```dataview
+TABLE WITHOUT ID link(file.path, regexreplace(file.folder, "^.*/", "")) AS "Paper", status AS "Status", stage AS "Stage", target_venue AS "Venue", deadline AS "Deadline"
+FROM "Work"
+WHERE type = "paper" AND project = this.file.link
+SORT file.folder ASC
+```

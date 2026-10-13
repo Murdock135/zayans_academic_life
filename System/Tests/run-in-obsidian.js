@@ -8,7 +8,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
  window[stateKey] = report;
  const originalLeaf=app.workspace.getMostRecentLeaf();
  const roots={work:`Work/${id}`,items:`Library/Items/${id}`,sessions:`Library/Sessions/${id}`,views:`System/Tests/Fixtures/${id}`};
- const owned=[]; const renders=[]; const ownedModals=new Set(); const productionBefore=new Map(); let leaf; let readingChoice;
+ const owned=[]; const renders=[]; const ownedModals=new Set(); const productionBefore=new Map(); let leaf; let readingChoice; let backgroundContents; let backgroundThrottling;
  const dv=app.plugins.plugins.dataview?.api;
  const assert=(condition,message)=>{if(!condition)throw Error(message)};
  const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -26,13 +26,22 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
  async function scopedPage(source){return write(`${roots.views}/${source.split('/').pop()}`,scope(await app.vault.read(get(source))))}
  function blocks(text){return [...text.matchAll(/^```dataview\n([\s\S]*?)^```/gm)].map(m=>m[1])}
  async function query(file,index){const text=await app.vault.read(file);const result=await dv.query(blocks(text)[index],file.path);assert(result.successful,result.error);return result.value}
- async function render(file){const component=new Component();component.load();const el=document.createElement('div');el.className='markdown-preview-view vault-workflow-test';Object.assign(el.style,{position:'fixed',top:'0',left:'0',width:'1000px',height:'800px',opacity:'0',pointerEvents:'none'});document.body.appendChild(el);renders.push({component,el});await MarkdownRenderer.render(app,await app.vault.read(file),el,file.path,component);return el}
+ async function render(file){const component=new Component();component.load();const el=document.createElement('div');el.className='markdown-preview-view vault-workflow-test';Object.assign(el.style,{position:'fixed',top:'0',left:'0',width:'1000px',height:'800px',opacity:'0',pointerEvents:'none'});document.body.appendChild(el);renders.push({component,el});await MarkdownRenderer.render(app,await app.vault.read(file),el,file.path,component);await wait(()=>![...el.querySelectorAll('.block-language-dataview')].some(block=>block.textContent.trim()==='Loading...'),'Dataview render settled');return el}
  function noErrors(el){assert(!el.querySelector('.dataview-error,.markdown-render-error'),el.textContent);assert(!/Tasks query:|Evaluation Error:|Dataview: Error/.test(el.textContent),el.textContent)}
  function tasksInSection(el,title){const heading=[...el.querySelectorAll('h2')].find(node=>node.textContent.trim()===title);if(!heading)return[];const tasks=[];for(let node=heading.nextElementSibling;node&&node.tagName!=='H2';node=node.nextElementSibling)tasks.push(...node.querySelectorAll('.task-list-item'));return tasks}
  const tasksIn=el=>tasksInSection(el,'Active project tasks');
  const nextTasksIn=el=>tasksInSection(el,'Next tasks');
  async function runResearch(){await quickAddApi.executeChoice('New research log');return app.workspace.getActiveFile()}
  try {
+  report.environment={visibility:document.visibilityState};
+  // An occluded Electron window suspends requestAnimationFrame, which Tasks needs.
+  // Keep real frame callbacks running during this suite, then restore the prior state.
+  if(document.hidden){
+   backgroundContents=require('@electron/remote').getCurrentWebContents();
+   backgroundThrottling=backgroundContents.getBackgroundThrottling();
+   backgroundContents.setBackgroundThrottling(false);
+   report.environment.backgroundThrottlingTemporarilyDisabled=true;
+  }
   assert(dv,'Dataview is not enabled');assert(app.plugins.plugins['obsidian-tasks-plugin'],'Tasks is not enabled');
   assert(!document.querySelector('.modal-container'),'Close existing dialogs before running tests.');
   for(const file of app.vault.getMarkdownFiles())productionBefore.set(file.path,await app.vault.read(file));
@@ -146,14 +155,88 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   await test('Home limit: six recent reading events; Sessions keeps all events',async()=>{
    let newest;
    for(let i=0;i<6;i++){const f=await write(`${roots.sessions}/Limit reading event ${i}.md`,`---\ntype: reading-event\nlogged_at: "${moment().add(i+1,'minutes').format('YYYY-MM-DDTHH:mm:ssZ')}"\nresource: "[[${resource.path.slice(0,-3)}]]"\n---\n`);await indexed(f);newest=f}
-   const recent=await query(home,2),all=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));
-   assert(recent.values.length===6&&recent.values[0][0].path===newest.path,'Wrong recent event limit/order');assert(all.length===8,'Session files were lost');
+   await wait(async()=>{const recent=await query(home,2);return recent.values.length===6&&dv.date(recent.values[0][1])?.toMillis()===dv.date(app.metadataCache.getFileCache(newest).frontmatter.logged_at).toMillis()},'Recent reading-event limit/order');const all=app.vault.getMarkdownFiles().filter(f=>f.path.startsWith(roots.sessions+'/'));assert(all.length===8,'Session files were lost');
   });
   await test('Home limits: standalone and active-project sections each enforce twelve independently',async()=>{
    await app.vault.append(milestones,'\n'+Array.from({length:15},(_,i)=>`- [ ] LIMIT_TASK_${i}`).join('\n')+'\n');await indexed(milestones,p=>p.file.tasks.some(t=>t.text==='LIMIT_TASK_14'));
    await app.vault.append(tasksNext,'\n'+Array.from({length:15},(_,i)=>`- [ ] NEXT_LIMIT_TASK_${i}`).join('\n')+'\n');await indexed(tasksNext,p=>p.file.tasks.some(t=>t.text==='NEXT_LIMIT_TASK_14'));
-   const el=await render(home);await wait(()=>tasksIn(el).length===12&&nextTasksIn(el).length===12,'independent 12-task limits');assert(!tasksIn(el).some(row=>row.textContent.includes('PAUSED_TASK')),'Paused tasks leaked into limited results');assert(!nextTasksIn(el).some(row=>row.textContent.includes('INBOX_TASK')),'Inbox leaked into standalone limit');noErrors(el);
+   const directory=await render(projects),el=await render(home);await wait(()=>tasksIn(directory).length===12&&nextTasksIn(el).length===12,'independent 12-task limits');assert(!tasksIn(directory).some(row=>row.textContent.includes('PAUSED_TASK')),'Paused tasks leaked into limited results');assert(!nextTasksIn(el).some(row=>row.textContent.includes('INBOX_TASK')),'Inbox leaked into standalone limit');noErrors(directory);noErrors(el);
   });
+
+  let paper,paperEntry,paperScratch,paperMilestones;
+  const paperFolder=`${projectFolder}/Papers/PAPER_FIXTURE`;
+  await test('Paper creation: actual QuickAdd command creates the complete blueprint and parent link',async()=>{
+   await open(project);
+   const running=quickAddApi.executeChoice('New paper');running.catch(()=>{});
+   const modal=await wait(()=>[...document.querySelectorAll('.modal-container')].find(el=>el.textContent.includes('Paper name')),'paper name prompt');ownedModals.add(modal);
+   const input=modal.querySelector('input');assert(input,'Paper-name input absent');input.value='PAPER_FIXTURE';input.dispatchEvent(new Event('input',{bubbles:true}));
+   const ok=[...modal.querySelectorAll('button')].find(b=>b.textContent==='Ok');assert(ok,'Paper-name submit button absent');ok.click();await running;
+   paper=get(`${paperFolder}/Home.md`);assert(paper,'Paper Home not created');const p=await indexed(paper);
+   assert(p.type==='paper'&&p.stage==='idea'&&p.status.includes('active'),'Paper defaults wrong');assert(app.metadataCache.getFirstLinkpathDest(p.project.path,paper.path)?.path===project.path,'Parent project missing');
+   for(const suffix of ['Milestones.md','Research Log/Research Log Index.md','Scratch/00 Scratch Index.md','Attachments','Scratch/Attachments'])assert(get(`${paperFolder}/${suffix}`),'Missing '+suffix);
+   assert(app.workspace.getActiveFile()?.path===paper.path&&leaf.view.getState().source===false,'Paper Home not opened in Live Preview');
+  });
+  assert(paper,'Paper creation prerequisite failed');
+  await test('Paper creation: cancelling the real prompt creates nothing',async()=>{
+   await open(project);const before=app.vault.getMarkdownFiles().length;const running=quickAddApi.executeChoice('New paper');running.catch(()=>{});
+   const modal=await wait(()=>[...document.querySelectorAll('.modal-container')].find(el=>el.textContent.includes('Paper name')),'cancelable paper prompt');ownedModals.add(modal);
+   [...modal.querySelectorAll('button')].find(b=>b.textContent==='Cancel').click();try{await running}catch(e){assert(/cancel|abort/i.test(String(e)),'Unexpected cancellation error: '+e)}
+   assert(app.vault.getMarkdownFiles().length===before,'Cancel created files');
+  });
+  paperScratch=await write(`${paperFolder}/Scratch/Paper scratch.md`,'- [ ] PAPER_SCRATCH_TASK #next\n');await indexed(paperScratch);
+  await test('Paper research capture: actual command saves inside paper and links both owners',async()=>{
+   await open(paperScratch);paperEntry=await runResearch();assert(paperEntry.parent.path===`${paperFolder}/Research Log`,'Captured at project level');const p=await indexed(paperEntry);
+   assert(app.metadataCache.getFirstLinkpathDest(p.project.path,paperEntry.path)?.path===project.path&&app.metadataCache.getFirstLinkpathDest(p.paper.path,paperEntry.path)?.path===paper.path,'Owner metadata wrong: '+JSON.stringify({project:p.project,paper:p.paper}));assert((await app.vault.read(paperEntry)).split('---')[2].trim()==='','Paper log body not blank');
+   const paperRows=await query(get(`${paperFolder}/Research Log/Research Log Index.md`),0);assert(paperRows.values.some(row=>row[0].path===paperEntry.path),'Paper log index missed entry');
+   const projectRows=await query(get(`${projectFolder}/Research Log/Research Log Index.md`),0);assert(!projectRows.values.some(row=>row[0].path===paperEntry.path),'Project index includes paper entry');
+  });
+  await test('Paper navigation: project lists paper and paper links back with its local indexes',async()=>{
+   const rows=await query(project,3);assert(rows.values.some(row=>row[0].path===paper.path),'Project Papers listing missed paper');
+   const el=await render(project);await wait(()=>el.textContent.includes('PAPER_FIXTURE'),'Papers table rendered');noErrors(el);
+   const paperEl=await render(paper);await wait(()=>paperEl.textContent.includes('Research Log Index'),'Paper indexes rendered');noErrors(paperEl);
+   assert([...paperEl.querySelectorAll('a.internal-link')].some(a=>(a.dataset.href||'').replace(/\.md$/,'')===project.path.slice(0,-3)),'Rendered parent link missing');
+  });
+  await test('Home research: paper entry has separate project and paper identity',async()=>{
+   // Earlier limit tests intentionally set future mtimes; bring this fixture to the top.
+   await app.vault.modify(paperEntry,await app.vault.read(paperEntry),{mtime:Date.now()+120000});await indexed(paperEntry);
+   await wait(async()=>{const rows=await query(home,1);return rows.values.some(row=>row[0].path===paperEntry.path&&app.metadataCache.getFirstLinkpathDest(row[1]?.path,home.path)?.path===project.path&&app.metadataCache.getFirstLinkpathDest(row[2]?.path,home.path)?.path===paper.path&&row[1].display==='Active (test)+'&&row[2].display==='PAPER_FIXTURE')},'Home paper owner row');
+  });
+  paperMilestones=get(`${paperFolder}/Milestones.md`);
+  await app.vault.modify(milestones,'# Milestones\n\n- [ ] SHARED_AFTER_PAPERS\n');await indexed(milestones,p=>p.file.tasks.some(t=>t.text==='SHARED_AFTER_PAPERS'));
+  await app.vault.modify(paperMilestones,'# Milestones\n\n## Draft\n\n- [ ] PAPER_TASK #next\n- [x] PAPER_DONE\n');await indexed(paperMilestones,p=>p.file.tasks.length===2);
+  await test('Paper tasks: active owners render paper headings and checkbox writes to exact paper source',async()=>{
+   const el=await render(projects);await wait(()=>tasksIn(el).some(row=>row.textContent.includes('PAPER_TASK')),'Paper task rendered');noErrors(el);
+   assert([...el.querySelectorAll('h4')].some(h=>h.textContent==='PAPER_FIXTURE'),'Paper heading missing');
+   const row=tasksIn(el).find(row=>row.textContent.includes('PAPER_TASK'));row.querySelector('input[type=checkbox]').click();await wait(async()=>/\[x\] PAPER_TASK/.test(await app.vault.read(paperMilestones)),'Paper source completed');
+   assert(/\[ \] SHARED_AFTER_PAPERS/.test(await app.vault.read(milestones)),'Shared source changed');
+  });
+  await test('Paper task status: paused paper hides its tasks while shared project work remains',async()=>{
+   await set(paper,{status:['paused']});const el=await render(projects);await wait(()=>tasksIn(el).some(row=>row.textContent.includes('SHARED_AFTER_PAPERS')),'Shared work rendered');
+   assert(!tasksIn(el).some(row=>row.textContent.includes('PAPER_SCRATCH_TASK')),'Paused paper task leaked');assert(!tasksInSection(el,'Next project tasks').some(row=>row.textContent.includes('PAPER_SCRATCH_TASK')),'Paused paper next task leaked');noErrors(el);await set(paper,{status:['active']});
+  });
+  await test('Paper task status: paused project hides active paper tasks',async()=>{
+   await set(project,{status:['paused']});const el=await render(projects);await wait(()=>el.textContent.includes('No open tasks from active projects.'),'Paused project empty task view');assert(tasksIn(el).length===0,'Paper tasks leaked from paused project');noErrors(el);await set(project,{status:['active']});
+  });
+  await test('Paper Scratch: Index Checker detects and clears local missing links independently',async()=>{
+   const plugin=app.plugins.plugins['index-checker'];const saved=plugin.indexedFoldersP;let results;
+   try{plugin.indexedFoldersP=[];plugin.processFolder(get(projectFolder));results=await Promise.all(plugin.indexedFoldersP)}finally{plugin.indexedFoldersP=saved}
+   assert(results.length===2&&results.every(r=>r.index.name==='00 Scratch Index.md'),'Project and paper indexes not independent');
+   const paperResult=results.find(r=>r.index.path===`${paperFolder}/Scratch/00 Scratch Index.md`);assert(paperResult?.missingChildren.some(f=>f.path===paperScratch.path),'Unlinked paper scratchpad not found');
+   const index=get(`${paperFolder}/Scratch/00 Scratch Index.md`);await app.vault.append(index,`\n[[${paperScratch.path.slice(0,-3)}]]\n`);await wait(()=>Object.keys(app.metadataCache.resolvedLinks[index.path]||{}).includes(paperScratch.path),'Paper scratch link indexed');
+   try{plugin.indexedFoldersP=[];plugin.processFolder(get(paperFolder));results=await Promise.all(plugin.indexedFoldersP)}finally{plugin.indexedFoldersP=saved}
+   assert(results.length===1&&results[0].missingChildren.length===0,'Paper scratch warning did not clear');
+  });
+  await test('Paper attachments: current relative setting keeps pasted files inside the paper',async()=>{
+   const attachment=await app.fileManager.getAvailablePathForAttachment('paper-test.png',paperScratch.path);assert(attachment.startsWith(`${paperFolder}/Scratch/Attachments/`),'Attachment routed outside paper: '+attachment);
+  });
+
+  await test('Paper Task Archiver: completed tasks archive within the paper milestone source',async()=>{
+   await open(paperMilestones);const sharedBefore=await app.vault.read(milestones);
+   assert(app.commands.executeCommandById('obsidian-task-archiver:archive-tasks'),'Archive command unavailable');
+   await wait(async()=>{const text=await app.vault.read(paperMilestones);return text.includes('# Archived')&&text.indexOf('PAPER_DONE')>text.indexOf('# Archived')},'Paper tasks archived');
+   assert(await app.vault.read(milestones)===sharedBefore,'Shared project tasks changed while archiving paper');
+  });
+
   await test('Every production Dataview query parses and evaluates',async()=>{for(const file of app.vault.getMarkdownFiles().filter(f=>!Object.values(roots).some(root=>f.path.startsWith(root+'/')))){for(const queryText of blocks(await app.vault.cachedRead(file))){const result=await dv.query(queryText,file.path);assert(result.successful,`${file.path}: ${result.error}`)}}});
   await test('Workflow links resolve',async()=>{for(const path of ['Home.md','Work/Projects.md','Work/Tasks Next.md','Work/Inbox.md','System/How To Use.md','System/Vault Map.md','System/Setup/Start Here.md']){const file=get(path);for(const link of app.metadataCache.getFileCache(file)?.links??[])assert(app.metadataCache.getFirstLinkpathDest(link.link,file.path),`${path}: unresolved [[${link.link}]]`)}});
  }catch(e){report.tests.push({name:'Suite setup or prerequisite',status:'failed',error:e.stack||String(e)})}
@@ -164,6 +247,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
   if(leaf)leaf.detach();if(originalLeaf?.view)app.workspace.setActiveLeaf(originalLeaf,{focus:true});
   for(const root of owned.reverse()){try{const f=get(root);if(f)await app.vault.delete(f,true);report.cleanup.push({path:root,removed:!get(root)})}catch(e){report.cleanup.push({path:root,error:String(e)})}}
   if(productionBefore.size)await test('Isolation: production notes remain unchanged',async()=>{for(const [path,content]of productionBefore){const file=get(path);assert(file,'Production note removed: '+path);assert(await app.vault.read(file)===content,'Production note changed during the run: '+path)}});
+  if(backgroundContents)backgroundContents.setBackgroundThrottling(backgroundThrottling);
   report.finished=new Date().toISOString();report.passed=report.tests.filter(t=>t.status==='passed').length;report.failed=report.tests.filter(t=>t.status==='failed').length;
   report.running=false;report.ok=report.failed===0&&report.cleanup.every(c=>c.removed);
   await folder('System/Tests/Results');await app.vault.adapter.write('System/Tests/Results/latest.json',JSON.stringify(report,null,2)+'\n');

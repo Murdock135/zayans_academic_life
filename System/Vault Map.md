@@ -19,6 +19,16 @@ Work/
       00 Scratch Index.md        Curated scratchpad links
       Attachments/
     Attachments/
+    Papers/                   Authored manuscript workspaces
+      Paper Name/
+        Home.md               Parent project, status, publication stage, manuscript link
+        Milestones.md         Paper tasks and submission milestones
+        Research Log/
+          Research Log Index.md
+        Scratch/
+          00 Scratch Index.md
+          Attachments/
+        Attachments/
 Library/
   Catalog.base                Library: All, Reading, and Finished views
   Sessions.md                 View of the 200 most recent reading sessions
@@ -33,6 +43,7 @@ System/
   Scripts/                    QuickAdd research-entry creation
   Templates/
     Project Blueprint/        Copy this whole folder to create a project
+    Paper Blueprint/          Copy under a project with QuickAdd: New paper
     Resource.md               Blank resource record
     Capture/Reading Event.md  QuickAdd capture template
   Reference/Legacy Templates/ Previous single-file templates, retained for reference
@@ -46,6 +57,7 @@ Each project folder is named from the value entered in **QuickAdd: New project**
 - Put a clear action with no project owner in Work/Tasks Next.md.
 - Put an unclear or unprocessed capture in Work/Inbox.md, then move it to Tasks Next, a project milestone, a project Scratch note, or deletion.
 - Project Scratch folders are for exploration, not a global inbox. Tasks inside active-project Scratch notes may appear on the Projects dashboard.
+- Keep shared research at project level and manuscript-specific work under Papers/Paper Name. Each paper has its own log, milestones and Scratch index.
 - Keep all project-specific work beneath its project folder. The project overview and Milestones file are distinct from its research log and exploratory scratchpads.
 - Keep shared resources in Library. Track books and textbooks through their resource records; keep the latest 200 paper and online-article reading sessions in Library/Sessions and archive older ones in Reading History.csv. Do not copy a resource into every project that uses it.
 - Use System/Templates for new records and project scaffolding. Legacy single-file templates are outside the active template folder to avoid offering competing creation methods.

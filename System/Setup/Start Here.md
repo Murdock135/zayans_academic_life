@@ -16,7 +16,8 @@ Read [[How To Use]] for the daily workflow, [[System/Setup/Project Structure]] f
 - Add a clear standalone action to [[Work/Tasks Next|Tasks Next]] and confirm it appears under **Next tasks** on Home.
 - Add an ambiguous capture to [[Work/Inbox|Inbox]] and confirm it does not appear as a Home task.
 - Run **QuickAdd: New project**, enter a name, and customize the project it creates. Each project owns its Research Log folder, scratchpads/index, milestone tasks, and attachments.
-- Run **QuickAdd: New research log** from a project note; a date-and-time-named entry is created automatically.
+- Run **QuickAdd: New paper** from a project note to create a manuscript workspace under Papers. Set its question, contribution, stage, venue and manuscript link.
+- Run **QuickAdd: New research log** from a project or paper note; a date-and-time-named entry is created automatically.
 - Tick off the startup checklist on [[Home]] each morning. Edit the items there directly whenever the routine needs updating.
 - Create a resource in Library/Items using the Resource template; folder placement puts it in the catalog automatically. Set status to reading for Home, or finished when done; finished records remain in the library.
 - Run **QuickAdd: Log reading** to create a consistently named event. Add its resource link and optional reading details. Resource progress updates remain manual.
@@ -26,7 +27,7 @@ The attachment setting is **In subfolder under current folder → Attachments**.
 
 ## Current boundaries
 
-Inbox processing remains manual. Home separately shows up to twelve standalone Tasks Next items and twelve unfinished tasks from active projects. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
+Inbox processing remains manual. Home shows up to twelve standalone Tasks Next items; Projects shows up to twelve unfinished tasks from active projects and active papers, plus an unlimited #next view. Tasks Next’s Tagged next tasks view includes Work tasks regardless of status. Library sync, sliders, clusters, AI greetings, and external PDF capture are not implemented. See [[System/Setup/Plugin Plan]].
 
 Queries and link resolution have been checked through the running Obsidian app. Research capture has passed a file-creation smoke test. See [[System/Setup/Vault Review]] for the latest findings and remaining checks.
 

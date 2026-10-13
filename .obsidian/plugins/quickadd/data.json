@@ -75,20 +75,20 @@
       }
     },
     {
-      "id": "new-project",
-      "name": "New project",
+      "id": "new-paper",
+      "name": "New paper",
       "type": "Macro",
       "command": true,
       "runOnStartup": false,
       "macro": {
-        "id": "new-project-macro",
-        "name": "New project",
+        "id": "new-paper-macro",
+        "name": "New paper",
         "commands": [
           {
-            "id": "new-project-script",
-            "name": "new-project",
+            "id": "new-paper-script",
+            "name": "new-paper",
             "type": "UserScript",
-            "path": "System/Scripts/new-project.js",
+            "path": "System/Scripts/new-paper.js",
             "settings": {}
           }
         ]

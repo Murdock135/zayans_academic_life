@@ -15,10 +15,11 @@
 | --- | --- |
 | A clear task with no project | [[Work/Tasks Next]] |
 | An unclear or unprocessed thought | [[Work/Inbox]] |
-| A project task | That project's `Milestones.md` |
-| A dated account of project work | That project's `Research Log/` |
-| An experiment, derivation, draft, or exploratory note | That project's `Scratch/` |
-| A book, textbook, paper, or article | `Library/Items/` |
+| A shared project task | The project’s `Milestones.md` |
+| A manuscript-specific task | The paper’s `Milestones.md` |
+| A dated account of research work | The owning project or paper’s `Research Log/` |
+| An experiment, derivation, draft, or exploratory note | The owning project or paper’s `Scratch/` |
+| A reading resource: book, textbook, paper, or article | `Library/Items/` |
 | A paper or online-article reading session | `Library/Sessions/` |
 
 ## Commands to remember
@@ -26,7 +27,8 @@
 | Command | Use |
 | --- | --- |
 | **QuickAdd: New project** | Ask for a name, create the complete project structure, and open its Home |
-| **QuickAdd: New research log** | Create a timestamped research entry in the current project |
+| **QuickAdd: New paper** | Create a paper under the current or selected project and open its Home |
+| **QuickAdd: New research log** | Create a timestamped entry in the current project or paper |
 | **QuickAdd: Log reading** | Record a paper/article session and its takeaway |
 | **Templates: Insert template → Resource** | Set up a new note in `Library/Items/` |
 
@@ -54,11 +56,14 @@
 - Use `progress: 100` only if you completed all of it.
 - Use `stopped` when you deliberately set something aside.
 
-## Project status
+## Project and paper status
 
-- `active`: unfinished project tasks appear on the Projects dashboard.
+- Project `active`: shared project tasks appear on Projects.
+- Paper tasks appear when both project and paper are `active`.
+- Paper `stage`: idea, experiments, drafting, submitted, revision, or published; independent of status.
 - `paused`, `completed`, or `archived`: tasks remain in place but disappear from the active-project view.
-- Keep all project-owned notes and attachments inside that project's folder.
+- Keep authored papers under the project’s Papers folder; each paper owns its notes and attachments.
+- Tasks Next’s Tagged next tasks view includes tagged Work tasks regardless of status.
 
 ## When in doubt
 

@@ -25,6 +25,12 @@
     "TQ_show_toolbar": "checkbox",
     "TQ_show_tree": "checkbox",
     "TQ_show_urgency": "checkbox",
-    "status": "multitext"
+    "status": "multitext",
+    "project": "text",
+    "paper": "text",
+    "stage": "text",
+    "target_venue": "text",
+    "deadline": "date",
+    "manuscript": "text"
   }
 }

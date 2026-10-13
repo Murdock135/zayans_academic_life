@@ -6,7 +6,7 @@ The suite tests the vault’s current workflows using its actual templates, scri
 
 Open the command palette and run **QuickAdd: Test vault workflows**.
 
-The suite opens a temporary test tab and automatically submits or cancels its own research-name dialogs. Let the run finish without editing notes or interacting with those dialogs. It restores the previously active tab and removes its temporary files when finished. A notification gives the result; details are saved in `System/Tests/Results/latest.json`.
+The suite opens a temporary test tab and automatically submits or cancels its own paper-name dialogs. Let the run finish without editing notes or interacting with those dialogs. It restores the previously active tab and removes its temporary files when finished. A notification gives the result; details are saved in `System/Tests/Results/latest.json`.
 
 ## Run from a terminal
 
@@ -36,15 +36,17 @@ The runner exits with a nonzero status on test failure, failed cleanup, or a tim
 | Workflow | What is tested |
 | --- | --- |
 | Create a project | Copy the complete blueprint; verify status, areas, milestones, Scratch index, Research Log folder and index; edit properties and check their rendered controls |
-| Create research entries | Execute the real QuickAdd macro and submit the name dialog; verify timestamped filename, correct project, project link, metadata, blank body and Live Preview; cancel the actual dialog without creating a note |
+| Create research entries | Execute the real QuickAdd macro without a name prompt; verify timestamped filename, correct project/paper destination, owner links, metadata, blank body and Live Preview |
+| Create a paper | Run the real QuickAdd command and submit/cancel the paper-name prompt; verify the complete blueprint, parent link and Live Preview; fast tests cover project selection, sibling papers, duplicates, unsafe and blank names |
 | Research edge cases | Nested projects, folder boundaries, project selection from Home, no projects, empty names, unsafe filename characters, duplicate names/timestamps, failed writes |
 | Create a resource | Open an empty test note and invoke core Templates insertion; validate the resulting resource properties |
 | Resource lifecycle | Saved, reading, finished, stopped and legacy text/list statuses; finishing and rereading; reading history retained; resource membership determined by folder rather than editable type |
 | Reading capture | Run a clone of the real QuickAdd Template choice with only its destination and opening behavior changed; verify unique events, expanded date tokens and resource links |
 | Home and Projects | Render standalone tasks on Home and active-project tasks on Projects; require an exact Tasks Next path; exclude completed, Inbox, similarly named, paused, archived and completed-project tasks; retain active-project Scratch tasks; click each kind of checkbox and verify its exact source; enforce both 12-item limits |
-| Other dashboards | Evaluate and render Projects, project overviews, and research indexes; assert actual rows and links |
+| Other dashboards | Evaluate and render Projects, project overviews, and research indexes; assert actual rows and links; fast checks use the installed Dataview parser/evaluator to validate Home project/paper labels, links and ordering |
 | Bases catalog | Render All, Reading and Finished views with a temporary source folder; test missing, capitalized and incorrect type values, exact status matching, and exclusion of non-Markdown attachments |
-| Index Checker | Detect a missing Scratch link, add it, and verify the warning clears; ensure generated Research Log indexes are excluded |
+| Index Checker | Independently detect and clear missing links in project and paper Scratch folders; exclude generated Research Log indexes |
+| Paper workflows | Render project/paper navigation, Home owner identities and task headings; complete a paper checkbox; hide tasks when paper or parent is paused; verify attachment placement and archive completed tasks inside paper Milestones |
 | Configuration | Required plugins, paths, property type and JavaScript setting; resolve workflow links and evaluate every production Dataview query |
 
 ## Isolation and cleanup
@@ -57,4 +59,4 @@ All fixture roots are tracked in the result and removed in `finally`, including 
 
 ## Limits
 
-These are behavioral and DOM-rendering tests, not pixel-perfect visual comparisons. They verify rendered tables, links, properties and interactive checkboxes; they do not judge theme aesthetics, mobile layout, long-term sync, backup recovery or external integrations. A few core Obsidian APIs and DOM selectors are not public contracts, so an app/plugin update may require a test-harness adjustment. Failures retain their names and stack traces in the report to distinguish harness incompatibility from a vault regression.
+These are behavioral and DOM-rendering tests, not pixel-perfect visual comparisons. In an occluded desktop window, the suite temporarily disables Electron background throttling so Tasks can run real animation-frame callbacks, then restores the previous state. The report records this environment adjustment. They verify rendered tables, links, properties and interactive checkboxes; they do not judge theme aesthetics, mobile layout, long-term sync, backup recovery or external integrations. A few core Obsidian APIs and DOM selectors are not public contracts, so an app/plugin update may require a test-harness adjustment. Failures retain their names and stack traces in the report to distinguish harness incompatibility from a vault regression.

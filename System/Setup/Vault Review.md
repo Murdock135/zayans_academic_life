@@ -1,3 +1,52 @@
+# Vault review — 2026-10-13
+
+[[Home]] · [[System/Setup/Project Structure|Project and paper structure]] · [[System/Tests/README|Workflow tests]]
+
+Implemented Project → Papers while retaining project-level shared research and the shared Library. The workflow uses the existing plugins; no plugin installation or version update was needed.
+
+## Changes and plugin impact
+
+| Component | Change |
+| --- | --- |
+| Vault structure | Each project has a Papers folder; each authored paper owns Home, Milestones, Research Log, Scratch and local attachments |
+| QuickAdd | Added New paper, extended New research log to recognize project and paper destinations, and removed the duplicate New project choice |
+| Paper properties | Added type, project, status, stage, target_venue, deadline and manuscript; status remains a List and publication stage is separate |
+| Dataview | Project Homes list papers; Home research shows separate project/paper identities; project task queries recognize paper ownership |
+| Tasks | Source checkboxes remain authoritative; paper tasks require active project and paper in both Projects views; ordinary total limit stays twelve and #next stays unlimited |
+| Tasks Next | Existing tagged Work view remains independent of project/paper status |
+| Index Checker | Existing direct-child Scratch-index settings work for nested papers; detected and cleared missing links separately at both levels |
+| Attachments | Existing relative Attachments setting routes paper attachments locally |
+| Task Archiver | Existing current-note archive command works in paper Milestones without changing project Milestones |
+| Documentation | Updated project structure, research capture, usage guide, cheat sheet, vault map, setup, plugin plan and test coverage |
+
+## Migration
+
+Created [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Home|SPARQ JAMIA]]. Moved its live manuscript link, paper milestone section, reviewer-materials task, completed outline task and Reference JAMIA papers scratchpad into the paper workspace. Obsidian handled the scratchpad move and link updates.
+
+Kept architecture, shared batch-evaluation infrastructure, general evaluation ideas, journal possibilities and broader ideas at project level. Follow-up Study remains an example rather than a created paper. No paper title was inferred for Combination of Evidence in MASs.
+
+Compared the migrated milestone files with the pre-change backup: all 19 existing task lines are preserved exactly, with each task stored once. The moved reference note’s bytes are unchanged. Pre-existing edits to Combination of Evidence milestones and Tasks Next were preserved.
+
+## Verification
+
+- **45 fast tests passed; 39 live Obsidian workflow tests passed; zero failures in the completed runs.**
+- Live checks used real QuickAdd creation and cancellation, actual templates, Dataview/Tasks rendering, source-checkbox completion, owner status changes, Index Checker, attachment routing and Task Archiver.
+- The final Home owner-label adjustment was then verified with the installed Dataview parser and evaluator against project and paper fixtures, including destinations and ordering. An additional live rerun after this display change was unavailable because UI reconnection timed out after CLI was restored to disabled.
+- Every production Dataview query evaluated in the completed live run, workflow links resolved, all disposable fixture roots were removed, and production notes stayed unchanged throughout the final test run.
+- All Obsidian JSON files parse; JavaScript syntax and git diff whitespace checks passed.
+- Corrected old test assertions that looked for project tasks on Home and compared reading resource links with session filenames. Link assertions now use resolved destinations.
+- The window was occluded during CLI verification. The test harness temporarily disabled Electron background throttling so real animation-frame rendering could proceed and restored the original setting afterward. CLI was also returned to its original disabled state after testing. This is recorded in the test report, not a permanent application change.
+
+The final live report is `System/Tests/Results/latest.json`. These are workflow and DOM checks; they do not validate manuscript contents, external document access, mobile rendering or sync behavior.
+
+## Existing content issue
+
+[[Work/Combination of Evidence in MASs/Milestones|Combination of Evidence milestones]] contains pre-existing merge-conflict markers in its archived section. The paper-structure migration preserved that note. Resolving its historical duplicate entries is separate content cleanup.
+
+A pre-change recovery copy is available at `/tmp/academic-vault-before-papers-20261013-115312.zip`. It is temporary, not a long-term backup.
+
+---
+
 # Vault review — 2026-09-24
 
 [[Home]] · [[System/Setup/Start Here|Setup]]

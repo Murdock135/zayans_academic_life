@@ -38,9 +38,9 @@ Open Home and tick off the startup checklist. Then choose a project-owned log fr
 
 Send a clear action with no project owner directly to [[Work/Tasks Next|Tasks Next]]. Send an unclear idea, note, or action to [[Work/Inbox|Inbox]] and process it later.
 
-Move project-owned work into the appropriate project's Milestones.md. Check tasks there or in the Projects dashboard's **Active project tasks** view; the query updates the source checkbox. Tasks written while exploring in an active project's Scratch notes also appear there. The Active project tasks section shows at most twelve items. Tag an unfinished task `#next` to show it in the unlimited Next project tasks section and in Tasks Next’s Tagged next tasks view. The Projects view requires an active project; Tasks Next includes tagged tasks anywhere else in Work. Checkboxes in both views update the original task.
+Move shared project work into the project’s Milestones.md and manuscript-specific work into the paper’s Milestones.md. Check tasks there or in the Projects dashboard's **Active project tasks** view; the query updates the source checkbox. Tasks in the current project or paper’s Scratch notes also appear there when their owners are active. The Active project tasks section shows at most twelve items. Tag an unfinished task `#next` to show it in the unlimited Next project tasks section and in Tasks Next’s Tagged next tasks view. The Projects view requires an active project and, for paper tasks, an active paper; Tasks Next includes tagged tasks anywhere else in Work regardless of status. Checkboxes in both views update the original task.
 
-Create timestamped entries in that project's Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in 00 Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
+Create timestamped entries in the current project or paper’s Research Log folder using **QuickAdd: New research log**. Put substantial experiments, drafts, derivations, and exploratory ideas into individual Scratch files. Scratch is project exploration, not the global task inbox. Maintain scratch links in 00 Scratch Index.md, aided by Index Checker. See [[System/Setup/Project Structure]] for the full folder layout and rationale.
 
 ### Read
 
@@ -56,15 +56,23 @@ Unchecked startup items do not carry forward automatically. If a prompt has beco
 
 ## Create and manage a project
 
-Run **QuickAdd: New project**, enter a name, and let the command copy the complete blueprint into Work and open the new `Home.md`. Every project has its own Research Log folder and scratch index. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md. See [[System/Setup/Project Structure]].
+Run **QuickAdd: New project**, enter a name, and let the command copy the complete blueprint into Work and open the new `Home.md`. Every project has its own Research Log folder, scratch index, and Papers folder. Project status and area labels live in the project entry file. Milestones and their tasks live together in Milestones.md. See [[System/Setup/Project Structure]].
 
 The Projects dashboard's **Active project tasks** section shows unfinished tasks only from projects whose status includes `active`. Setting a project to `paused`, `completed`, or `archived` removes its tasks from that section; the tasks stay in their original notes. Home's separate **Next tasks** section is unaffected by project status. Review project tasks when closing a project. A milestone is currently a heading; there is no draggable or calculated milestone bar yet.
 
+## Create and manage a paper
+
+Open a note in its project and run **QuickAdd: New paper**. Enter a stable short name; the command creates Home, Milestones, Research Log, and Scratch under that project’s Papers folder. From outside a project, select the parent when necessary.
+
+Paper Home holds `type: paper`, a parent-project link, status, publication stage, target venue, optional deadline and manuscript link. Project Home lists its papers. Keep shared infrastructure and broad ideas at project level; put manuscript-specific experiments, drafts, tasks and reviewer responses inside the paper. Store each note/task once and cross-link it.
+
+Paper tasks appear on Projects only when both paper and parent project are active. Stage records publication progress independently of status. Index Checker checks each paper’s Scratch index separately; [[System/Setup/Project Structure|Project structure]] includes a Dataview fallback.
+
 ## Create a research log entry
 
-From any note in a project, run **QuickAdd: New research log**. QuickAdd immediately creates a file named with the local date and time in that project's Research Log folder and opens a blank body for writing. From outside a project, choose the destination project when more than one exists.
+From a project or paper note, run **QuickAdd: New research log**. QuickAdd creates a date-and-time-named entry in that workspace’s Research Log folder and opens a blank body. From outside a workspace, choose a project or paper destination when more than one exists.
 
-Research Log Index.md lists that project's entries. Home lists recent entries across projects without combining their contents. Use `related_projects` to link other projects involved in an entry. See [[System/Setup/Research Capture]].
+Each Research Log Index.md lists entries in its own log folder. Home lists recent entries across projects and papers with both owner identities. Use `related_projects` to link other projects involved in an entry. See [[System/Setup/Research Capture]].
 
 ## Add a reading resource
 
@@ -108,7 +116,7 @@ Home is the only page at the vault root. Everything else belongs to three folder
 | Location | Purpose |
 | --- | --- |
 | Home.md | Daily starting point |
-| Work/ | Projects directory and self-contained project folders |
+| Work/ | Projects directory and self-contained projects, with authored papers under each project’s Papers folder |
 | Work/Tasks Next.md | Clear standalone actions with no project owner |
 | Work/Inbox.md | Unprocessed ideas, notes, and ambiguous items |
 | Library/ | Catalog.base, resource records in Items, and reading events in Sessions |
@@ -118,6 +126,6 @@ Open [[System/Vault Map]] for the full layout. Process Inbox entries manually in
 
 ## What is still manual
 
-Resource creation and progress edits, project creation from the blueprint, Inbox processing, and index review are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
+Resource creation and progress edits, choosing project/paper names and customizing their blueprints, Inbox processing, and index review are manual. Reading-event and research-entry filenames/timestamps are automated through QuickAdd. Index Checker helps detect missing scratch links; it does not decide their organization.
 
 Source synchronization, deduplication, semantic clusters, learning-level recommendations, AI greetings, sliders, and external PDF-window capture remain future work. See [[System/Setup/Plugin Plan]]. If views show raw code, enable their plugins and use Reading view. Empty views are expected before adding records in the correct folders with the required type/status properties.

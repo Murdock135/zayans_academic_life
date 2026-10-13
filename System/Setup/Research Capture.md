@@ -1,15 +1,15 @@
 # Research capture
 
-[[Home]] · [[System/Setup/Project Structure|Project structure]]
+[[Home]] · [[System/Setup/Project Structure|Project and paper structure]]
 
-1. Open any note inside the project, including a milestone, scratchpad, or earlier log entry.
-2. Run **QuickAdd: New research log** from the command palette. You can assign it a hotkey in Settings → Hotkeys.
-3. The command immediately creates `Research Log/YYYY-MM-DD HHmmss-SSS.md` within that project and opens it in Live Preview.
+1. Open a note inside the project or paper whose work you are recording.
+2. Run **QuickAdd: New research log** from the command palette. An optional hotkey can be assigned in Settings → Hotkeys.
+3. The command creates `Research Log/YYYY-MM-DD HHmmss-SSS.md` inside that workspace and opens a blank body in Live Preview.
 
-No entry name is requested. From Home or another non-project note, the command uses the sole project or offers a project picker if there are several. The nearest project folder determines ownership for nested projects. Paused projects remain available for recording research.
+Inside a paper, the entry belongs to that paper. Inside the project’s shared notes, it belongs to the project. From Home or another non-project note, choose a destination from the list of projects and papers. If there is only one destination, it is selected automatically. Picker labels show full paths so repeated paper names remain distinguishable. Paused work remains available for recording research.
 
-Every entry has `type: research-log`, a `logged_at` timestamp with timezone, a link to its project, and optional `related_projects`. Its body is blank. Existing files are never overwritten; a numeric suffix handles the unlikely case of two entries receiving the same millisecond timestamp.
+Every entry has `type: research-log`, a `logged_at` timestamp with timezone, a parent-project link, and optional `related_projects`. Paper entries also have a `paper` link. No entry name or body format is required. Existing files are never overwritten; a numeric suffix handles repeated timestamps.
 
-Research Log Index.md lists the project's entries newest first. Home continues to show recently edited entries across projects. Existing root-level research logs have been moved to Research Log/Initial Notes.md with their content preserved.
+Each Research Log Index lists entries inside its own Research Log folder, newest first. The project’s log index is for shared project sessions; each paper has its own index. Home’s Continue research view shows recent entries across both levels with separate Project and Paper columns. The displayed links and names come from each entry’s owning folder, so older entries work without adding owner properties.
 
-This uses the already-installed QuickAdd plugin and `System/Scripts/new-research-log.js`, registered as a Macro choice with one User Script step. New projects copied from the blueprint already contain their Research Log folder and index; the command also creates the folder if it is missing.
+This uses the installed QuickAdd plugin and `System/Scripts/new-research-log.js`. Project and paper blueprints contain Research Log folders and automatic indexes; capture also creates the destination folder if missing.

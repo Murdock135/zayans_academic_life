@@ -6,6 +6,7 @@ const vm = require('node:vm');
 const root = path.resolve(__dirname, '../..');
 const capture = require('../Scripts/new-research-log.js');
 const newProject = require('../Scripts/new-project.js');
+const newPaper = require('../Scripts/new-paper.js');
 const home = fs.readFileSync(path.join(root, 'Home.md'), 'utf8');
 const projectsPage = fs.readFileSync(path.join(root, 'Work/Projects.md'), 'utf8');
 const taskBlocks = [...home.matchAll(/```tasks\n([\s\S]*?)\n```/g)].map(match => match[1]);
@@ -50,8 +51,8 @@ test('project: unsafe path characters are replaced without changing ordinary nam
  assert.equal(newProject.safeFolderName('A/B: C?'),'A-B- C-');
  assert.equal(newProject.safeFolderName('CON'),'CON-project');
 });
-function homeResult(pages){let output;vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},el:()=>{},paragraph:text=>output=text},Map});return output;}
-function matches(output,p){const match=output.match(/path regex matches \/(.*)\//);return !!match&&new RegExp(match[1]).test(p)}
+function homeResult(pages){const output=[];vm.runInNewContext(homeCode,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(path,embed,label)=>({path,embed,label}),header:()=>{},el:()=>{},paragraph:text=>output.push(text)},Map});return output.join('\n');}
+function matches(output,p){return [...output.matchAll(/path regex matches \/(.*)\//g)].some(match=>new RegExp(match[1]).test(p))}
 for(const status of [['active'],'active']) test('Home: active '+JSON.stringify(status)+' includes project and nested scratch tasks',()=>{const pages=[file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}]),file('Work/A/Scratch/x.md',null,null,[{}])];const result=homeResult(pages);assert(matches(result,pages[1].path));assert(matches(result,pages[2].path));assert.match(result,/not done\ngroup|not done\npath/);assert.match(result,/limit [1-9]\d*/)});
 for(const status of [['paused'],['completed'],['archived'],[],null,['inactive']])test('Home: excludes status '+JSON.stringify(status),()=>{assert.equal(homeResult([file('Work/A/P.md','project',status),file('Work/A/M.md',null,null,[{}])]),'No open tasks from active projects.')});
 test('Home: nested inactive project overrides its active parent',()=>{const pages=[file('Work/A/P.md','project',['active']),file('Work/A/Sub/P.md','project',['paused']),file('Work/A/M.md',null,null,[{}]),file('Work/A/Sub/M.md',null,null,[{}])];const r=homeResult(pages);assert(matches(r,pages[2].path));assert(!matches(r,pages[3].path))});
@@ -62,7 +63,7 @@ test('configuration: workflow dependencies, templates, and script paths exist',(
  assert.equal(read('.obsidian/plugins/dataview/data.json').enableDataviewJs,true);
  assert.equal(read('.obsidian/types.json').types.status,'multitext');
  const choices=read('.obsidian/plugins/quickadd/data.json').choices;
- for(const name of ['New project','New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
+ for(const name of ['New project','New paper','New research log','Log reading']){const choice=choices.find(c=>c.name===name);assert(choice?.command,name);if(choice.templatePath)assert(fs.existsSync(path.join(root,choice.templatePath)));for(const command of choice.macro?.commands??[])if(command.path)assert(fs.existsSync(path.join(root,command.path)))}
  assert(fs.existsSync(path.join(root,'Work/Tasks Next.md')));assert(fs.existsSync(path.join(root,'Work/Inbox.md')));
 });
 
@@ -75,3 +76,74 @@ test('Projects next tasks: includes tagged task beyond the ordinary limit, exclu
  assert(matches(result,'Work/A/Milestones.md'));assert(!matches(result,'Work/A/Done.md'));assert(!matches(result,'Work/A/Other.md'));
  assert.match(result,/tags regex matches \/\^#next\$\//);assert.doesNotMatch(result,/limit /);
 });
+
+
+const paperPages = () => [file('Work/A/Home.md','project',['active']), file('Work/A/Papers/P1/Home.md','paper',['active'])];
+test('research: a paper scratchpad saves in that paper and links to both owners',async()=>{
+ const f=setup({active:'Work/A/Papers/P1/Scratch/Idea.md',projects:paperPages()});await f.run();
+ assert.match(f.writes[0].path,/^Work\/A\/Papers\/P1\/Research Log\//);
+ assert.match(f.writes[0].content,/project: "\[\[Work\/A\/Home\]\]"/);
+ assert.match(f.writes[0].content,/paper: "\[\[Work\/A\/Papers\/P1\/Home\]\]"/);
+ assert.equal(f.picks.length,0);
+});
+test('research: project notes stay at project level even when it has papers',async()=>{
+ const f=setup({projects:paperPages()});await f.run();assert.match(f.writes[0].path,/^Work\/A\/Research Log\//);assert.doesNotMatch(f.writes[0].content,/^paper:/m);
+});
+test('research: Home offers projects and papers, even with just one project',async()=>{
+ const f=setup({active:'Home.md',projects:paperPages(),choose:0});await f.run();
+ assert.equal(f.picks.length,1);assert(f.picks[0].some(label=>label==='Paper: Work/A/Papers/P1'));assert(f.picks[0].some(label=>label==='Project: Work/A'));
+ assert.match(f.writes[0].path,/^Work\/A\/Papers\/P1\/Research Log\//);
+});
+test('research: cancelling the destination picker writes nothing with papers present',async()=>{
+ const f=setup({active:'Home.md',projects:paperPages(),choose:null});await f.run();assert.equal(f.writes.length,0);assert.equal(f.files.size,0);
+});
+test('research: a similarly named paper folder cannot capture its neighbor',async()=>{
+ const f=setup({active:'Work/A/Papers/P10/Scratch/Idea.md',projects:[...paperPages(),file('Work/A/Papers/P10/Home.md','paper')]});await f.run();assert.match(f.writes[0].path,/^Work\/A\/Papers\/P10\/Research Log\//);
+});
+function dashboard(pages,index=0){const outputs=[],headers=[];const code=[...projectsPage.matchAll(/```dataviewjs\n([\s\S]*?)\n```/g)][index][1];vm.runInNewContext(code,{dv:{pages:()=>({array:()=>pages}),array:v=>({array:()=>v==null?[]:Array.isArray(v)?v:[v]}),fileLink:(p,e,label)=>label,header:(level,text)=>headers.push([level,text]),el:()=>{},paragraph:s=>outputs.push(s)},Map});return {text:outputs.join('\n'),headers};}
+for(const index of [0,1])test(`paper tasks: dashboard ${index} requires active project and paper, with owner headings`,()=>{
+ const pages=[...paperPages(),file('Work/A/Papers/P2/Home.md','paper',['paused']),file('Work/A/Papers/P1/Milestones.md',null,null,[{tags:['#next']}]),file('Work/A/Papers/P2/Milestones.md',null,null,[{tags:['#next']}]),file('Work/A/Milestones.md',null,null,[{tags:['#next']}])];
+ const r=dashboard(pages,index);assert(matches(r.text,pages[3].path));assert(!matches(r.text,pages[4].path));assert(matches(r.text,pages[5].path));assert(r.headers.some(([level,text])=>level===4&&text==='P1'));
+ pages[0].status=['paused'];const paused=dashboard(pages,index);assert(!matches(paused.text,pages[3].path));assert(!matches(paused.text,pages[5].path));
+});
+test('paper tasks: ordinary limit is shared across papers while #next remains unlimited',()=>{
+ const pages=[...paperPages(),file('Work/A/Papers/P2/Home.md','paper',['active']),file('Work/A/Papers/P1/Milestones.md',null,null,Array.from({length:8},()=>({tags:['#next']}))),file('Work/A/Papers/P2/Milestones.md',null,null,Array.from({length:8},()=>({tags:['#next']})))];
+ const ordinary=dashboard(pages).text;assert.deepEqual([...ordinary.matchAll(/limit (\d+)/g)].map(m=>Number(m[1])),[8,4]);
+ const next=dashboard(pages,1).text;assert(matches(next,pages[3].path));assert(matches(next,pages[4].path));assert.doesNotMatch(next,/limit /);
+});
+function paperSetup(options={}){
+ const f=setup(options);
+ function loadFolder(relative){const absolute=path.join(root,relative);const folder={path:relative,name:path.posix.basename(relative),children:[]};f.files.set(relative,folder);for(const entry of fs.readdirSync(absolute,{withFileTypes:true})){const p=relative+'/'+entry.name;if(entry.isDirectory())folder.children.push(loadFolder(p));else{const child={path:p,name:entry.name,extension:path.posix.extname(p).slice(1),content:fs.readFileSync(path.join(root,p))};folder.children.push(child);f.files.set(p,child)}}return folder;}
+ loadFolder('System/Templates/Paper Blueprint');
+ f.app.vault.read=async file=>file.content.toString();f.app.vault.readBinary=async file=>file.content;
+ f.app.vault.createBinary=f.app.vault.create;f.runPaper=()=>newPaper({app:f.app,quickAddApi:f.api});return f;
+}
+test('paper creation: copies actual blueprint, names Home, links parent and opens Live Preview',async()=>{
+ const f=paperSetup({name:'Paper $&'});await f.runPaper();const prefix='Work/A/Papers/Paper $&/';
+ for(const suffix of ['Home.md','Milestones.md','Research Log/Research Log Index.md','Scratch/00 Scratch Index.md','Attachments/.gitkeep','Scratch/Attachments/.gitkeep'])assert(f.files.has(prefix+suffix),suffix);
+ const content=f.files.get(prefix+'Home.md').content;assert.match(content,/# Paper \$&\n/);assert.match(content,/project: "\[\[Work\/A\/Home\]\]"/);assert.match(content,/Parent project: \[\[Work\/A\/Home\|A\]\]/);assert.doesNotMatch(content,/PARENT_PROJECT_LINK/);
+ assert.equal(f.opens[0].file.path,prefix+'Home.md');assert.equal(f.opens[0].options.state.source,false);
+});
+test('paper creation: naming a sibling from inside a paper uses its parent project',async()=>{
+ const f=paperSetup({active:'Work/A/Papers/P1/Scratch/Idea.md',projects:paperPages(),name:'Sibling'});await f.runPaper();assert(f.files.has('Work/A/Papers/Sibling/Home.md'));
+});
+test('paper creation: choosing a project outside Work routes to that project',async()=>{
+ const f=paperSetup({active:'Home.md',projects:[file('Work/A/Home.md','project'),file('Work/B/Home.md','project')],choose:1});await f.runPaper();assert(f.files.has('Work/B/Papers/Experiment/Home.md'));
+});
+test('paper creation: duplicate folder is rejected without altering earlier notes',async()=>{
+ const f=paperSetup();await f.runPaper();const first=f.writes.length;await assert.rejects(f.runPaper(),/already exists/);assert.equal(f.writes.length,first);
+});
+for(const name of [null,'','   ','...'])test('paper creation: empty or invalid name '+JSON.stringify(name)+' creates no files',async()=>{
+ const f=paperSetup({name});if(name==='...')await assert.rejects(f.runPaper(),/valid filename/);else await f.runPaper();assert.equal(f.writes.length,0);assert(!f.files.has('Work/A/Papers'));
+});
+test('paper creation: cancellation and missing blueprint/project never write a partial paper',async()=>{
+ const canceled=paperSetup({active:'Home.md',projects:[file('Work/A/Home.md','project'),file('Work/B/Home.md','project')],choose:null});await canceled.runPaper();assert.equal(canceled.writes.length,0);
+ const missing=paperSetup();missing.files.delete('System/Templates/Paper Blueprint');await assert.rejects(missing.runPaper(),/blueprint not found/);assert.equal(missing.writes.length,0);assert(!missing.files.has('Work/A/Papers'));
+ const noProject=paperSetup({projects:[]});await assert.rejects(noProject.runPaper(),/Create a project/);assert.equal(noProject.prompts.length,0);
+});
+test('configuration: QuickAdd identifiers and command names are unique',()=>{
+ const choices=JSON.parse(fs.readFileSync(path.join(root,'.obsidian/plugins/quickadd/data.json'),'utf8')).choices;
+ assert.equal(new Set(choices.map(c=>c.id)).size,choices.length);assert.equal(new Set(choices.map(c=>c.name)).size,choices.length);
+});
+
+test('Home research: installed Dataview query engine resolves project and paper labels and destinations',()=>require('./check-dataview.cjs')());

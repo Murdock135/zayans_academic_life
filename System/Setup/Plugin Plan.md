@@ -41,4 +41,4 @@ These are gaps in the evaluated stack, not a claim that no existing plugin can a
 
 ## Data choice
 
-The reusable-plugin path favors property-only Markdown resource records. No user-authored body is required. Each project owns a Research Log folder and indexed Scratch folder. Related projects can cross-link their log entries. See [[System/Setup/Project Structure]]. Source imports should retain stable external IDs and should never overwrite reading history.
+The reusable-plugin path favors property-only Markdown resource records. No user-authored body is required. Each project and authored paper owns a Research Log folder and indexed Scratch folder. Papers are nested under their parent project’s Papers folder. Related projects can cross-link their log entries. See [[System/Setup/Project Structure]]. Source imports should retain stable external IDs and should never overwrite reading history.
