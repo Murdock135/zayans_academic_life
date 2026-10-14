@@ -8,6 +8,8 @@ Essential components:
 3. BPA assigner
 4. Combiner
 ### Milestone 1.2- Robustness improvements
+- [x] #task Give the data generator a scratchpad  [completion:: 2026-10-13]
+- [ ] #task Make sure the data generator follows example
 - [ ] #task Implement retry logic for each component. You can use the `_validate_()` functions as the anchor for the retries
 - [ ] #task In the system prompt of the data generator, introduce another concept- a matrix that indicates which models have been given a piece of information $\lambda$ by the human. Each row represents the 'existence' vector for a piece of evidence. For example $\lambda=(1,0,1)^T$ means evidence $\lambda$ has been given to model 1 and 3 but not 0. This will be produced by the LLM in the data sample.
 ### Milestone 1.3- LLM as a judge
@@ -18,19 +20,16 @@ Reference image:
 - [ ] #task Outline components
 
 ### Milestone 1.4 — Implement combination logic
-- [x] #task Create component base class #next  [completion:: 2026-10-08]
-- [ ] #task Create an implementation class
-- [ ] #task Create a `combiners.py` to store all combination functions
 
 ## Milestone 3- Make eval list
-TBD
+- [ ] #task Just run it a few times and do a basic check
 
 ## Milestone 4- Paper
 
 ## Misc
-- [x] #task Brainstorm the ANFIS-CREDAL set informed architecture you were thinking about with ChatGPT #next  [completion:: 2026-10-07]
-- [x] #task Ask Data generator to create the Zadeh example as well as one of the samples #next  [completion:: 2026-10-08]
 
+
+---
 # Archived
 
 - [x] #task Come up with possible frames of discernments, write about it and meet Dr. A to brainstorm ✅ 2025-11-06 🔒 [[2025-11-30]] 🕸️ Tasks
@@ -63,3 +62,8 @@ TBD
 	- [ ] #task the component should implement `configure`
 - [x] #task Use the google-genai idiomatic way of setting system prompts, inference properties e.g. top-p, temp. see https://googleapis.github.io/python-genai/#system-instructions-and-other-configs ✅ 2026-08-21 🔒 [[2026-08-25]] 🕸️ Tasks
 >>>>>>> a9c58f1 (.)
+- [x] #task Create component base class #next  [completion:: 2026-10-08] 🔒 [[2026-10-13]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.4 — Implement combination logic
+- [x] #task Create an implementation class  [completion:: 2026-10-13] 🔒 [[2026-10-13]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.4 — Implement combination logic
+- [x] #task Create a `combiners.py` to store all combination functions  [completion:: 2026-10-13] 🔒 [[2026-10-13]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.4 — Implement combination logic
+- [x] #task Brainstorm the ANFIS-CREDAL set informed architecture you were thinking about with ChatGPT #next  [completion:: 2026-10-07] 🔒 [[2026-10-13]] 🕸️ Milestones > Misc
+- [x] #task Ask Data generator to create the Zadeh example as well as one of the samples #next  [completion:: 2026-10-08] 🔒 [[2026-10-13]] 🕸️ Milestones > Misc

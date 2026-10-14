@@ -1,9 +1,9 @@
 {
-  "cssTheme": "Encore",
+  "cssTheme": "",
   "theme": "obsidian",
   "interfaceFontFamily": "Microsoft JhengHei",
   "textFontFamily": "Inter",
-  "accentColor": "#04f7fb",
+  "accentColor": "#0456fb",
   "enabledCssSnippets": [
     "reading-progress",
     "pink-inline-code",
