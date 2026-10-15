@@ -20,7 +20,8 @@ async function copyFolder(app, source, destination, projectTitle) {
         } else if (child.extension === "md") {
             let content = await app.vault.read(child);
             if (child.name === "Home.md") {
-                content = content.replace(/^# Project home$/m, `# ${projectTitle}`);
+                content = content.replace(/^# Project home$/m, `# ${projectTitle}`)
+                    .replaceAll("HOME_FOLDER", () => destination);
             }
             await app.vault.create(target, content);
         } else {

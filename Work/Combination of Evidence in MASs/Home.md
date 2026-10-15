@@ -6,39 +6,15 @@ areas: []
 ---
 # Combination of Evidence in MASs
 
-Describe the intended outcome here if useful.
+Research questions:
 
-## Project files
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.folder = this.file.folder AND file.path != this.file.path
-SORT file.name ASC
-```
-
-## Scratch index
+Index:
+- [[Work/Combination of Evidence in MASs/Milestones|Milestones]]
+- [[Work/Combination of Evidence in MASs/Scratch/00 Scratch Index|Notes index]]
+- [[Work/Combination of Evidence in MASs/Research Log/Research Log Index|Research log index]]
 
 ```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Scratch/00 Scratch Index.md"
-```
-
-## Research log
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Research Log/Research Log Index.md"
-```
-
-## Papers
-
-Run **QuickAdd: New paper** from a note in this project to create a manuscript workspace.
-
-```dataview
-TABLE WITHOUT ID link(file.path, regexreplace(file.folder, "^.*/", "")) AS "Paper", status AS "Status", stage AS "Stage", target_venue AS "Venue", deadline AS "Deadline"
+TABLE WITHOUT ID link(file.path, regexreplace(file.folder, "^.*/", "")) AS "Papers"
 FROM "Work"
 WHERE type = "paper" AND project = this.file.link
 SORT file.folder ASC

@@ -10,33 +10,11 @@ manuscript: ""
 ---
 # Purely language model pipeline
 
+Research questions:
+
+Index:
+- [[Work/Combination of Evidence in MASs/Papers/Purely language model pipeline/Milestones|Milestones]]
+- [[Work/Combination of Evidence in MASs/Papers/Purely language model pipeline/Scratch/00 Scratch Index|Notes index]]
+- [[Work/Combination of Evidence in MASs/Papers/Purely language model pipeline/Research Log/Research Log Index|Research log index]]
+
 Parent project: [[Work/Combination of Evidence in MASs/Home|Combination of Evidence in MASs]]
-
-## Research question
-
-## Intended contribution
-
-## Paper files
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.folder = this.file.folder AND file.path != this.file.path
-SORT file.name ASC
-```
-
-## Scratch index
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Scratch/00 Scratch Index.md"
-```
-
-## Research log
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Research Log/Research Log Index.md"
-```

@@ -191,9 +191,9 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
    const projectRows=await query(get(`${projectFolder}/Research Log/Research Log Index.md`),0);assert(!projectRows.values.some(row=>row[0].path===paperEntry.path),'Project index includes paper entry');
   });
   await test('Paper navigation: project lists paper and paper links back with its local indexes',async()=>{
-   const rows=await query(project,3);assert(rows.values.some(row=>row[0].path===paper.path),'Project Papers listing missed paper');
+   const rows=await query(project,0);assert(rows.values.some(row=>row[0].path===paper.path),'Project Papers listing missed paper');
    const el=await render(project);await wait(()=>el.textContent.includes('PAPER_FIXTURE'),'Papers table rendered');noErrors(el);
-   const paperEl=await render(paper);await wait(()=>paperEl.textContent.includes('Research Log Index'),'Paper indexes rendered');noErrors(paperEl);
+   const paperEl=await render(paper);await wait(()=>paperEl.textContent.includes('Research log index'),'Paper indexes rendered');noErrors(paperEl);
    assert([...paperEl.querySelectorAll('a.internal-link')].some(a=>(a.dataset.href||'').replace(/\.md$/,'')===project.path.slice(0,-3)),'Rendered parent link missing');
   });
   await test('Home research: paper entry has separate project and paper identity',async()=>{

@@ -10,33 +10,11 @@ manuscript: ""
 ---
 # Paper home
 
+Research questions:
+
+Index:
+- [[HOME_FOLDER/Milestones|Milestones]]
+- [[HOME_FOLDER/Scratch/00 Scratch Index|Notes index]]
+- [[HOME_FOLDER/Research Log/Research Log Index|Research log index]]
+
 Parent project: PARENT_PROJECT_LINK
-
-## Research question
-
-## Intended contribution
-
-## Paper files
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.folder = this.file.folder AND file.path != this.file.path
-SORT file.name ASC
-```
-
-## Scratch index
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Scratch/00 Scratch Index.md"
-```
-
-## Research log
-
-```dataview
-LIST
-FROM "Work"
-WHERE file.path = this.file.folder + "/Research Log/Research Log Index.md"
-```

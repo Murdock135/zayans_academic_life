@@ -20,6 +20,7 @@ async function copyFolder(app, source, destination, title, project) {
             let content = await app.vault.read(child);
             if (child.name === "Home.md") {
                 content = content.replace(/^# Paper home$/m, () => `# ${title}`)
+                    .replaceAll("HOME_FOLDER", () => destination)
                     .replace(/^project: ""$/m, () => `project: ${JSON.stringify(`[[${project.path.slice(0, -3)}]]`)}`)
                     .replace("PARENT_PROJECT_LINK", () => `[[${project.path.slice(0, -3)}|${project.parent.path.split("/").pop()}]]`);
             }
