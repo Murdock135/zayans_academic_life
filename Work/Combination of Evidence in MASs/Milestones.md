@@ -20,7 +20,6 @@ Reference image:
 ### Milestone 1.4 — Implement combination logic
 
 ## Milestone 3- Make eval list
-- [ ] #task Just run it a few times and do a basic check #next
 
 ## Milestone 4- Paper
 
@@ -71,3 +70,5 @@ Reference image:
 - [x] #task Introduce field `overlap_characteristics` into the data generator's output schema.  [completion:: 2026-10-15] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.1- Implement essential componenents
 - [x] #task Give the data generator a scratchpad  [completion:: 2026-10-13] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.2- Robustness improvements
 - [x] #task Make sure the data generator follows example  [completion:: 2026-10-15] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.2- Robustness improvements
+- [x] #task Just run it a few times and do a basic check #next  [completion:: 2026-10-15] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 3- Make eval list
+	- [x] #task Have codex review and write a free-text report  [completion:: 2026-10-15]
