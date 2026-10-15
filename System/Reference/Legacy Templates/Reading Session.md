@@ -3,7 +3,7 @@ type: reading-event
 logged_at:
 resource: ""
 projects: []
-position: ""
+reading_position: ""
 progress_after:
 takeaway: ""
 ---

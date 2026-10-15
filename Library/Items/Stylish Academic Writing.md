@@ -8,7 +8,7 @@ status:
   - reading
 finished_on:
 progress: 0.06
-position: "12"
+reading_position: "12"
 url: ""
 doi: ""
 topics:

@@ -7,7 +7,7 @@ status:
   - saved
 finished_on:
 progress: 0
-position: ""
+reading_position: ""
 url: ""
 doi: ""
 topics: []

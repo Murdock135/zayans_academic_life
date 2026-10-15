@@ -7,7 +7,7 @@ status:
   - saved
 finished_on:
 progress: 0
-position: ""
+reading_position: ""
 url: ""
 doi: ""
 topics: []
@@ -85,7 +85,7 @@ Create and open a new note such as `Library/Items/Analysis I.md`. With that new 
 | kind              | book, textbook, paper, article, video, or course                     |
 | status            | saved, reading, finished, or stopped                                 |
 | progress          | Numeric coverage estimate from 0 to 100, without a percent sign      |
-| position          | Page, section, or video timestamp where you stopped                  |
+| reading_position  | Page, section, or video timestamp where you stopped                  |
 | url / doi         | Source location and identifier if available                          |
 | topics / projects | Optional topic labels and project links                              |
 | finished_on       | Completion date when you mark the item finished                      |
@@ -97,7 +97,7 @@ Set a book or textbook's `status` list to one value, `reading`, to show it under
 
 Use this for papers and online articles, not routine book or textbook reading. Run **QuickAdd: Log reading**; it assigns the name and destination automatically. Set resource to the catalog item's wikilink and record the session's takeaway. Project links, position, and progress_after are optional. Full instructions and exact settings are in [[System/Setup/Reading Capture]].
 
-Reading events and overall progress are distinct. A paper or article excerpt can produce a takeaway without changing overall progress. The capture command does not yet update the resource's progress for you. Home shows six recent events, and [[Library/Sessions|Sessions]] shows the latest 200 ordered by logged_at, falling back to file creation time for older entries. When a new capture would exceed 200 files, **Log reading** appends the oldest session to the Excel-compatible `Library/Reading History.csv`, verifies the write, and moves that Markdown file to Obsidian's trash before creating the new session.
+Reading events and overall progress are distinct. A paper or article excerpt can produce a takeaway without changing overall progress. The capture command does not modify the resource record. Home uses the latest linked session with a recorded `reading_position` or `progress_after` for each value in Currently Reading, falling back to the resource record; optional book sessions work too. Home shows six recent events, and [[Library/Sessions|Sessions]] shows the latest 200 ordered by logged_at, falling back to file creation time for older entries. When a new capture would exceed 200 files, **Log reading** appends the oldest session to the Excel-compatible `Library/Reading History.csv`, verifies the write, and moves that Markdown file to Obsidian's trash before creating the new session.
 
 ## Finish a library item
 

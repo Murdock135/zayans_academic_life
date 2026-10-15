@@ -31,12 +31,14 @@
 
 ## Currently Reading and watching (courses/playlists)
 
-Books and textbooks you are working through. These do not require a digital session record or a takeaway.
+Books and textbooks you are working through. Progress and last position use the latest linked session with a recorded value, falling back to the resource record. Session details appear in **Recent reading sessions** below.
 
 ```dataview
-TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + default(progress, 0) + "'></progress><span>" + default(progress, 0) + "%</span></span>" AS "Progress", position AS "Last position"
+TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + default(last_progress_session.progress_after, default(progress, 0)) + "'></progress><span>" + default(last_progress_session.progress_after, default(progress, 0)) + "%</span></span>" AS "Progress", default(last_position_session.reading_position, reading_position) AS "Last position"
 FROM "Library/Items"
 WHERE econtains(flat(list(status)), "reading") AND (kind = "book" OR kind = "textbook")
+FLATTEN reverse(sort(filter(file.inlinks, (s) => s.type = "reading-event" AND s.reading_position != null AND s.reading_position != ""), (s) => default(date(s.logged_at), s.file.ctime)))[0] AS last_position_session
+FLATTEN reverse(sort(filter(file.inlinks, (s) => s.type = "reading-event" AND s.progress_after != null), (s) => default(date(s.logged_at), s.file.ctime)))[0] AS last_progress_session
 SORT file.mtime DESC
 LIMIT 5
 ```
@@ -57,10 +59,12 @@ LIMIT 6
 
 ---
 
-## Paper & article reading sessions
+## Recent reading sessions
+
+Recorded sessions for books, papers, and articles. Position is where you stopped; progress is the percentage recorded for that session. A dash means no percentage was recorded.
 
 ```dataview
-TABLE WITHOUT ID resource AS "Resource", logged_at AS "When", takeaway AS "Takeaway"
+TABLE WITHOUT ID resource AS "Resource", logged_at AS "When", reading_position AS "Position", choice(progress_after = null, "—", string(progress_after) + "%") AS "Progress", takeaway AS "Takeaway", file.link AS "Session"
 FROM "Library/Sessions"
 WHERE type = "reading-event"
 SORT default(date(logged_at), file.ctime) DESC

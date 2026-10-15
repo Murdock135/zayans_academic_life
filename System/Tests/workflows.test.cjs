@@ -155,4 +155,4 @@ test('configuration: QuickAdd identifiers and command names are unique',()=>{
  assert.equal(new Set(choices.map(c=>c.id)).size,choices.length);assert.equal(new Set(choices.map(c=>c.name)).size,choices.length);
 });
 
-test('Home research: installed Dataview query engine resolves project and paper labels and destinations',()=>require('./check-dataview.cjs')());
+test('Home: installed Dataview engine resolves research owners and latest reading-session progress',()=>require('./check-dataview.cjs')());

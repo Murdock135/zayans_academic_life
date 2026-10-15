@@ -3,15 +3,13 @@
 ## Milestone 1 — Implement pipeline
 ### Milestone 1.1- Implement essential componenents
 Essential components:
-1. Frame of Discernment extractor
-2. Focal set extractor
-3. BPA assigner
-4. Combiner
+1. Data generator
+2. Frame of Discernment extractor
+3. Focal set extractor
+4. BPA assigner
+5. Combiner
 ### Milestone 1.2- Robustness improvements
-- [x] #task Give the data generator a scratchpad  [completion:: 2026-10-13]
-- [ ] #task Make sure the data generator follows example
 - [ ] #task Implement retry logic for each component. You can use the `_validate_()` functions as the anchor for the retries
-- [ ] #task In the system prompt of the data generator, introduce another concept- a matrix that indicates which models have been given a piece of information $\lambda$ by the human. Each row represents the 'existence' vector for a piece of evidence. For example $\lambda=(1,0,1)^T$ means evidence $\lambda$ has been given to model 1 and 3 but not 0. This will be produced by the LLM in the data sample.
 ### Milestone 1.3- LLM as a judge
 Reference image:
 ![[Pasted image 20261001144234.png]]
@@ -22,11 +20,14 @@ Reference image:
 ### Milestone 1.4 — Implement combination logic
 
 ## Milestone 3- Make eval list
-- [ ] #task Just run it a few times and do a basic check
+- [ ] #task Just run it a few times and do a basic check #next
 
 ## Milestone 4- Paper
 
 ## Misc
+
+## Trashed ideas and tasks
+- In the system prompt of the data generator, introduce another concept- a matrix that indicates which models have been given a piece of information $\lambda$ by the human. Each row represents the 'existence' vector for a piece of evidence. For example $\lambda=(1,0,1)^T$ means evidence $\lambda$ has been given to model 1 and 3 but not 0. This will be produced by the LLM in the data sample.
 
 
 ---
@@ -67,3 +68,6 @@ Reference image:
 - [x] #task Create a `combiners.py` to store all combination functions  [completion:: 2026-10-13] 🔒 [[2026-10-13]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.4 — Implement combination logic
 - [x] #task Brainstorm the ANFIS-CREDAL set informed architecture you were thinking about with ChatGPT #next  [completion:: 2026-10-07] 🔒 [[2026-10-13]] 🕸️ Milestones > Misc
 - [x] #task Ask Data generator to create the Zadeh example as well as one of the samples #next  [completion:: 2026-10-08] 🔒 [[2026-10-13]] 🕸️ Milestones > Misc
+- [x] #task Introduce field `overlap_characteristics` into the data generator's output schema.  [completion:: 2026-10-15] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.1- Implement essential componenents
+- [x] #task Give the data generator a scratchpad  [completion:: 2026-10-13] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.2- Robustness improvements
+- [x] #task Make sure the data generator follows example  [completion:: 2026-10-15] 🔒 [[2026-10-15]] 🕸️ Milestones > Milestone 1 — Implement pipeline > Milestone 1.2- Robustness improvements

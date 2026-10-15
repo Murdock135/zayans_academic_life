@@ -86,7 +86,7 @@ module.exports = async ({app, quickAddApi, obsidian}) => {
    await wait(async()=>(await app.vault.read(resource)).includes('status:'),'resource template saved');const p=await indexed(resource);
    assert(p.type===undefined&&p.progress===0&&p.kind==='paper','Resource defaults incorrect or unnecessary type field present');assert(p.status.includes('saved'),'Saved status missing');assert(p.authors.length===0&&p.projects.length===0,'List properties missing');
   });
-  assert(resource,'Resource setup failed');await set(resource,{status:['reading'],kind:'book',authors:['Test Author'],progress:25,position:'Page 10'});
+  assert(resource,'Resource setup failed');await set(resource,{status:['reading'],kind:'book',authors:['Test Author'],progress:25,reading_position:'Page 10'});
   const finished=await write(`${roots.items}/Finished resource.md`,(await app.vault.read(get('System/Templates/Resource.md'))));await indexed(finished);await set(finished,{status:['finished'],finished_on:'2026-09-24',progress:100});
   const stopped=await write(`${roots.items}/Stopped resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(stopped);await set(stopped,{status:['stopped']});
   const legacy=await write(`${roots.items}/Legacy resource.md`,await app.vault.read(get('System/Templates/Resource.md')));await indexed(legacy);await set(legacy,{status:'reading',kind:'book'});

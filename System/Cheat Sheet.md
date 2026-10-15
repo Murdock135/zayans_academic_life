@@ -38,7 +38,7 @@
 
 - Set `kind` to `book` or `textbook`.
 - Set `status` to `reading` to show it under **Currently Reading** on Home.
-- Update `progress` and `position` when useful.
+- Update `progress` and `reading_position` when useful.
 - Do **not** create a reading-session note or takeaway for every sitting.
 
 ### Papers and online articles
@@ -46,7 +46,7 @@
 - Keep one resource record in `Library/Items/`.
 - Run **QuickAdd: Log reading** for each session you want to retain.
 - Link the `resource` and write the session's `takeaway`.
-- `projects`, `position`, and `progress_after` are optional.
+- `projects`, `reading_position`, and `progress_after` are optional.
 - [[Library/Sessions|Sessions]] shows the latest 200. Preserve the complete history in `Library/Reading History.csv` before removing anything older.
 
 ### Finish any resource

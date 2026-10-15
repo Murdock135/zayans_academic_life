@@ -56,7 +56,7 @@ async function archiveOverflow(app) {
       frontmatter.logged_at,
       valueOf(frontmatter.resource),
       valueOf(frontmatter.projects),
-      frontmatter.position,
+      frontmatter.reading_position ?? frontmatter.position,
       frontmatter.progress_after,
       frontmatter.takeaway,
       notes,
