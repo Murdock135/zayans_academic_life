@@ -18,7 +18,7 @@
   "tag-pane": true,
   "footnotes": false,
   "note-composer": true,
-  "slash-command": false,
+  "slash-command": true,
   "editor-status": true,
   "markdown-importer": false,
   "zk-prefixer": false,

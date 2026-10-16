@@ -8,7 +8,8 @@
     "reading-progress",
     "pink-inline-code",
     "link-colors",
-    "project-name-colors"
+    "project-name-colors",
+    "milestone-timeline"
   ],
   "showRibbon": true
 }

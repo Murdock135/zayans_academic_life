@@ -3,6 +3,7 @@
 [[Home| Home]] · [[Work/Inbox|Inbox]] · [[Work/Projects|Projects]]
 
 - [ ] #task Create a 'research work-culture'
+- [ ] #task Organize outlook email
 - [ ] #task Create a research tracker and share with anderson
 
 ## Tagged next tasks
