@@ -21,6 +21,19 @@ views:
       - property: progress
         direction: DESC
   - type: table
+    name: Explorations
+    filters:
+      and:
+        - kind == "exploration"
+    order:
+      - file.name
+      - status
+      - topics
+      - file.mtime
+    sort:
+      - property: file.mtime
+        direction: DESC
+  - type: table
     name: Reading
     filters:
       and:

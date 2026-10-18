@@ -19,3 +19,13 @@ group by folder
 group by filename
 group by heading
 ```
+
+> [!abstract]- Personal explorations
+> Unfinished tasks from Library explorations, grouped by note. Checkboxes update the original item; no `#next` tag is needed.
+>
+> ```dataview
+> TASK
+> FROM "Library/Items"
+> WHERE kind = "exploration" AND !completed AND status != "-"
+> GROUP BY file.link
+> ```
