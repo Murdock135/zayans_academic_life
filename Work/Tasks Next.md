@@ -29,3 +29,6 @@ group by heading
 > WHERE kind = "exploration" AND !completed AND status != "-"
 > GROUP BY file.link
 > ```
+
+> [!abstract]- Personal projects
+> ![[Personal/Home#Next actions]]

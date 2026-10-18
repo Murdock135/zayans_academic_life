@@ -75,6 +75,26 @@
       }
     },
     {
+      "id": "new-personal-project",
+      "name": "New personal project",
+      "type": "Macro",
+      "command": true,
+      "runOnStartup": false,
+      "macro": {
+        "id": "new-personal-project-macro",
+        "name": "New personal project",
+        "commands": [
+          {
+            "id": "new-personal-project-script",
+            "name": "new-personal-project",
+            "type": "UserScript",
+            "path": "System/Scripts/new-personal-project.js",
+            "settings": {}
+          }
+        ]
+      }
+    },
+    {
       "id": "new-paper",
       "name": "New paper",
       "type": "Macro",

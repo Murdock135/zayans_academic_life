@@ -31,6 +31,7 @@
     "stage": "text",
     "target_venue": "text",
     "deadline": "date",
-    "manuscript": "text"
+    "manuscript": "text",
+    "areas": "multitext"
   }
 }

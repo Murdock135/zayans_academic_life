@@ -94,7 +94,7 @@ def main():
         node = shutil.which('node')
         if not node:
             raise RuntimeError('Node.js is required for the fast tests.')
-        status = subprocess.run([node, '--test', 'System/Tests/workflows.test.cjs'], cwd=ROOT).returncode
+        status = subprocess.run([node, '--test', 'System/Tests/workflows.test.cjs', 'System/Tests/personal.test.cjs'], cwd=ROOT).returncode
     if not args.unit_only:
         status = max(status, integration(find_cli(args.cli), args.timeout))
     return status
