@@ -1,8 +1,10 @@
-# Project and paper structure
+# Work and personal project structure
 
-[[Work/Projects|Projects]] · [[System/How To Use|Usage guide]]
+[[Work/Projects|Work]] · [[Personal/Home|Personal]] · [[System/How To Use|Usage guide]]
 
-A project owns a research direction. Each paper owns one manuscript effort within that direction. Projects can also be hobbies or other work without papers.
+Work projects own academic or professional work; papers own manuscript efforts within them. Personal projects live separately under Personal and support learning, building, and everyday life. Library explorations hold open-ended interests before or alongside a project.
+
+## Work projects and papers
 
 ```text
 Work/
@@ -27,7 +29,7 @@ Work/
         Attachments/
 ```
 
-## Where work belongs
+## Where Work content belongs
 
 Keep shared methods, infrastructure, datasets, broad questions, and early paper ideas at project level. Put manuscript-specific experiments, analysis, drafts, submission tasks, and reviewer responses inside the paper. Give each task or note one owning location and link to it wherever else it is useful.
 
@@ -40,7 +42,7 @@ Keep shared methods, infrastructure, datasets, broad questions, and early paper 
 
 Shared reading resources remain in Library/Items, even when several projects or papers use them. Reading events remain in Library/Sessions; their existing `projects` links and archive workflow are unchanged. Link a paper from the event body when useful.
 
-## Create a project
+## Create a Work project
 
 1. Run **QuickAdd: New project** and enter its name.
 2. The command copies the Project Blueprint into `Work/Project Name/`, including an empty Papers folder, and opens Home.
@@ -55,9 +57,56 @@ Shared reading resources remain in Library/Items, even when several projects or 
 
 From outside a project, New paper uses the sole project or asks which project. New projects and papers never overwrite an existing destination folder. Unsafe filename characters are replaced with hyphens. Canceling selection or supplying a blank name creates nothing.
 
-Use the command to create the complete structure; core Templates insertion is for resource notes rather than project or paper blueprints. A paper idea can remain in project Scratch until it becomes a concrete manuscript effort.
+Use the appropriate QuickAdd command to create a complete project or paper. Core Templates insertion is for individual Resource and Exploration notes, rather than folder blueprints. A paper idea can remain in project Scratch until it becomes a concrete manuscript effort.
 
-## Properties and status
+## Personal projects
+
+```text
+Personal/
+  Home.md                     Dashboard: active projects, areas, next actions, directory
+  Inbox.md                    Ideas to sort later
+  Routines/
+    Home.md                   Index of reusable practices and checklists
+  Project Name/
+    Home.md                   Why, outcome, properties, and links
+    Milestones.md             Outcome headings and their tasks
+    Notes/                    Learning, experiments, designs, and reflections
+```
+
+Run **QuickAdd: New personal project**, enter a name, and edit the Home it opens. It creates Home, Milestones, and an empty Notes folder from the Personal Project Blueprint. Canceling or submitting a blank name creates nothing; an existing destination is never overwritten. Add notes as needed and link useful ones from Home. Personal projects do not require a research log, Scratch index, or Papers folder.
+
+Put `areas` on each project Home, not on the Personal dashboard:
+
+```yaml
+---
+type: project
+status:
+  - active
+areas:
+  - learning
+  - health
+---
+```
+
+Use areas such as learning, organization, wellbeing, creativity, or career to describe the parts of your life a project supports. Multiple areas are allowed. Folder location determines Work versus Personal; areas do not create another folder hierarchy.
+
+| Example | Personal project outcome | Possible areas |
+| --- | --- | --- |
+| Microbiology Foundations | Complete an introductory course and explain its core concepts | learning, health |
+| Organizing Myself | Try a manageable weekly planning routine and adjust it | organization, wellbeing |
+| Personal Website | Build and publish a first version | creativity, career |
+
+Keep chosen actions in Milestones or project Notes. Tag a task `#next` to include it in Personal Home’s Next actions and Tasks Next’s collapsed Personal projects callout. The callout embeds the dashboard section, so both use the same rules: the nearest owning project must be active; completed, cancelled, and untagged tasks are excluded. Pausing a project preserves its notes and tasks and keeps it in All projects.
+
+Use Personal Inbox for ideas and Personal/Routines for ongoing practices. Their tasks do not enter the project task view. New research log and New paper remain Work commands.
+
+## Library explorations versus personal projects
+
+Create an item in Library/Items and insert **Exploration** for an open-ended interest such as personal agents. Its `kind` is `exploration`; keep one status in the list: `curious`, `exploring`, or `resting`. Use Interest, Questions, Try, Trail, and Resume here to retain your thread. Progress percentages and milestones are unnecessary.
+
+The catalog’s Explorations view lists these items. Their unfinished checkboxes appear in Tasks Next’s separate Personal explorations callout, regardless of item status and without requiring `#next`. Completed and cancelled tasks are hidden. When you choose a concrete outcome, create a personal project and link it to the exploration. Keep books, courses, and articles as separate shared Library resources.
+
+## Work properties and status
 
 Project Homes use `type: project`, a `status` list, and optional `areas`.
 
@@ -75,13 +124,13 @@ Paper Homes use:
 
 Status controls work visibility; stage records publication progress. A paper can be paused while drafting or active while submitted. Properties provide suggestions rather than enforcing this vocabulary.
 
-The Projects dashboard shows paper tasks only when both the nearest parent project and the paper are active. Shared project tasks require an active project. Its ordinary task view has a total limit of twelve; its `#next` view is unlimited. Each task group identifies the project and paper, or shared project work.
+The Projects dashboard shows paper tasks only when both the nearest parent project and the paper are active. Shared project tasks require an active project. Both its ordinary and `#next` task views are unlimited. Each task group identifies the project and paper, or shared project work.
 
 Tasks Next’s Tagged next tasks view intentionally includes `#next` tasks anywhere else in Work, regardless of project or paper status. Home’s standalone Next tasks section is independent of both statuses.
 
 ## Research capture
 
-Run **QuickAdd: New research log** from a paper note to save in that paper’s Research Log, or from a project-level note to save in the project’s Research Log. From outside these folders, select a project or paper destination. Paused work remains available for recording research.
+Run **QuickAdd: New research log** from a Work paper note to save in that paper’s Research Log, or from a project-level note to save in the project’s Research Log. From outside these folders, select a project or paper destination. Paused work remains available for recording research.
 
 The nearest enclosing project/paper determines the capture destination. The physical folder determines ownership, so keep the paper’s `project` link consistent with its containing project. Every entry has `type: research-log`, a timezone-bearing timestamp, a project link, and optional `related_projects`; paper entries also have a paper link. Home shows recent entries with project and paper identity. See [[System/Setup/Research Capture]].
 
@@ -100,7 +149,7 @@ WHERE file.folder = this.file.folder AND file.path != this.file.path
 SORT file.name ASC
 ```
 
-Copy the block into the Scratch index. This example renders against this documentation folder; its query is relative to whichever note contains it. For a permanent automatic index, rename it to `Scratch Index.md` and update its Home link/query, so Index Checker does not treat the generated list as missing manual links. Curated annotations can remain above the listing.
+Copy the block into the Scratch index. The source is restricted to Work, and the folder condition selects direct children of the note containing the query. In this System documentation note it is empty; use it in a Work Scratch index. For a permanent automatic index, rename it to `Scratch Index.md` and update its Home link/query, so Index Checker does not treat the generated list as missing manual links. Curated annotations can remain above the listing.
 
 ## Attachments and archiving
 

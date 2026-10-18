@@ -2,7 +2,7 @@
 
 [[Home]] · [[Library/Catalog.base|Library]] · [[Library/Sessions|Sessions]]
 
-QuickAdd is included and configured with a **Log reading** Template choice for papers and online articles. It creates a file in `Library/Sessions`, gives it a standardized timestamp name, adds the session properties and timestamp, and opens it for editing. Books and textbooks belong in **Currently Reading** and do not need session files. No Bash script is needed for naming.
+QuickAdd is included and configured with a **Log reading** macro that invokes the reading-event Template choice for papers and online articles. It creates a file in `Library/Sessions`, gives it a standardized timestamp name, adds the session properties and timestamp, and opens it for editing. Books and textbooks belong in **Currently Reading** and do not need session files. No Bash script is needed for naming. Reading resources remain shared across Work and Personal projects; link the relevant project Home when useful. Library explorations use their own Exploration template and task callout, not a reading-event record.
 
 ## Enable and use
 

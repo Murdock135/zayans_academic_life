@@ -1,3 +1,29 @@
+# Vault review — 2026-10-18
+
+[[Home]] · [[Personal/Home|Personal]] · [[System/Setup/Project Structure|Project structure]] · [[System/Tests/README|Workflow tests]]
+
+Added a separate Personal workspace and Library explorations. The dated reviews below are historical records; their folder layouts, limits, counts, and remaining issues describe those earlier runs.
+
+## Current changes
+
+- Personal has a dashboard, Inbox, Routines index, and a lightweight project blueprint with Home, Milestones, and Notes.
+- **QuickAdd: New personal project** creates personal project folders. Project Home holds `type: project`, an active status list, and an `areas` list. Personal Home reads those properties; Work queries remain scoped to Work.
+- Personal project `#next` tasks appear on Personal Home and in Tasks Next’s collapsed **Personal projects** callout. The callout embeds the dashboard’s Next actions section. Only active nearest owners qualify; completed and cancelled tasks are hidden.
+- Library items can use `kind: exploration` and the Exploration template. The catalog has an Explorations view. Unfinished exploration tasks appear in a separate Tasks Next callout without a tag requirement or item-status filter.
+- Existing Work project and paper workflows remain separate. Work’s active-project and #next views are unlimited; only root Home’s standalone Next tasks section is capped at twelve.
+
+## Verification scope
+
+The implementation run passed **54 fast tests**: 48 existing checks and six Personal checks. Manual checks in the running Obsidian app verified project creation, area display, tagged-task rendering in the callout, exact source updates when checking a task, and hiding paused-project tasks while retaining the project in All projects. The temporary project was removed.
+
+The earlier implementation also checked the exploration task query with the installed Dataview parser and evaluator. This does not establish live coverage of the Explorations catalog view or checkbox interactions. The automated in-app suite was not rerun for the Personal implementation; its saved report belongs to an earlier run. See Workflow tests for coverage and the outstanding historical limit assertion.
+
+## Documentation refresh
+
+Updated the usage guide, cheat sheet, vault map, setup instructions, project structure, capture scope, plugin inventory, and test coverage notes to distinguish Work projects, Personal projects, Library explorations, and ongoing routines. Removed obsolete twelve-task claims from current workflow guidance. Older dated reviews below are retained for provenance.
+
+---
+
 # Vault review — 2026-10-13
 
 [[Home]] · [[System/Setup/Project Structure|Project and paper structure]] · [[System/Tests/README|Workflow tests]]

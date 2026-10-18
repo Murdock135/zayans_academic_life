@@ -8,6 +8,9 @@ Prefer built-in features and a small set of existing plugins. Add custom code on
 | --- | --- | --- |
 | Project tasks under milestone headings | [Tasks](https://publish.obsidian.md/tasks/) | Installed and enabled |
 | Recent research and reading history | [Dataview](https://blacksmithgu.github.io/obsidian-dataview/) | Installed and enabled |
+| Work and personal project creation | Existing QuickAdd user-script macros | New project creates Work workspaces; New personal project creates Home, Milestones, and Notes under Personal |
+| Personal next actions | Existing Dataview JavaScript and Tasks | Personal Home selects active owners and #next tasks; Tasks Next embeds the same section in a collapsed callout |
+| Library explorations | Core Templates, Bases, and Dataview | Exploration template, Explorations catalog view, and an unfinished-task callout in Tasks Next |
 | Catalog table | [Bases](https://obsidian.md/help/bases/syntax) | Built-in feature configured |
 | Standardized reading events | [QuickAdd](https://quickadd.obsidian.guide/) | Included; Log reading choice configured; requires Obsidian 1.13.0+ |
 | Timestamped research entries | Existing QuickAdd user-script macro | New research log command configured and tested |
@@ -41,4 +44,4 @@ These are gaps in the evaluated stack, not a claim that no existing plugin can a
 
 ## Data choice
 
-The reusable-plugin path favors property-only Markdown resource records. No user-authored body is required. Each project and authored paper owns a Research Log folder and indexed Scratch folder. Papers are nested under their parent project’s Papers folder. Related projects can cross-link their log entries. See [[System/Setup/Project Structure]]. Source imports should retain stable external IDs and should never overwrite reading history.
+The reusable-plugin path favors property-only Markdown resource records. No user-authored body is required. Each Work project and authored paper owns a Research Log folder and indexed Scratch folder. Personal projects use Home, Milestones, and Notes, with status and areas on their Home. Library explorations use lightweight note bodies to retain questions, activities, discoveries, and a place to resume; they are distinct from property-only resource records. Papers are nested under their parent project’s Papers folder. Related projects can cross-link their log entries. See [[System/Setup/Project Structure]]. Source imports should retain stable external IDs and should never overwrite reading history.
