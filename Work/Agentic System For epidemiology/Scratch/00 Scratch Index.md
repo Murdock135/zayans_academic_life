@@ -8,4 +8,8 @@ Run **Index Checker: Check indexes** to check for missing scratchpad links. It i
 [[Eval]]
 [[Journals]]
 
-Paper-specific notes: [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Scratch/00 Scratch Index|SPARQ JAMIA scratchpads]].
+Paper-specific notes: [[Work/Agentic System For epidemiology/Papers/SPARQ v1 JAMIA/Scratch/00 Scratch Index|SPARQ JAMIA scratchpads]].
+
+[[Executor skill]]
+
+[[Chat OS conversations]]

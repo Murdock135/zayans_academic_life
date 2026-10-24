@@ -47,7 +47,7 @@ Implemented Project → Papers while retaining project-level shared research and
 
 ## Migration
 
-Created [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Home|SPARQ JAMIA]]. Moved its live manuscript link, paper milestone section, reviewer-materials task, completed outline task and Reference JAMIA papers scratchpad into the paper workspace. Obsidian handled the scratchpad move and link updates.
+Created [[Work/Agentic System For epidemiology/Papers/SPARQ v1 JAMIA/Home|SPARQ JAMIA]]. Moved its live manuscript link, paper milestone section, reviewer-materials task, completed outline task and Reference JAMIA papers scratchpad into the paper workspace. Obsidian handled the scratchpad move and link updates.
 
 Kept architecture, shared batch-evaluation infrastructure, general evaluation ideas, journal possibilities and broader ideas at project level. Follow-up Study remains an example rather than a created paper. No paper title was inferred for Combination of Evidence in MASs.
 

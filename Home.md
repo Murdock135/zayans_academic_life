@@ -3,8 +3,8 @@
 
 ## Start
 
-- [ ] Get settled. Get Water. Put phone out of sight
-- [ ] your capacity
+- [x] Get settled. Get Water. Put phone out of sight  [completion:: 2026-10-23]
+- [x] your capacity  [completion:: 2026-10-23]
 	- low
 	- medium
 	- high
@@ -22,8 +22,8 @@
 ## Ongoing Projects
 
 - Academic
-  1. Agentic System for pathogen analysis
-  2. Combining Evidence
+  1. [[Work/Agentic System For epidemiology/Home| Agentic System for pathogen analysis]]
+  2. [[Work/Combination of Evidence in MASs/Home| Combination of evidence in MAS]]
   3. Code diff analysis
 - Athletics
   - Basic workout (3 d/w)

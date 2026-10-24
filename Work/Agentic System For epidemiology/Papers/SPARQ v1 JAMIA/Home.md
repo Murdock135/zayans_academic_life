@@ -13,9 +13,9 @@ manuscript: "https://mailmissouri-my.sharepoint.com/:w:/r/personal/qzic2d_umsyst
 Research questions:
 
 Index:
-- [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Milestones|Milestones]]
-- [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Scratch/00 Scratch Index|Notes index]]
-- [[Work/Agentic System For epidemiology/Papers/SPARQ JAMIA/Research Log/Research Log Index|Research log index]]
+- [[Work/Agentic System For epidemiology/Papers/SPARQ v1 JAMIA/Milestones|Milestones]]
+- [[Work/Agentic System For epidemiology/Papers/SPARQ v1 JAMIA/Scratch/00 Scratch Index|Notes index]]
+- [[Work/Agentic System For epidemiology/Papers/SPARQ v1 JAMIA/Research Log/Research Log Index|Research log index]]
 
 Parent project: [[Work/Agentic System For epidemiology/Home|Agentic System For epidemiology]]
 

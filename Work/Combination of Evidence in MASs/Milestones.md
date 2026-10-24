@@ -18,12 +18,21 @@ Reference image:
 - [ ] #task Outline components
 
 ### Milestone 1.4 — Implement combination logic
+- [ ] #task Discounted combination
 
 ## Milestone 3- Make eval list
+- [ ] #task Accuracy on prediction vs single LM
+- [ ] #task Comparison with other ensembles
+- [ ] #task ==🟠Assess modal collapse==
 
-## Milestone 4- Paper
+## Milestone 4- Evals
+
+## Milestone 5- Paper
 
 ## Misc
+- [x] #task Make the presentation/doc for Dr. Anderson #next  [completion:: 2026-10-20]
+- [x] #task Create a demo script #next  [completion:: 2026-10-21]
+- [x] #task Send Dr. Anderson doc  [completion:: 2026-10-21]
 
 ## Trashed ideas and tasks
 - In the system prompt of the data generator, introduce another concept- a matrix that indicates which models have been given a piece of information $\lambda$ by the human. Each row represents the 'existence' vector for a piece of evidence. For example $\lambda=(1,0,1)^T$ means evidence $\lambda$ has been given to model 1 and 3 but not 0. This will be produced by the LLM in the data sample.
