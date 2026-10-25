@@ -1,7 +1,7 @@
 const SESSION_FOLDER = "Library/Sessions";
 const ARCHIVE_PATH = "Library/Reading History.csv";
 const KEEP_COUNT = 200;
-const HEADER = "filename,logged_at,resource,projects,position,progress_after,takeaway,notes\n";
+const HEADER = "filename,logged_at,resource,projects,current_page,total_pages,progress_after,takeaway,notes\n";
 
 function csv(value) {
   const text = value == null
@@ -51,13 +51,23 @@ async function archiveOverflow(app) {
     if (archivedNames.has(file.name)) continue;
     const source = await app.vault.read(file);
     const notes = source.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, "").trim();
+    const target = typeof frontmatter.resource === "string"
+      ? frontmatter.resource.match(/^\[\[([^\]|#]+)(?:[^\]]*)\]\]$/)?.[1]
+      : null;
+    const resource = target ? app.metadataCache.getFirstLinkpathDest(target, file.path) : null;
+    const totalPages = resource ? app.metadataCache.getFileCache(resource)?.frontmatter?.total_pages : null;
+    const page = frontmatter.current_page;
+    const progress = typeof page === "number" && Number.isFinite(page) && page >= 0 &&
+      typeof totalPages === "number" && Number.isFinite(totalPages) && totalPages > 0
+      ? Math.round(Math.min(page / totalPages, 1) * 1000) / 10 : null;
     const fields = [
       file.name,
       frontmatter.logged_at,
       valueOf(frontmatter.resource),
       valueOf(frontmatter.projects),
-      frontmatter.reading_position ?? frontmatter.position,
-      frontmatter.progress_after,
+      page,
+      totalPages,
+      progress,
       frontmatter.takeaway,
       notes,
     ];

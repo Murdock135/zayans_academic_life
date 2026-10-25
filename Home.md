@@ -31,14 +31,12 @@
 
 ## Currently Reading and watching (courses/playlists)
 
-Books and textbooks you are working through. Progress and last position use the latest linked session with a recorded value, falling back to the resource record. Session details appear in **Recent reading sessions** below.
+Books and textbooks you are working through. Update `current_page`; percentages are calculated from `total_pages`. Newer linked reading sessions update the resource automatically. A dash means page counts are missing.
 
 ```dataview
-TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + default(last_progress_session.progress_after, default(progress, 0)) + "'></progress><span>" + default(last_progress_session.progress_after, default(progress, 0)) + "%</span></span>" AS "Progress", default(last_position_session.reading_position, reading_position) AS "Last position"
+TABLE WITHOUT ID file.link AS "Resource", authors AS "Authors", choice(progress = null, "—", "<span class='reading-progress-wrap'><progress class='reading-progress' max='100' value='" + progress + "'></progress><span>" + progress + "%</span></span>") AS "Progress", current_page AS "Current page", total_pages AS "Total pages"
 FROM "Library/Items"
 WHERE econtains(flat(list(status)), "reading") AND (kind = "book" OR kind = "textbook")
-FLATTEN reverse(sort(filter(file.inlinks, (s) => s.type = "reading-event" AND s.reading_position != null AND s.reading_position != ""), (s) => default(date(s.logged_at), s.file.ctime)))[0] AS last_position_session
-FLATTEN reverse(sort(filter(file.inlinks, (s) => s.type = "reading-event" AND s.progress_after != null), (s) => default(date(s.logged_at), s.file.ctime)))[0] AS last_progress_session
 SORT file.mtime DESC
 LIMIT 5
 ```
@@ -61,10 +59,10 @@ LIMIT 6
 
 ## Recent reading sessions
 
-Recorded sessions for books, papers, and articles. Position is where you stopped; progress is the percentage recorded for that session. A dash means no percentage was recorded.
+Recorded sessions for books, papers, and articles. Percentages are calculated from each session’s `current_page` and the linked resource’s `total_pages`. A dash means page counts or a resource link are missing.
 
 ```dataview
-TABLE WITHOUT ID resource AS "Resource", logged_at AS "When", reading_position AS "Position", choice(progress_after = null, "—", string(progress_after) + "%") AS "Progress", takeaway AS "Takeaway", file.link AS "Session"
+TABLE WITHOUT ID resource AS "Resource", logged_at AS "When", current_page AS "Page", choice(typeof(current_page) = "number" AND current_page >= 0 AND typeof(resource.total_pages) = "number" AND resource.total_pages > 0, string(round(min(list(100, current_page / resource.total_pages * 100)), 1)) + "%", "—") AS "Progress", takeaway AS "Takeaway", file.link AS "Session"
 FROM "Library/Sessions"
 WHERE type = "reading-event"
 SORT default(date(logged_at), file.ctime) DESC

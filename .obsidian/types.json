@@ -32,6 +32,9 @@
     "target_venue": "text",
     "deadline": "date",
     "manuscript": "text",
-    "areas": "multitext"
+    "areas": "multitext",
+    "current_page": "number",
+    "total_pages": "number",
+    "progress": "number"
   }
 }

@@ -7,8 +7,9 @@ kind: book
 status:
   - reading
 finished_on:
-progress: 0.06
-reading_position: "12"
+progress:
+total_pages:
+current_page: 12
 url: ""
 doi: ""
 topics:

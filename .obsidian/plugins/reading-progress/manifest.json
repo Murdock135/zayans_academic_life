@@ -1,0 +1,9 @@
+{
+  "id": "reading-progress",
+  "name": "Reading Progress",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Calculate reading percentages from page counts and synchronize newer reading sessions.",
+  "author": "Zayan",
+  "isDesktopOnly": false
+}

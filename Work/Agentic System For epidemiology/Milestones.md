@@ -11,11 +11,6 @@
 ## Milestone 4-Design improvments, batch evals and writing
 
 ### Design 
-- [x] #task Put artifact numbers into the artifact index  [completion:: 2026-10-23]
-- [ ] #task Make metadata output better
-	- [ ] #task Move printing of settings into 
-	- [ ] #task Use rich tables
-	- [ ] #task Hide API. use `xxxx` or something
 - [ ] #task Give the planner the ability to do a literature review
 - [ ] #task Give the executor two things #next 
 	- [ ] #task a skill that describes an execution workflow
@@ -30,6 +25,10 @@
 	- [ ] Just use deep-agents
 ### Batch eval
 - [ ] #task Extract token-in/token-out info (1 week)
+
+### Fix
+
+### SPARQ judge
 
 
 > [!abstract]- Other work
@@ -59,3 +58,9 @@
 	- After each execution step
 	- After aggregator is done doing its work
 	- It should also have `from_successful` and `from_failed`
+- [x] #task Put artifact numbers into the artifact index  [completion:: 2026-10-23] 🔒 [[2026-10-25]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+- [x] #task Make metadata output better  [completion:: 2026-10-25] 🔒 [[2026-10-25]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+	- [x] #task Move printing of settings into  [completion:: 2026-10-25]
+	- [x] #task Use rich tables  [completion:: 2026-10-25]
+	- [x] #task Hide API. use `xxxx` or something  [completion:: 2026-10-25]
+- [x] #task Pydantic encoder not serializing Path objects  [completion:: 2026-10-25] 🔒 [[2026-10-25]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design > Fix

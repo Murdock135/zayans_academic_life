@@ -10,6 +10,8 @@ views:
       - authors
       - kind
       - status
+      - current_page
+      - total_pages
       - progress
       - topics
       - url
@@ -43,6 +45,8 @@ views:
       - authors
       - kind
       - status
+      - current_page
+      - total_pages
       - progress
       - topics
       - url
@@ -59,6 +63,8 @@ views:
       - authors
       - kind
       - status
+      - current_page
+      - total_pages
       - progress
       - topics
       - url
