@@ -3,8 +3,8 @@
 
 ## Start
 
-- [x] Get settled. Get Water. Put phone out of sight  [completion:: 2026-10-23]
-- [x] your capacity  [completion:: 2026-10-23]
+- [ ] Get settled. Get Water. Put phone out of sight
+- [ ] your capacity
 	- low
 	- medium
 	- high
