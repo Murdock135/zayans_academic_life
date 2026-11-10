@@ -7,9 +7,9 @@ kind: book
 status:
   - reading
 finished_on:
-progress:
-total_pages:
-current_page: 26
+progress: 9.5
+total_pages: 305
+current_page: 29
 url: ""
 doi: ""
 topics:

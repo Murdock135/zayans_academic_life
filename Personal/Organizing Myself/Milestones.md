@@ -1,6 +1,8 @@
 # Milestones
 
-## Milestone 1 — Define an outcome
+## Milestone 1 — Bring over Projects from meta_coordinator vault
+- [ ] #task Bring over vaults
 
-Add tasks here. Tag a task `#next` when you want it to appear on Personal Home and in Tasks Next.
-
+## Milestone x- the rest
+- [ ] #task AI generated artifacts. Currently, muse, chatgpt produces useful artifacts. Compile them into a newspaper.
+- [ ] 

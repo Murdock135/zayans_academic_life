@@ -12,18 +12,19 @@
 ## Milestone 4-Design improvments, batch evals and writing
 
 ### Design 
+- [ ] #task Bound repeated identical failures e.g. an agent cannot make the same error more than 5 times.
 - [ ] #task Give the planner the ability to do a literature review
-- [ ] #task Give the executor two things #next 
+- [ ] #task Give the executor two things 
 	- [ ] #task a skill that describes an execution workflow
 	- [x] #task The index.json  [completion:: 2026-10-19]
 	- [x] #task image understanding tool  [completion:: 2026-10-26]
+- [ ] #task May need to change the way `SystemOutput` is written when adding multi-turn conversation support. Maybe use a session construct and store each run metadata within the session.
 
 ### Batch eval
 - [ ] #task Extract token-in/token-out info (1 week)
 
 ## Milestone 5- Agent as a judge
 ### Diagnostics
-- [ ] #task Stream each worker. hint:
 - [ ] #task Track per-agent tool calling statistics in executor
 	- [ ] how many tool calls, what were they
 	- [ ] How many files generated
@@ -50,8 +51,11 @@
 > - [ ] #task Weather calling tool
 >
 > ### Misc
-> - [ ] #task Implement lazy-updating bedrock model list and cross-checking with config files.
-> - [ ] #task Add a web search node (tavily + pubmed)
+> - [x] #task Organize the project a new  [completion:: 2026-11-03]
+> - [x] #task Create a model catalog  [completion:: 2026-11-09]
+> - [ ] #task When SPARQ runs, concurrently update the 'model catalog'
+> - [ ] #task Create a utility to get the path to the latest run
+
 
 # Archived
 
@@ -86,3 +90,11 @@
 			  report.md
 			  refs.bib (in the future when we had literature search capabilities)
 	  ```
+- [x] #task Change the models.  [completion:: 2026-11-04] 🔒 [[2026-11-04]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+	- [x] #task Vibe code a script to figure out what aws models are usable in the first place.  [completion:: 2026-11-01]
+- [x] #task Stream each worker #next  [completion:: 2026-11-04] 🔒 [[2026-11-04]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Milestone 5- Agent as a judge > Diagnostics
+- [x] #task Set `max_tokens` for executor and aggregator  [completion:: 2026-11-04] 🔒 [[2026-11-04]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+- [x] #task Fix the vision-model output-token budget: set an explicit supported `max_tokens` value (e.g. 10,000) instead of the inherited 100,000; verify `analyze_image` succeeds without the 64,000-token limit error.  [completion:: 2026-11-09] 🔒 [[2026-11-09]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+- [x] #task Make retry artifacts collision-safe: add versions to path suffix if artifact name already exists  [completion:: 2026-11-09] 🔒 [[2026-11-09]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+- [x] #task Write long documents in sections  [completion:: 2026-11-09] 🔒 [[2026-11-09]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design
+- [x] #task Detect `stopReason`  [completion:: 2026-11-09] 🔒 [[2026-11-09]] 🕸️ Milestone 4-Design improvments, batch evals and writing > Design

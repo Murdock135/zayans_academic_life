@@ -10,7 +10,12 @@ areas: []
 
 Why: Cuz ADHD
 
-Outcome:
+Outcome: A one-stop platform to see everything:
+1. News
+2. Emails
+3. Tasks
+4. All projects
+5. Workout calendar
 
 Index:
 - [[Personal/Organizing Myself/Milestones|Milestones]]

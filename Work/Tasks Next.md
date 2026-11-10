@@ -2,9 +2,11 @@
 
 [[Home| Home]] · [[Work/Inbox|Inbox]] · [[Work/Projects|Projects]]
 
+- [ ] #task Judge the Projects for NAFSI hub
 - [ ] #task Create a 'research work-culture'
 - [x] #task Organize outlook email  [completion:: 2026-10-18]
 - [ ] #task Create a research tracker and share with anderson
+- [x] #task Send Dr. Anderson 2 project questions  [completion:: 2026-10-29]
 
 ## Tagged next tasks
 
